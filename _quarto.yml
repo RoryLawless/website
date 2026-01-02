@@ -14,6 +14,7 @@ website:
     center:
       - text: "Made in DC by 👽"
   search: false
+  draft-mode: gone
   navbar:
     background: "#24617a"
     foreground: "#fbf5f5"
@@ -43,3 +44,5 @@ format:
     fontcolor: "#070a0c"
     fontsize: 14pt
     linkcolor: "#183e4d"
+metadata-files:
+  - drafts.yml

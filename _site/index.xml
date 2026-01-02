@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Rory Lawless</title>
+<link>https://rorylawless.com/</link>
+<atom:link href="https://rorylawless.com/index.xml" rel="self" type="application/rss+xml"/>
+<description>A personal website</description>
+<generator>quarto-1.8.26</generator>
+<lastBuildDate>Sun, 30 Mar 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>The basics of DuckDB in R</title>
+  <dc:creator>Rory Lawless</dc:creator>
+  <link>https://rorylawless.com/posts/the-basics-of-duckdb-in-r/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Over the past year, <a href="https://duckdb.org/docs/stable/clients/r">DuckDB</a> has gradually become an important part of my data science workflow - at first clumsily, then seamlessly. I don’t typically work with large datasets, however, integrating DuckDB has addressed some of my frustrations, especially when dealing with hardware limitations and moderately-sized but inefficiently stored data. With this in mind, here are two major benefits I’ve found since integrating DuckDB into my workflow.</p>
+<section id="handling-larger-than-memory-data" class="level2">
+<h2 class="anchored" data-anchor-id="handling-larger-than-memory-data">Handling larger-than-memory data</h2>
+<p>As noted, I don’t work with very large data often but I still run into annoying issues caused by repeated reloading of data after making mistakes. Now, this is not an issue for a .csv file containing a few hundred rows and, for larger files or those stored in legacy formats, I could add a “backup” step to my code, like so:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">data <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">read.csv</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"some-data-file.csv"</span>)</span>
+<span id="cb1-2">data_backup <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> data</span>
+<span id="cb1-3"></span>
+<span id="cb1-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Do some work on data, maybe make a mistake...</span></span>
+<span id="cb1-5"></span>
+<span id="cb1-6">data <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> data_backup</span></code></pre></div></div>
+</div>
+<p>This works fine, but I consider it an anti-pattern and ought to, in my opinion, be avoided. Instead of adding this extra step - likely increasing the memory used in the R session - you can use DuckDB to directly query files stored on disk, without having to load them into memory first.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span>
+<span id="cb2-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(duckdb)</span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a DuckDB connection</span></span>
+<span id="cb2-5">con <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dbConnect</span>(duckdb<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">duckdb</span>())</span>
+<span id="cb2-6"></span>
+<span id="cb2-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Write a SQL query to read data directly from the CSV file</span></span>
+<span id="cb2-8">data <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dbGetQuery</span>(</span>
+<span id="cb2-9">    con,</span>
+<span id="cb2-10">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"SELECT col_1, col_2, col_4, col_10</span></span>
+<span id="cb2-11"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    FROM 'some-data-file.csv'</span></span>
+<span id="cb2-12"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    WHERE col_10 = 'some_value'"</span></span>
+<span id="cb2-13">)</span></code></pre></div></div>
+</div>
+<p>This may seem more complicated at first, and does require some knowledge of SQL, but it is a very efficient way of working with larger datasets, especially in the early stages when you’re still exploring the data and working out what you’re going to do with it.</p>
+</section>
+<section id="duckplyr" class="level2">
+<h2 class="anchored" data-anchor-id="duckplyr">{duckplyr}</h2>
+<p>A game-changer for me, which really accelerated my adoption of DuckDB as a backend for processing data, was the <a href="https://duckplyr.tidyverse.org">{duckplyr}</a> package. Those familiar with <a href="https://dbplyr.tidyverse.org">{dbplyr}</a> will understand the theory behind this package; it allows queries to be built using the standard set of <a href="https://dplyr.tidyverse.org">{dplyr}</a> functions, which are converted to SQL behind the scenes.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span>
+<span id="cb3-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(duckplyr)</span>
+<span id="cb3-3"></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Read CSV using DuckDB behind the scenes</span></span>
+<span id="cb3-5">data <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">read_csv_duckdb</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"some-data-file.csv"</span>)</span>
+<span id="cb3-6"></span>
+<span id="cb3-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Perform data manipulation using dplyr syntax</span></span>
+<span id="cb3-8">data <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> data <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-9">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(col_1, col_2, col_4, col_10) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-10">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(col_10 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"some_value"</span>)</span></code></pre></div></div>
+</div>
+<p>Aside from the <code>read_csv_duckdb()</code> function, the rest of the code will be familiar to anyone who has used {dplyr} before. The main advantage of using {duckplyr} over writing SQL and using the <a href="https://dbi.r-dbi.org">{DBI}</a> package is readability - using common {dplyr} functions makes it accessible to a wider range of users. This is a big benefit for teams where not everyone is comfortable reading or writing SQL.</p>
+<p>Additionally, should the original author fall off the face of the earth, the code is still maintainable by others and readily adapted to eliminate the dependency on DuckDB.</p>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
+<p>DuckDB and R are a great combination, allowing me to overcome some of my (self-inflicted?) frustrations in my day-to-day data work. With {duckplyr}, querying data directly from files has smoothed out some of the rough edges in my workflow.</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://rorylawless.com/posts/the-basics-of-duckdb-in-r/</guid>
+  <pubDate>Sun, 30 Mar 2025 04:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
