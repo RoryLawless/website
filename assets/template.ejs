@@ -1,0 +1,24 @@
+<% const fields=['title', 'date' ]; %>
+
+  ```{=html}
+
+  <table class="quarto-listing-table table no-borders">
+    <tbody class="list">
+      <% for (const item of items) { %>
+        <tr>
+          <% for (const field of fields) { %>
+            <td>
+              <% if (field==='title' && (item.outputHref || item.path)) { %>
+                <a href="<%= item.outputHref || item.path %>">
+                  <%= item[field] %>
+                </a>
+                <% } else { %>
+                  <%= item[field] %>
+                    <% } %>
+            </td>
+            <% } %>
+        </tr>
+        <% } %>
+    </tbody>
+  </table>
+  ```

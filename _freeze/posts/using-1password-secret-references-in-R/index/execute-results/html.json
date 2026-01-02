@@ -1,0 +1,17 @@
+{
+  "hash": "061c38d96c7f4c560b958a82d0e2a18f",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Using 1Password Secret References in R\"\nauthor: Rory Lawless\ndate: 2025-11-30\nformat: html\ndraft: true\n---\n\nIf you're like me, you store your API keys in your .Renviron file and forget about them. Not only is it risky behaviour to store them in plaintext, it is also a nightmarish way to manage and rotate out keys when needed.\n\n1Password offers a great solution managing your sensitive data, it even has a dedicated API Credentials item type for people super into taxonomy. The real magic, however, happens when you introduce yourself to [1Password CLI and its handy secret references](https://developer.1password.com/docs/cli/secret-reference-syntax) feature.\n\nI won't go into detail on installation and configuration, [the documentation does a better job than I would](https://developer.1password.com/docs/cli/get-started). Once you have migrated an API key to 1Password, you can refer to the secret using its URI instead of including it in plain text in your .Renvion or R script.\n\nThe URI of a credential comes in this format: `op://<vault-name>/<item-name>/[section-name/]<field-name>`. For example, an Anthropic API key save as an item named \"ClaudeAPI\" inside your 'Private' with the value in a field called 'credential' can be referred to as `op://Private/ClaudeAPI/credential` (note, the `[section-name/]` element is only required if the field is under a named section within the item).\n\nThe URI of your credential can then replace the plain text API key anywhere you were storing it. Using our ClaudeAPI, our key=value in .Renviron would look like:\n\n```         \nANTHROPIC_API_KEY=\"op://Private/ClaudeAPI/credential\"\n```\n\nOur key is stored inside our 1Password vault, safe from prying eyes and accidental exposure. To access this environment variable in a script, we would typically write something like `op://Private/Claude API Key/credential`, while this will technically run you will receive an error as you will be attempting to pass the literal secret reference to your API call. We will need to alter this code in two ways, the first is to use one of [the methods 1Password CLI provides](https://developer.1password.com/docs/cli/secrets-scripts) for loading secrets into code, the one we will use in our R script is `op read`. \n\nThe second change, calling the function `system2()` from base, which lets us run  `op read` (or any system command) from our R script. \n\n\n::: {.cell}\n\n```{.r .cell-code}\nsystem2(\n\t\"op\",\n\targs = c(\"read\", shQuote(Sys.getenv(\"ANTHROPIC_API_KEY\"))),\n\tstdout = TRUE\n)\n```\n:::\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,19 @@
+---
+listing:
+  id: index-listing
+  contents: posts
+  template: assets/template.ejs
+  date-format: "iso"
+  sort: "date desc"
+  categories: false
+  sort-ui: false
+  filter-ui: false
+  feed: true
+---
+
+## Posts
+
+::: {#index-listing}
+:::
+
+{{< include _about-short.qmd >}}

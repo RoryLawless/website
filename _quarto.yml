@@ -1,0 +1,45 @@
+project:
+  type: website
+  output-dir: _site
+  render: 
+    - "*.qmd"
+website:
+  description: "A personal website"
+  site-url: https://rorylawless.com
+  title: "Rory Lawless"
+  repo-url: https://codeberg.org/RoryLawless/website/
+  page-footer:
+    background: "#fbf5f5"
+    foreground: "#070a0c"
+    center:
+      - text: "Made in DC by 👽"
+  search: false
+  navbar:
+    background: "#24617a"
+    foreground: "#fbf5f5"
+    right:
+      - icon: person
+        text: "About"
+        href: about.qmd
+        aria-label: "About"
+      - icon: bluesky
+        href: https://bsky.app/profile/rorylawless.com
+        aria-label: "Bluesky"
+      - icon: linkedin
+        href: https://www.linkedin.com/in/rory-lawless/
+        aria-label: "LinkedIn"
+      - icon: git
+        href: https://codeberg.org/RoryLawless/
+        aria-label: "Codeberg"
+format:
+  html:
+    theme:
+      - none
+      - assets/custom.scss
+    highlight-style: a11y
+    code-copy: true
+    backgroundcolor: "#fbf5f5"
+    mainfont: "Lato"
+    fontcolor: "#070a0c"
+    fontsize: 14pt
+    linkcolor: "#183e4d"
