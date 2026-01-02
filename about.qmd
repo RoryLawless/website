@@ -1,6 +1,5 @@
 ---
-about:
-  template: solana
+about: marquee
 ---
 
 {{< include _about-short.qmd >}}

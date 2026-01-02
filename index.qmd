@@ -1,4 +1,7 @@
 ---
+format: 
+  html:
+    anchor-sections: false
 listing:
   id: index-listing
   contents: posts
