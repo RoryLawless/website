@@ -4,8 +4,6 @@ author: Rory Lawless
 date: 2025-03-30
 lastmod: 2026-01-01
 format: html
-aliases: 
-  - r-duckdb-and-me.html
 ---
 
 Over the past year, [DuckDB](https://duckdb.org/docs/stable/clients/r) has gradually become an important part of my data science workflow - at first clumsily, then seamlessly. I don’t typically work with large datasets, however, integrating DuckDB has addressed some of my frustrations, especially when dealing with hardware limitations and moderately-sized but inefficiently stored data. With this in mind, here are two major benefits I’ve found since integrating DuckDB into my workflow.
