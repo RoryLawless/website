@@ -3,8 +3,9 @@ project:
   output-dir: _site
   render: 
     - "*.qmd"
-  post-render:
-    - scripts/copy-security.sh
+  resources:
+    - .well-known/
+    - _redirects
 website:
   description: "A personal website"
   site-url: https://rorylawless.com
