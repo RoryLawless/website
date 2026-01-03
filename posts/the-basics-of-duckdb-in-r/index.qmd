@@ -1,6 +1,5 @@
 ---
 title: "The basics of DuckDB in R"
-author: Rory Lawless
 date: 2025-03-30
 lastmod: 2026-01-01
 format: html
@@ -66,7 +65,7 @@ data <- data |>
 	filter(col_10 == "some_value")
 ```
 
-Aside from the `read_csv_duckdb()` function, the rest of the code will be familiar to anyone who has used {dplyr}  before. The main advantage of using {duckplyr} over writing SQL and using the [{DBI}](https://dbi.r-dbi.org) package is readability - using common {dplyr} functions makes it accessible to a wider range of users. This is a big benefit for teams where not everyone is comfortable reading or writing SQL.
+Aside from the `{{r}} read_csv_duckdb()` function, the rest of the code will be familiar to anyone who has used {dplyr}  before. The main advantage of using {duckplyr} over writing SQL and using the [{DBI}](https://dbi.r-dbi.org) package is readability - using common {dplyr} functions makes it accessible to a wider range of users. This is a big benefit for teams where not everyone is comfortable reading or writing SQL.
 
 Additionally, should the original author fall off the face of the earth, the code is still maintainable by others and readily adapted to eliminate the dependency on DuckDB.
 

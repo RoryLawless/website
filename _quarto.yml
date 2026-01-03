@@ -47,5 +47,6 @@ format:
     fontcolor: "#070a0c"
     fontsize: 14pt
     linkcolor: "#183e4d"
+    code-overflow: wrap
 metadata-files:
   - drafts.yml
