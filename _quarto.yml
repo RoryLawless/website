@@ -10,6 +10,7 @@ website:
   description: "A personal website"
   site-url: https://rorylawless.com
   title: "Rory Lawless"
+  favicon: assets/favicon.svg
   repo-url: https://codeberg.org/RoryLawless/website/
   page-footer:
     background: "#fbf5f5"
