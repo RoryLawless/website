@@ -15,18 +15,25 @@ website:
   page-footer:
     background: "#fbf5f5"
     foreground: "#070a0c"
-    center:
-      - text: "Made in DC by 👽"
+    center: "Made with [Quarto](https://quarto.org/) in DC via LDN. 
+    
+
+    [Website](https://rorylawless.com/) © 2025-2026 by [Rory
+    Lawless](about.qmd) is licensed under [CC
+    BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)."
   search: false
   draft-mode: gone
   navbar:
     background: "#24617a"
     foreground: "#fbf5f5"
     right:
-      - icon: person
+      - icon: file-person-fill
         text: "About"
         href: about.qmd
         aria-label: "About"
+      - icon: envelope-heart-fill
+        href: mailto:rory@rorylawless.com
+        aria-label: "email Rory"
       - icon: bluesky
         href: https://bsky.app/profile/rorylawless.com
         aria-label: "Bluesky"
@@ -49,5 +56,6 @@ format:
     fontsize: 14pt
     linkcolor: "#183e4d"
     code-overflow: wrap
+    email-obfuscation: references
 metadata-files:
   - drafts.yml
