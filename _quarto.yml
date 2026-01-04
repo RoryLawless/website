@@ -18,7 +18,7 @@ website:
     center: "Made with [Quarto](https://quarto.org/) in DC via LDN. 
     
 
-    [Website](https://rorylawless.com/) © 2025-2026 by [Rory
+    [Website](https://rorylawless.com/) © 2026 by [Rory
     Lawless](about.qmd) is licensed under [CC
     BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)."
   search: false
@@ -57,5 +57,6 @@ format:
     linkcolor: "#183e4d"
     code-overflow: wrap
     email-obfuscation: references
+    include-after-body: html/analytics.html
 metadata-files:
   - drafts.yml
