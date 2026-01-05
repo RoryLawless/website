@@ -27,22 +27,27 @@ website:
     background: "#24617a"
     foreground: "#fbf5f5"
     right:
-      - icon: file-person-fill
-        text: "About"
-        href: about.qmd
-        aria-label: "About"
       - icon: envelope-heart-fill
         href: mailto:rory@rorylawless.com
-        aria-label: "email Rory"
+        aria-label: "Email Rory"
       - icon: bluesky
         href: https://bsky.app/profile/rorylawless.com
-        aria-label: "Bluesky"
+        aria-label: "Rory's Bluesky"
       - icon: linkedin
         href: https://www.linkedin.com/in/rory-lawless/
-        aria-label: "LinkedIn"
+        aria-label: "Rory's LinkedIn"
       - icon: git
         href: https://codeberg.org/RoryLawless/
-        aria-label: "Codeberg"
+        aria-label: "Rory's Codeberg"
+      - icon: file-person-fill
+        aria-label: "More about Rory"
+        menu:
+          - text: "About"
+            href: about.qmd
+            aria-label: "About Rory"
+          - text: "Resume"
+            href: resume.qmd
+            aria-label: "Rory's Resume"
 format:
   html:
     theme:

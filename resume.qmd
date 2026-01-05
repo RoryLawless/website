@@ -1,0 +1,38 @@
+---
+title: "Resume"
+format: html
+---
+
+## Work
+**Data Analyst, Office of the Deputy Mayor for Education (DME)**
+
+*Washington, DC.* 2022–Present
+
+- Contributed analysis for key publications, including 2023 Master Facilities Plan.
+- Improved school enrollment projections processes, leading cross-agency collaboration.
+- Information officer and racial justice & equity team member.
+
+**Associate Data Analyst, Financial Conduct Authority (FCA)**
+
+*London, UK.* 2020–2022
+
+- Produced insightful and impactful analysis for internal and external audiences in support of high profile, politically sensitive publications.
+- Data collection and extraction using SQL and web scraping techniques.
+- Developed best practice for data management and replicable analysis through training and providing ad hoc advice and support.
+
+**Research Assistant - Data, Child Outcomes Research Consortium (CORC)**
+
+*London, UK.* 2018–2020
+
+- Supporting services to submit data to the organization, including one-to-one support as well as organizing and hosting webinars.
+- Redesigned data collection tools to improve quality of submissions and automated internal data validation processes.
+
+## Education
+
+**MSc Democracy and Comparative Politics, Distinction**
+
+*University College London. London, UK.* 2016
+
+**BA (Hons.) Politics, Upper Second Class**
+
+*Royal Holloway, University of London. Surrey, UK.* 2013
