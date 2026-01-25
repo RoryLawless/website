@@ -3,13 +3,13 @@ Hash: SHA512
 
 Contact: mailto:rory@rorylawless.com
 Expires: 2026-10-10T04:00:00.000Z
-Encryption: https://www.rorylawless.com/.well-known/pgp-key.txt
+Encryption: https://rorylawless.com/.well-known/pgp-key.txt
 Preferred-Languages: en
-Canonical: https://www.rorylawless.com/.well-known/security.txt
+Canonical: https://rorylawless.com/.well-known/security.txt
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQRrtpj5CE9+HYYoqymutIEwUeyLegUCaVgCUQAKCRCutIEwUeyL
-eho3AQC+3DquWk8REgPLxeDuoyo70usWmrUBEqF5ey3P9Jt6XQD/faCa1QFVQNf4
-t5JIdF/3lBL1XcVQrNayQpYvUsTC+wo=
-=EogF
+iHUEARYKAB0WIQRrtpj5CE9+HYYoqymutIEwUeyLegUCaXVr2gAKCRCutIEwUeyL
+emGgAP9X5rYlHDdnpLgGCDYhyoC3ob0z7TuRxnPgvusonw081AD+PcbI1x8aWAk5
+kyP4BqPyemVeA83Vo8/0SYABWtj1mw8=
+=ZEWl
 -----END PGP SIGNATURE-----
