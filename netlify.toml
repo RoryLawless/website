@@ -1,2 +1,12 @@
 [[plugins]]
 package = "@quarto/netlify-plugin-quarto"
+
+[[headers]]
+  for = "/.well-known/openpgpkey/*"
+    [headers.values]
+      Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "/.well-known/openpgpkey/hu/5rehapcmzzoguwheczwb41m6fxn1ujpx"
+    [headers.values]
+      Content-Type = "application/octet-stream"
