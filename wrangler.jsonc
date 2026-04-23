@@ -3,30 +3,13 @@
     "compatibility_date": "2026-03-24",
     "assets": {
         "directory": "./_site",
-        "binding": "ASSETS",
         "html_handling": "auto-trailing-slash",
         "not_found_handling": "404-page"
     },
-    "workers_dev": true,
     "routes": [
         {
             "pattern": "rorylawless.com",
             "custom_domain": true
         }
-    ],
-    "observability": {
-        "enabled": true,
-        "head_sampling_rate": 1,
-        "logs": {
-            "enabled": true,
-            "head_sampling_rate": 1,
-            "persist": true,
-            "invocation_logs": true
-        },
-        "traces": {
-            "enabled": true,
-            "persist": true,
-            "head_sampling_rate": 1
-        }
-    }
+    ]
 }
