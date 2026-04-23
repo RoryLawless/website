@@ -16,7 +16,7 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 |---|---|
 | Site framework | Quarto |
 | Styling | Custom SCSS (`assets/custom.scss`), no Quarto theme (`theme: none`) |
-| Hosting | Cloudflare Workers (static assets via Wrangler) |
+| Hosting | Cloudflare Workers static assets (deployed via Wrangler, no Worker script) |
 | CI/CD | GitHub Actions (`.github/workflows/deploy.yml`) |
 | R environment | renv |
 | Analytics | Simple Analytics |
@@ -36,10 +36,6 @@ html/
   analytics.html     # Simple Analytics script injection
   a11y.html          # Accessibility enhancements (ARIA landmarks, roles)
   skip-link.html     # Skip-to-content link injected into every page
-src/
-  index.js           # Cloudflare Worker entry point — lowercases URL paths before serving assets
-tests/
-  index.test.js      # Worker unit tests (Node.js built-in runner); run with `npm test`
 posts/               # Blog posts, each in its own subdirectory with index.qmd
   _metadata.yml      # Shared frontmatter defaults for all posts (freeze: auto)
 404.qmd              # Custom 404 page
@@ -103,10 +99,9 @@ When changing look and feel, `assets/custom.scss` and `_quarto.yml` are the two 
 The site is **never built locally** — CI handles it. The full pipeline runs on every push to `main`:
 
 1. Restore cached `_freeze/` and `node_modules/` (keyed by OS + hash of `package-lock.json` and all `.qmd` files)
-2. Run `npm test` — Node.js built-in test runner, tests in `tests/index.test.js`
-3. Set up R + renv (restores packages from `renv.lock`)
-4. Run `quarto render` → outputs to `_site/`
-5. Run `wrangler deploy` → uploads `_site/` to Cloudflare Workers
+2. Set up R + renv (restores packages from `renv.lock`)
+3. Run `quarto render` → outputs to `_site/`
+4. Run `wrangler deploy` → uploads `_site/` to Cloudflare Workers
 
 **Runner**: `blacksmith-4vcpu-ubuntu-2404-arm` (4-core ARM Ubuntu 24.04)
 
@@ -124,11 +119,10 @@ To preview changes locally you would need Quarto and R installed, then run `quar
 - Static assets served from `_site/`
 - `not_found_handling: "404-page"` — unmatched routes serve the rendered `404.html`
 - `html_handling: "auto-trailing-slash"` — URL normalisation (nested under `assets`)
-- Custom domain: `rorylawless.com`
-- `run_worker_first: true` — `src/index.js` intercepts every request before the assets binding responds; it lowercases URL paths and issues a 301 redirect, then falls through to `env.ASSETS.fetch()`
+- Custom domains: `rorylawless.com` and `www.rorylawless.com` (both route to the same Worker)
 - Observability: full logs and traces enabled at 100% head sampling rate with persistence (viewable in the Cloudflare dashboard)
 
-URL redirects live in `_redirects` (Cloudflare syntax). Response headers live in `_headers` — currently used to set CORS headers and `Content-Type` for the PGP key endpoint at `/.well-known/openpgpkey/`.
+There is no Worker script — the deployment is static assets only. URL redirects live in `_redirects` (Cloudflare syntax). Response headers live in `_headers` — currently used to set CORS headers and `Content-Type` for the PGP key endpoint at `/.well-known/openpgpkey/`. A Cloudflare Redirect Rule (configured in the dashboard, not the repo) 301s `www.rorylawless.com` to the apex.
 
 ---
 

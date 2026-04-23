@@ -1,9 +1,6 @@
 {
     "type": "module",
-    "scripts": {
-        "test": "node --test"
-    },
     "devDependencies": {
-        "wrangler": "^4.83.0"
+        "wrangler": "^4"
     }
 }
