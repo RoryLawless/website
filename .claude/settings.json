@@ -1,27 +1,25 @@
 {
-    "enabledPlugins": {
-        "context7@claude-plugins-official": true,
-        "cloudflare@cloudflare": true,
-        "frontend-design@claude-plugins-official": true,
-        "github@claude-plugins-official": true,
-        "superpowers@claude-plugins-official": true,
-        "quarto@posit-dev-skills": true,
-        "code-review@claude-plugins-official": true,
-        "claude-md-management@claude-plugins-official": true,
-        "feature-dev@claude-plugins-official": true,
-        "code-simplifier@claude-plugins-official": true,
-        "linear@claude-plugins-official": true,
-        "security-guidance@claude-plugins-official": true,
-        "claude-code-setup@claude-plugins-official": true,
-        "learning-opportunities@learning-opportunities": true,
-        "learning-opportunities-auto@learning-opportunities": true,
-        "explanatory-output-style@claude-plugins-official": true,
-        "learning-output-style@claude-plugins-official": true
-    },
-    "worktree": {
-        "symlinkDirectories": [
-            "node_modules",
-            "renv/library"
-        ]
-    }
+  "worktree": {
+    "symlinkDirectories": [
+      "node_modules",
+      "renv/library"
+    ]
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "cloudflare@cloudflare": true,
+    "frontend-design@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "quarto@posit-dev-skills": true,
+    "code-review@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "learning-opportunities@learning-opportunities": true,
+    "explanatory-output-style@claude-plugins-official": true,
+    "learning-output-style@claude-plugins-official": true
+  }
 }

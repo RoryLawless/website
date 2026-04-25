@@ -18,7 +18,7 @@ website:
     background: "#fbf5f5"
     foreground: "#070a0c"
     center: |
-      Made with [Quarto](https://quarto.org/) in DC.<br>[Website](https://rorylawless.com/) © 2026 by [Rory Lawless](about.qmd) is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+      Made with [Quarto](https://quarto.org/) in DC.<br>[Website](https://rorylawless.com/) © 2026 by [Rory Lawless](/about.qmd) is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
   search: false
   draft-mode: gone
   navbar:

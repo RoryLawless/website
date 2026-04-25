@@ -1,6 +1,6 @@
 # Agent Instructions
 
-This file provides guidance to AI coding agents (including Claude Code) when working with code in this repository.
+This file provides guidance to AI coding agents (including Claude Code) when working with code in this repository. `CLAUDE.md` is a symlink to this file — edit either path; both point to the same content.
 
 ## What this is
 
@@ -34,19 +34,21 @@ assets/
   template.ejs       # EJS template for the post listing on the homepage
 html/
   analytics.html     # Simple Analytics script injection
-  a11y.html          # Accessibility enhancements (ARIA landmarks, roles)
+  a11y.html          # Runtime JS patches for Quarto template a11y bugs (main-content focus, navbar role, code-copy focus restore)
   skip-link.html     # Skip-to-content link injected into every page
 posts/               # Blog posts, each in its own subdirectory with index.qmd
   _metadata.yml      # Shared frontmatter defaults for all posts (freeze: auto)
 404.qmd              # Custom 404 page
-.well-known/         # PGP key (pgp-key.txt) and security.txt
+.well-known/         # PGP key (pgp-key.txt), security.txt, OpenPGP Web Key Directory files
 _redirects           # Cloudflare redirect rules
-_headers             # Cloudflare response header rules
+_headers             # Cloudflare response header rules (global security headers + OpenPGP headers)
 wrangler.jsonc       # Cloudflare Workers deployment config
 package.json         # Node deps (just wrangler)
 renv.lock            # Locked R package versions
-.github/workflows/
-  deploy.yml         # Build and deploy pipeline
+.Rprofile            # Sources renv/activate.R (auto-snapshot + pak enabled)
+.github/
+  workflows/deploy.yml   # Build and deploy pipeline
+  dependabot.yml         # Weekly npm + GitHub Actions dependency updates
 ```
 
 Output goes to `_site/` (generated, not committed). The `_freeze/` directory (computational cache) is also not committed — it is restored from the GitHub Actions cache between runs.
@@ -81,6 +83,8 @@ Output goes to `_site/` (generated, not committed). The `_freeze/` directory (co
 
 When changing look and feel, `assets/custom.scss` and `_quarto.yml` are the two files to focus on. Do not introduce a Quarto theme — the site intentionally uses `theme: none`.
 
+**Bootstrap caveat**: `theme: none` disables the *Quarto* theme layer, but Quarto still ships Bootstrap's CSS/JS in the rendered output. That's why `custom.scss` uses `!important` in a few navbar/layout rules to override Bootstrap defaults — it's expected, not technical debt.
+
 ---
 
 ## Key `_quarto.yml` settings
@@ -103,7 +107,7 @@ The site is **never built locally** — CI handles it. The full pipeline runs on
 3. Run `quarto render` → outputs to `_site/`
 4. Run `wrangler deploy` → uploads `_site/` to Cloudflare Workers
 
-**Runner**: `blacksmith-4vcpu-ubuntu-2404-arm` (4-core ARM Ubuntu 24.04)
+**Runner**: `blacksmith-4vcpu-ubuntu-2404` (4-core x86 Ubuntu 24.04 on Blacksmith)
 
 **Secrets required**: `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` (stored in GitHub Actions).
 
@@ -119,10 +123,18 @@ To preview changes locally you would need Quarto and R installed, then run `quar
 - Static assets served from `_site/`
 - `not_found_handling: "404-page"` — unmatched routes serve the rendered `404.html`
 - `html_handling: "auto-trailing-slash"` — URL normalisation (nested under `assets`)
-- Custom domains: `rorylawless.com` and `www.rorylawless.com` (both route to the same Worker)
-- Observability: full logs and traces enabled at 100% head sampling rate with persistence (viewable in the Cloudflare dashboard)
+- Custom domain: `rorylawless.com` only (apex). This is the single entry in `routes`.
+- No `observability` block — Cloudflare defaults apply (view logs/traces in the Cloudflare dashboard)
 
-There is no Worker script — the deployment is static assets only. URL redirects live in `_redirects` (Cloudflare syntax). Response headers live in `_headers` — currently used to set CORS headers and `Content-Type` for the PGP key endpoint at `/.well-known/openpgpkey/`. A Cloudflare Redirect Rule (configured in the dashboard, not the repo) 301s `www.rorylawless.com` to the apex.
+There is no Worker script — the deployment is static assets only. URL redirects live in `_redirects` (Cloudflare syntax). Response headers live in `_headers` — currently used for global security headers (`Strict-Transport-Security`, `Content-Security-Policy: frame-ancestors 'none'`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy`) plus CORS and `Content-Type` headers for the OpenPGP Web Key Directory endpoint at `/.well-known/openpgpkey/`. The HSTS header intentionally omits `includeSubDomains` and `preload`. `www.rorylawless.com` is 301'd to the apex by a Cloudflare Redirect Rule configured in the dashboard (not in this repo, and not in `wrangler.jsonc`).
+
+---
+
+## Dependencies
+
+- **Node**: Only `wrangler` (devDependency). `package.json` sets `"type": "module"`. Dependabot bumps it weekly.
+- **R**: Pinned in `renv.lock` (R 4.5.3, CRAN + R-Multiverse). `.Rprofile` sources `renv/activate.R` and enables `renv.config.auto.snapshot` and `renv.config.pak.enabled`.
+- **GitHub Actions**: Versions bumped weekly by Dependabot (`.github/dependabot.yml`).
 
 ---
 
