@@ -10,4 +10,4 @@ dependencies:
 
 steps:
   - name: deploy
-    command: "bunx wrangler deploy"
+    command: "bunx wrangler deploy --config ./wrangler.jsonc"
