@@ -1,5 +1,5 @@
 when:
-  - event: ["push", "manual"]
+  - event: ["push"]
     branch: ["main"]
 
 engine: "nixery"
@@ -10,4 +10,4 @@ dependencies:
 
 steps:
   - name: deploy
-    command: "bunx wrangler deploy --config ./wrangler.jsonc"
+    command: "bunx wrangler deploy"

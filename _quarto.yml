@@ -12,7 +12,7 @@ website:
   description: "A personal website"
   site-url: https://rorylawless.com
   title: "Rory Lawless"
-  repo-url: https://github.com/rorsome/website
+  repo-url: https://tangled.org/rorylawless.com/website
   llms-txt: true
   page-footer:
     background: "#fbf5f5"
@@ -38,9 +38,9 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/rory-lawless/
         aria-label: "Rory's LinkedIn"
-      - icon: github
-        href: https://github.com/RoryLawless
-        aria-label: "Rory's GitHub"
+      - icon: git
+        href: https://tangled.org/rorylawless.com
+        aria-label: "Rory's Tangled"
 format:
   html:
     theme:
@@ -57,5 +57,6 @@ format:
     email-obfuscation: references
     include-before-body: html/skip-link.html
     include-after-body: html/a11y.html
+    favicon: none
 metadata-files:
   - drafts.yml
