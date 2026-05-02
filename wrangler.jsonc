@@ -2,7 +2,7 @@
     "name": "website",
     "compatibility_date": "2026-05-01",
     "assets": {
-        "directory": "./_site",
+        "directory": "_site",
         "html_handling": "auto-trailing-slash",
         "not_found_handling": "404-page"
     },

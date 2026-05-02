@@ -9,7 +9,5 @@ dependencies:
     - bun
 
 steps:
-  - name: install wrangler
-    command: "bun install"
   - name: deploy
-    command: "bun wrangler deploy"
+    command: "bunx wrangler deploy"
