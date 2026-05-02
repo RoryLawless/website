@@ -1,0 +1,5 @@
+[Skip to main content](#quarto-document-content)
+
+## About Me
+
+I am a data analyst with experience across the non-profit and public sectors. The most important part of my work, especially within my public sector roles, is using data to build deep understanding of the domains I work in, which both informs my own analysis and helps the audience develop meaningful narratives.

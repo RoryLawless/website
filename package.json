@@ -1,6 +1,6 @@
 {
-    "type": "module",
-    "devDependencies": {
-        "wrangler": "^4"
-    }
+  "dependencies": {},
+  "devDependencies": {
+    "wrangler": "^4.87.0"
+  }
 }

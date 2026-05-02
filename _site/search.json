@@ -1,0 +1,114 @@
+[
+  {
+    "objectID": "resume.html",
+    "href": "resume.html",
+    "title": "Resume",
+    "section": "",
+    "text": "Skip to main content"
+  },
+  {
+    "objectID": "resume.html#work",
+    "href": "resume.html#work",
+    "title": "Resume",
+    "section": "Work",
+    "text": "Work\nData Analyst, Office of the Deputy Mayor for Education (DME)\nWashington, DC. 2022–Present\nAssociate Data Analyst, Financial Conduct Authority (FCA)\nLondon, UK. 2020–2022\nResearch Assistant - Data, Child Outcomes Research Consortium (CORC)\nLondon, UK. 2018–2020"
+  },
+  {
+    "objectID": "resume.html#education",
+    "href": "resume.html#education",
+    "title": "Resume",
+    "section": "Education",
+    "text": "Education\nMSc Democracy and Comparative Politics, Distinction\nUniversity College London. London, UK.\nBA (Hons.) Politics, Upper Second Class\nRoyal Holloway, University of London. Surrey, UK."
+  },
+  {
+    "objectID": "posts/the-basics-of-duckdb-in-r/index.html",
+    "href": "posts/the-basics-of-duckdb-in-r/index.html",
+    "title": "The basics of DuckDB in R",
+    "section": "",
+    "text": "Skip to main content\nOver the past year, DuckDB has gradually become an important part of my data science workflow - at first clumsily, then seamlessly. I don’t typically work with large datasets, however, integrating DuckDB has addressed some of my frustrations, especially when dealing with hardware limitations and moderately-sized but inefficiently stored data. With this in mind, here are two major benefits I’ve found since integrating DuckDB into my workflow."
+  },
+  {
+    "objectID": "posts/the-basics-of-duckdb-in-r/index.html#handling-larger-than-memory-data",
+    "href": "posts/the-basics-of-duckdb-in-r/index.html#handling-larger-than-memory-data",
+    "title": "The basics of DuckDB in R",
+    "section": "Handling larger-than-memory data",
+    "text": "Handling larger-than-memory data\nAs noted, I don’t work with very large data often but I still run into annoying issues caused by repeated reloading of data after making mistakes. Now, this is not an issue for a .csv file containing a few hundred rows and, for larger files or those stored in legacy formats, I could add a “backup” step to my code, like so:\n\ndata &lt;- read.csv(\"some-data-file.csv\")\ndata_backup &lt;- data\n\n# Do some work on data, maybe make a mistake...\n\ndata &lt;- data_backup\n\nThis works fine, but I consider it an anti-pattern and ought to, in my opinion, be avoided. Instead of adding this extra step - likely increasing the memory used in the R session - you can use DuckDB to directly query files stored on disk, without having to load them into memory first.\n\nlibrary(tidyverse)\nlibrary(duckdb)\n\n# Create a DuckDB connection\ncon &lt;- dbConnect(duckdb::duckdb())\n\n# Write a SQL query to read data directly from the CSV file\ndata &lt;- dbGetQuery(\n    con,\n    \"SELECT col_1, col_2, col_4, col_10\n    FROM 'some-data-file.csv'\n    WHERE col_10 = 'some_value'\"\n)\n\nThis may seem more complicated at first, and does require some knowledge of SQL, but it is a very efficient way of working with larger datasets, especially in the early stages when you’re still exploring the data and working out what you’re going to do with it."
+  },
+  {
+    "objectID": "posts/the-basics-of-duckdb-in-r/index.html#duckplyr",
+    "href": "posts/the-basics-of-duckdb-in-r/index.html#duckplyr",
+    "title": "The basics of DuckDB in R",
+    "section": "{duckplyr}",
+    "text": "{duckplyr}\nA game-changer for me, which really accelerated my adoption of DuckDB as a backend for processing data, was the {duckplyr} package. Those familiar with {dbplyr} will understand the theory behind this package; it allows queries to be built using the standard set of {dplyr} functions, which are converted to SQL behind the scenes.\n\nlibrary(tidyverse)\nlibrary(duckplyr)\n\n# Read CSV using DuckDB behind the scenes\ndata &lt;- read_csv_duckdb(\"some-data-file.csv\")\n\n# Perform data manipulation using dplyr syntax\ndata &lt;- data |&gt;\n    select(col_1, col_2, col_4, col_10) |&gt;\n    filter(col_10 == \"some_value\")\n\nAside from the {r} read_csv_duckdb() function, the rest of the code will be familiar to anyone who has used {dplyr} before. The main advantage of using {duckplyr} over writing SQL and using the {DBI} package is readability - using common {dplyr} functions makes it accessible to a wider range of users. This is a big benefit for teams where not everyone is comfortable reading or writing SQL.\nAdditionally, should the original author fall off the face of the earth, the code is still maintainable by others and readily adapted to eliminate the dependency on DuckDB."
+  },
+  {
+    "objectID": "posts/the-basics-of-duckdb-in-r/index.html#final-thoughts",
+    "href": "posts/the-basics-of-duckdb-in-r/index.html#final-thoughts",
+    "title": "The basics of DuckDB in R",
+    "section": "Final thoughts",
+    "text": "Final thoughts\nDuckDB and R are a great combination, allowing me to overcome some of my (self-inflicted?) frustrations in my day-to-day data work. With {duckplyr}, querying data directly from files has smoothed out some of the rough edges in my workflow."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Rory Lawless",
+    "section": "",
+    "text": "Skip to main content"
+  },
+  {
+    "objectID": "about.html#about-me",
+    "href": "about.html#about-me",
+    "title": "Rory Lawless",
+    "section": "About Me",
+    "text": "About Me\nI am a data analyst with experience across the non-profit and public sectors. The most important part of my work, especially within my public sector roles, is using data to build deep understanding of the domains I work in, which both informs my own analysis and helps the audience develop meaningful narratives."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Rory Lawless",
+    "section": "",
+    "text": "Skip to main content"
+  },
+  {
+    "objectID": "index.html#posts",
+    "href": "index.html#posts",
+    "title": "Rory Lawless",
+    "section": "Posts",
+    "text": "Posts\n\n\n\n\nPost\nDate\n\n\n\n\nUsing 1Password Secret References in R\n2026-01-02\n\n\nThe basics of DuckDB in R\n2025-03-30\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#about-me",
+    "href": "index.html#about-me",
+    "title": "Rory Lawless",
+    "section": "About Me",
+    "text": "About Me\nI am a data analyst with experience across the non-profit and public sectors. The most important part of my work, especially within my public sector roles, is using data to build deep understanding of the domains I work in, which both informs my own analysis and helps the audience develop meaningful narratives."
+  },
+  {
+    "objectID": "posts/using-1password-secret-references-in-r/index.html",
+    "href": "posts/using-1password-secret-references-in-r/index.html",
+    "title": "Using 1Password Secret References in R",
+    "section": "",
+    "text": "Skip to main content\nIf you’re like me, you’ve stored your API keys in your .Renviron file and forget about them. Not only is it risky to store them in plaintext, it’s also a nightmarish way to manage and rotate out keys when needed."
+  },
+  {
+    "objectID": "posts/using-1password-secret-references-in-r/index.html#password-to-the-rescue",
+    "href": "posts/using-1password-secret-references-in-r/index.html#password-to-the-rescue",
+    "title": "Using 1Password Secret References in R",
+    "section": "1Password to the rescue",
+    "text": "1Password to the rescue\n1Password offers a great solution for managing sensitive data. It even has a dedicated API Credentials item type for people super into taxonomy. The desktop and mobile apps are great for day-to-day internet usage but the real magic happens when you introduce yourself to 1Password CLI and its handy secret references feature.\nI won’t go into detail on installation and configuration, the documentation does a better job than I ever could. However, once you have added an API key to 1Password, you can refer to it using its URI (also called a Secret Reference) instead of including it as plaintext in your .Renviron or R script. The URI of a credential comes in this format:\nop://&lt;vault-name&gt;/&lt;item-name&gt;/[section-name/]&lt;field-name&gt;\nFor example, an Anthropic API key saved as an item named “ClaudeAPI” inside our “Private” vault with the value in a field called “credential” can be referred to using the URI op://Private/ClaudeAPI/credential (note, the [section-name/] element is only required if the field is under a named section within the item). The URI of your credential can then replace the plain text key in your .Renviron or anywhere else it was lurking. Using our ClaudeAPI example, the entry in .Renviron would look like:\nANTHROPIC_API_KEY=\"op://Private/ClaudeAPI/credential\""
+  },
+  {
+    "objectID": "posts/using-1password-secret-references-in-r/index.html#out-of-1password-into-r",
+    "href": "posts/using-1password-secret-references-in-r/index.html#out-of-1password-into-r",
+    "title": "Using 1Password Secret References in R",
+    "section": "Out of 1Password, into R",
+    "text": "Out of 1Password, into R\nOur key is now stored inside our 1Password vault, safe from prying eyes and accidental exposure. In our less secure days, we would typically run {r} Sys.getenv(\"ANTHROPIC_API_KEY\") to access the value of the environment variable in a script. While this still works, any API call that uses this value will likely fail as the value returned is the literal URI string, not the secret.\nTo address this, we need to alter the code in two ways. The first is to use one of the methods 1Password CLI provides for loading secrets into code, the one we will use in our R script is op read. This simply allows us to read the secret into our environment.\nThe second change, calling the function {r} system2() from {base}, lets us run op read (indeed, any system command) from our R script and returns the actual API key.\n\nsystem2(\n    \"op\",\n    args = c(\"read\", shQuote(Sys.getenv(\"ANTHROPIC_API_KEY\"))),\n    stdout = TRUE\n)\n\n# Note, our call to Sys.getenv() needs to be quoted using shQuote() to mitigate issues with spaces and special characters\n\nWhen we execute the example code, 1Password will prompt us to approve access to the secret (illustrated in Figure 1). Once we click “Authorize”, the secret value is returned as a character vector (setting stdout = TRUE in system2() makes this happen).\n\n\n\n\n\n\nFigure 1: 1Password CLI prompt for secret access\n\n\n\nWe can alter the above code to assign a name to the returned character vector or we can run the function call directly within the API call function. Furthermore, we can jettison Sys.getenv() entirely and pass the URI directly, like so:\n\nsystem2(\n    \"op\",\n    args = c(\"read\", shQuote(\"op://Private/ClaudeAPI/credential\")),\n    stdout = TRUE\n)\n\nDoing this potentially comes with extra work if you choose to change the name of the item in 1Password but this alternative is there as an option, especially if you’re playing around with your code and are not yet ready to commit to setting an environment variable."
+  },
+  {
+    "objectID": "posts/using-1password-secret-references-in-r/index.html#final-thoughts",
+    "href": "posts/using-1password-secret-references-in-r/index.html#final-thoughts",
+    "title": "Using 1Password Secret References in R",
+    "section": "Final thoughts",
+    "text": "Final thoughts\nAdmittedly, this does add some extra steps to workflows (not to mention some unsightly code), however, this trade-off is worth it for the privacy and security benefits it offers. Moreover, the increased cognitive load of switching out expired keys is abated somewhat as we can update secrets in a single place, a 1Password vault, without touching our R scripts or environment. This is especially helpful if you use these secrets across multiple contexts."
+  }
+]

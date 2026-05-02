@@ -1,0 +1,15 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Contact: mailto:rory@rorylawless.com
+Expires: 2026-10-10T04:00:00.000Z
+Encryption: https://rorylawless.com/.well-known/pgp-key.txt
+Preferred-Languages: en
+Canonical: https://rorylawless.com/.well-known/security.txt
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQRrtpj5CE9+HYYoqymutIEwUeyLegUCaXVr2gAKCRCutIEwUeyL
+emGgAP9X5rYlHDdnpLgGCDYhyoC3ob0z7TuRxnPgvusonw081AD+PcbI1x8aWAk5
+kyP4BqPyemVeA83Vo8/0SYABWtj1mw8=
+=ZEWl
+-----END PGP SIGNATURE-----

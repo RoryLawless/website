@@ -56,8 +56,6 @@ format:
     code-overflow: wrap
     email-obfuscation: references
     include-before-body: html/skip-link.html
-    include-after-body:
-      - html/analytics.html
-      - html/a11y.html
+    include-after-body: html/a11y.html
 metadata-files:
   - drafts.yml

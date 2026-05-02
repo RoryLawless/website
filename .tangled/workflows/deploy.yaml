@@ -1,0 +1,15 @@
+when:
+  - event: "push"
+    branch: "main"
+
+engine: "nixery"
+
+dependencies:
+  nixpkgs/nixpkgs-unstable:
+    - bun
+
+steps:
+  - name: install
+    command: "bun install"
+  - name: Deploy to Cloudflare
+    command: "bun wrangler deploy"

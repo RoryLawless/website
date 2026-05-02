@@ -1,6 +1,6 @@
 # Agent Instructions
 
-This file provides guidance to AI coding agents (including Claude Code) when working with code in this repository. `CLAUDE.md` is a symlink to this file — edit either path; both point to the same content.
+This file provides guidance to AI coding agents (including Claude Code) when working with code in this repository.
 
 ## What this is
 
