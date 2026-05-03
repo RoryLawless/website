@@ -12,7 +12,3 @@ dependencies:
 steps:
   - name: deploy
     command: "bunx wrangler deploy"
-    environment:
-      TERM: "dumb"
-      NO_COLOR: "true"
-      WRANGLER_LOG: "debug"
