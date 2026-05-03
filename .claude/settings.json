@@ -1,25 +1,24 @@
 {
-  "worktree": {
-    "symlinkDirectories": [
-      "node_modules",
-      "renv/library"
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import sys,json; d=json.load(sys.stdin); fp=d.get('file_path',''); (print('Direct edits to _site/ are blocked — edit source files and run quarto render instead.') or sys.exit(1)) if fp.startswith('_site/') or '/_site/' in fp else None\""
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import sys,json; d=json.load(sys.stdin); fp=d.get('file_path',''); (print('Manual edits to renv.lock are blocked — use renv to manage R packages.') or sys.exit(1)) if 'renv.lock' in fp else None\""
+          }
+        ]
+      }
     ]
-  },
-  "enabledPlugins": {
-    "context7@claude-plugins-official": true,
-    "cloudflare@cloudflare": true,
-    "frontend-design@claude-plugins-official": true,
-    "github@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true,
-    "quarto@posit-dev-skills": true,
-    "code-review@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true,
-    "feature-dev@claude-plugins-official": true,
-    "code-simplifier@claude-plugins-official": true,
-    "security-guidance@claude-plugins-official": true,
-    "claude-code-setup@claude-plugins-official": true,
-    "learning-opportunities@learning-opportunities": true,
-    "explanatory-output-style@claude-plugins-official": true,
-    "learning-output-style@claude-plugins-official": true
   }
 }
