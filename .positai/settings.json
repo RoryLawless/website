@@ -1,6 +1,0 @@
-{
-  "model": {
-    "id": "us.anthropic.claude-sonnet-4-6",
-    "provider": "bedrock"
-  }
-}
