@@ -10,5 +10,7 @@ dependencies:
     - nodejs
 
 steps:
+  - name: install
+    command: "bun ci"
   - name: deploy
-    command: "bunx wrangler deploy"
+    command: "bun run wrangler deploy"
