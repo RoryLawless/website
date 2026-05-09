@@ -58,3 +58,4 @@ format:
     include-before-body: html/skip-link.html
     include-after-body: html/a11y.html
     favicon: none
+    html-math-method: plain
