@@ -1,0 +1,40 @@
+meta:
+  name: Rory Lawless
+  link: https://rorylawless.com
+
+color:
+  palette:
+    teal: "#24617a"
+    off-white: "#fbf5f5"
+    ink: "#070a0c"
+    link-teal: "#183e4d"
+  foreground: ink
+  background: off-white
+  primary: teal
+  link: link-teal
+  light: off-white
+  dark: ink
+
+typography:
+  fonts:
+    - family: Lato
+      source: system
+    - family: Playfair Display
+      source: system
+  base:
+    family: Lato
+    size: 14pt
+    weight: 400
+  headings:
+    family: Lato
+  link:
+    color: link-teal
+    decoration: underline
+
+defaults:
+  bootstrap:
+    defaults:
+      navbar-bg: "#24617a"
+      navbar-fg: "#fbf5f5"
+      footer-bg: "#fbf5f5"
+      footer-fg: "#070a0c"

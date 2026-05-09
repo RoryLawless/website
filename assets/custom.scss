@@ -7,8 +7,8 @@
 // First element in <body>; hidden off-screen until keyboard-focused,
 // then drops into view above the fixed navbar.
 .skip-to-content {
-	background-color: #24617a;
-	color: #fbf5f5;
+	background-color: $brand-teal;
+	color: $brand-off-white;
 	padding: 0.5rem 1.25rem;
 	text-decoration: none;
 	border-radius: 0 0 4px 4px;
@@ -35,7 +35,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-	outline: 2px solid #24617a;
+	outline: 2px solid $brand-teal;
 	outline-offset: 3px;
 	border-radius: 2px;
 }
@@ -44,7 +44,7 @@ textarea:focus-visible {
 // teal outline invisible (1:1 contrast). Switch to off-white (#fbf5f5)
 // which contrasts at 6.36:1 against the navbar background. (WCAG 2.4.7)
 .navbar a:focus-visible {
-	outline-color: #fbf5f5;
+	outline-color: $brand-off-white;
 }
 
 // Screen-reader-only utility (WCAG 1.3.1)

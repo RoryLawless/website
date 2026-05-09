@@ -14,15 +14,11 @@ website:
   repo-url: https://tangled.org/rorylawless.com/website
   llms-txt: true
   page-footer:
-    background: "#fbf5f5"
-    foreground: "#070a0c"
     center: |
       Made with [Quarto](https://quarto.org/) in DC.<br>[Website](https://rorylawless.com/) © 2026 by [Rory Lawless](/about.qmd) is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
   search: false
   draft-mode: gone
   navbar:
-    background: "#24617a"
-    foreground: "#fbf5f5"
     right:
       - icon: file-earmark-person-fill
         href: resume.qmd
@@ -44,14 +40,10 @@ format:
   html:
     theme:
       - none
+      - brand
       - assets/custom.scss
     highlight-style: a11y
     code-copy: true
-    backgroundcolor: "#fbf5f5"
-    mainfont: "Lato"
-    fontcolor: "#070a0c"
-    fontsize: 14pt
-    linkcolor: "#183e4d"
     code-overflow: wrap
     email-obfuscation: references
     include-before-body: html/skip-link.html

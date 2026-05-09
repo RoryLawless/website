@@ -15,7 +15,7 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 | Layer | Tool |
 |---|---|
 | Site framework | Quarto |
-| Styling | Custom SCSS (`assets/custom.scss`), no Quarto theme (`theme: none`) |
+| Styling | `_brand.yml` theme tokens + custom SCSS (`assets/custom.scss`), no Quarto theme (`theme: none`) |
 | Hosting | Cloudflare Workers static assets (deployed via Wrangler, no Worker script) |
 | CI/CD | Tangled CI (`.tangled/workflows/deploy.yaml`) |
 | R environment | renv |
@@ -25,9 +25,10 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 ## Repository layout
 
 ```
-_quarto.yml          # Master site configuration (colors, fonts, navbar, output dir)
+_brand.yml           # Canonical brand tokens (colors, typography, navbar/footer defaults)
+_quarto.yml          # Master site configuration (project, navbar links, output dir, HTML options)
 assets/
-  custom.scss        # All custom styles — primary target for look and feel changes
+  custom.scss        # Custom CSS behavior/layout + optimized self-hosted @font-face loading
   fonts/             # Self-hosted WOFF2 files (Lato 300/400/700, Playfair Display 400-900)
   template.ejs       # EJS template for the post listing on the homepage
 html/
@@ -54,7 +55,7 @@ renv.lock            # Locked R package versions
 
 ## Design system
 
-**Colors** (defined in `_quarto.yml`):
+**Colors** (defined in `_brand.yml`):
 - Navbar background: `#24617a` (teal)
 - Navbar foreground / text: `#fbf5f5` (off-white)
 - Page background: `#fbf5f5` (off-white)
@@ -62,7 +63,7 @@ renv.lock            # Locked R package versions
 - Body text: `#070a0c`
 - Links: `#183e4d`
 
-**Typography** (defined in `_quarto.yml`; fonts are self-hosted WOFF2 files in `assets/fonts/`, loaded via `@font-face` in `assets/custom.scss`):
+**Typography** (brand tokens defined in `_brand.yml`; fonts are self-hosted WOFF2 files in `assets/fonts/`, loaded via optimized `@font-face` rules in `assets/custom.scss`):
 - Body font: Lato, 14pt
 - Navbar title: Playfair Display (applied via `.navbar-title` in SCSS)
 - Code highlighting: a11y style, with copy buttons enabled
@@ -78,15 +79,16 @@ renv.lock            # Locked R package versions
 - Renders title (hyperlinked) and ISO date in a two-column borderless table
 - Sorted by date descending; no categories, search, filters, or sort UI
 
-When changing look and feel, `assets/custom.scss` and `_quarto.yml` are the two files to focus on. Do not introduce a Quarto theme — the site intentionally uses `theme: none`.
+When changing look and feel, use `_brand.yml` for reusable theme tokens (colors, typography, navbar/footer defaults) and `assets/custom.scss` for CSS behavior, layout, accessibility fixes, and optimized local font loading. `_quarto.yml` should stay focused on Quarto project/site options and the HTML theme stack. Do not introduce a Quarto theme — the site intentionally uses `theme: none`.
 
-**Bootstrap caveat**: `theme: none` disables the *Quarto* theme layer, but Quarto still ships Bootstrap's CSS/JS in the rendered output. That's why `custom.scss` uses `!important` in a few navbar/layout rules to override Bootstrap defaults — it's expected, not technical debt.
+**Bootstrap caveat**: `theme: none` disables the *Quarto* theme layer, but Quarto still ships Bootstrap's CSS/JS in the rendered output. The HTML theme stack is `none`, `brand`, then `assets/custom.scss`, so `_brand.yml` establishes Bootstrap variables and `custom.scss` can reference `$brand-*` variables or override Bootstrap defaults where needed. A few `!important` layout rules are expected, not technical debt.
 
 ---
 
 ## Key `_quarto.yml` settings
 
 - `llms-txt: true` — Quarto generates an `llms.txt` file for LLM consumption
+- `format.html.theme` is `none`, `brand`, then `assets/custom.scss` — keep `brand` between `none` and the custom SCSS so `_brand.yml` tokens are available while custom CSS keeps final precedence
 - `project.resources` includes `/assets/fonts/` with a leading slash intentionally — Quarto globs are recursive by default, and the leading slash anchors the self-hosted font directory at the project root so `renv/.../assets/fonts/` is not copied into `_site/`
 - `email-obfuscation: references` — email addresses are obfuscated in rendered HTML
 - `draft-mode: gone` — posts with `draft: true` in their frontmatter are excluded from the rendered site entirely
@@ -165,6 +167,7 @@ The `.claude/` directory contains project-specific Claude Code configuration.
 
 - Do not introduce a Quarto theme (Bootstrap-based) — styling is intentionally from scratch
 - Do not add JavaScript frameworks or bundlers
+- Do not move the self-hosted fonts into `_brand.yml` as `source: file` unless Quarto preserves the current `@font-face` behavior; `assets/custom.scss` intentionally keeps `font-display: swap`, `unicode-range`, root-relative URLs, and Playfair Display's `400 900` variable range
 - Do not use unanchored resource paths for root-level asset directories in `_quarto.yml` — prefer `/assets/fonts/` over `assets/fonts/` so Quarto does not recursively match package assets under `renv/`
 - Always commit `_site/` and `_freeze/` together with source changes — the CI pipeline deploys whatever `_site/` is in the repo
 - Do not edit `.qmd` content files — content is out of scope for agents
