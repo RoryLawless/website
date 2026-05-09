@@ -87,6 +87,7 @@ When changing look and feel, `assets/custom.scss` and `_quarto.yml` are the two 
 ## Key `_quarto.yml` settings
 
 - `llms-txt: true` — Quarto generates an `llms.txt` file for LLM consumption
+- `project.resources` includes `/assets/fonts/` with a leading slash intentionally — Quarto globs are recursive by default, and the leading slash anchors the self-hosted font directory at the project root so `renv/.../assets/fonts/` is not copied into `_site/`
 - `email-obfuscation: references` — email addresses are obfuscated in rendered HTML
 - `draft-mode: gone` — posts with `draft: true` in their frontmatter are excluded from the rendered site entirely
 - `search: false` — site-wide search is disabled intentionally
@@ -103,7 +104,7 @@ Quarto is **rendered locally** before committing. The CI pipeline (`.tangled/wor
 1. Make changes to source files
 2. Run `quarto render` → outputs to `_site/`; updates `_freeze/` for any executed R code
 3. Commit `_site/`, `_freeze/`, and any source changes together
-4. Push to `main` → Tangled CI runs `bunx wrangler deploy` → uploads `_site/` to Cloudflare Workers
+4. Push to `main` → Tangled CI runs `bun ci` followed by `bun run wrangler deploy` → uploads `_site/` to Cloudflare Workers using the lockfile-pinned Wrangler version
 
 To preview without a full render, run `quarto preview` (requires Quarto and R installed locally).
 
@@ -164,6 +165,7 @@ The `.claude/` directory contains project-specific Claude Code configuration.
 
 - Do not introduce a Quarto theme (Bootstrap-based) — styling is intentionally from scratch
 - Do not add JavaScript frameworks or bundlers
+- Do not use unanchored resource paths for root-level asset directories in `_quarto.yml` — prefer `/assets/fonts/` over `assets/fonts/` so Quarto does not recursively match package assets under `renv/`
 - Always commit `_site/` and `_freeze/` together with source changes — the CI pipeline deploys whatever `_site/` is in the repo
 - Do not edit `.qmd` content files — content is out of scope for agents
 - Do not modify `renv.lock` manually — R package changes go through `renv`
