@@ -5,9 +5,8 @@ project:
     - "*.qmd"
   resources:
     - .well-known/
-    - _redirects
     - _headers
-    - assets/fonts/
+    - /assets/fonts/
 website:
   description: "A personal website"
   site-url: https://rorylawless.com
