@@ -11,7 +11,7 @@ website:
   description: "A personal website"
   site-url: https://rorylawless.com
   title: "Rory Lawless"
-  repo-url: https://tangled.org/rorylawless.com/website
+  repo-url: https://gitlab.com/rorylawless/website
   llms-txt: true
   page-footer:
     center: |
