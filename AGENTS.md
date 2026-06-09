@@ -17,7 +17,7 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 | Site framework | Quarto |
 | Styling | `_brand.yml` theme tokens + custom SCSS (`assets/custom.scss`), no Quarto theme (`theme: none`) |
 | Hosting | Cloudflare Workers static assets (deployed via Wrangler, no Worker script) |
-| CI/CD | Tangled CI (`.tangled/workflows/deploy.yaml`) |
+| CI/CD | Repo connected to Cloudeflare Worker for automatic deployment when _site/* changes |
 | R environment | renv |
 
 ---
@@ -45,8 +45,6 @@ package.json         # Node deps (just wrangler)
 bun.lock             # Bun lockfile
 renv.lock            # Locked R package versions
 .Rprofile            # Sources renv/activate.R (auto-snapshot + pak enabled)
-.tangled/
-  workflows/deploy.yaml  # CI pipeline: deploys _site/ to Cloudflare on push to main
 ```
 
 `_site/` (rendered output) and `_freeze/` (computational cache) are **committed to the repository** — they must be up to date before pushing.
@@ -106,11 +104,11 @@ Quarto is **rendered locally** before committing. The CI pipeline (`.tangled/wor
 1. Make changes to source files
 2. Run `quarto render` → outputs to `_site/`; updates `_freeze/` for any executed R code
 3. Commit `_site/`, `_freeze/`, and any source changes together
-4. Push to `main` → Tangled CI runs `bun ci` followed by `bun run wrangler deploy` → uploads `_site/` to Cloudflare Workers using the lockfile-pinned Wrangler version
+4. Push to `main` → Cloudflare Worker deployment triggered → uploads `_site/` to Cloudflare Workers using the lockfile-pinned Wrangler version
 
-To preview without a full render, run `quarto preview` (requires Quarto and R installed locally).
+To preview without a full render, run `quarto preview` (requires Quarto and R
+installed locally).
 
-**Secrets required**: `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` (stored in Tangled CI secrets).
 
 Agents in this environment should not attempt to run the full build.
 
