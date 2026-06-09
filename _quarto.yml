@@ -33,9 +33,9 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/rory-lawless/
         aria-label: "Rory's LinkedIn"
-      - icon: git
-        href: https://tangled.org/rorylawless.com
-        aria-label: "Rory's Tangled"
+      - icon: gitlab
+        href: https://gitlab.com/rorylawless
+        aria-label: "Rory's GitLab"
 format:
   html:
     theme:

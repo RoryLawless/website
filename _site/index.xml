@@ -9,7 +9,7 @@
 <link>https://rorylawless.com/</link>
 <atom:link href="https://rorylawless.com/index.xml" rel="self" type="application/rss+xml"/>
 <description>A personal website</description>
-<generator>quarto-1.9.37</generator>
+<generator>quarto-1.9.38</generator>
 <lastBuildDate>Fri, 02 Jan 2026 05:00:00 GMT</lastBuildDate>
 <item>
   <title>Using 1Password Secret References in R</title>
