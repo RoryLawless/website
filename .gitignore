@@ -1,6 +1,4 @@
 /.quarto/
 **/*.quarto_ipynb
 .DS_Store
-.wrangler/
-node_modules/
 *.local.json
