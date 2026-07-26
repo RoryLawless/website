@@ -11,7 +11,7 @@ website:
   description: "A personal website"
   site-url: https://rorylawless.com
   title: "Rory Lawless"
-  repo-url: https://gitlab.com/rorylawless/website
+  repo-url: https://github.com/rorylawless/website
   llms-txt: true
   page-footer:
     center: |
@@ -33,9 +33,9 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/rory-lawless/
         aria-label: "Rory's LinkedIn"
-      - icon: gitlab
-        href: https://gitlab.com/rorylawless
-        aria-label: "Rory's GitLab"
+      - icon: github
+        href: https://github.com/rorylawless
+        aria-label: "Rory's GitHub"
 format:
   html:
     theme:
