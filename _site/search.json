@@ -49,20 +49,6 @@
     "text": "Final thoughts\nDuckDB and R are a great combination, allowing me to overcome some of my (self-inflicted?) frustrations in my day-to-day data work. With {duckplyr}, querying data directly from files has smoothed out some of the rough edges in my workflow."
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "Rory Lawless",
-    "section": "",
-    "text": "Skip to main content"
-  },
-  {
-    "objectID": "about.html#about-me",
-    "href": "about.html#about-me",
-    "title": "Rory Lawless",
-    "section": "About Me",
-    "text": "About Me\nData analyst based in Washington, DC. I apply a political economy and public policy lens to my work across education policy, financial services regulation, and mental health outcomes, with a focus on how policies and the institutions that design them affect people with the least power to shape them.\nAnalysis I have worked on has been picked up by the Financial Times and I have written about my work on the Inside DC Education Blog."
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Rory Lawless",
@@ -79,6 +65,20 @@
   {
     "objectID": "index.html#about-me",
     "href": "index.html#about-me",
+    "title": "Rory Lawless",
+    "section": "About Me",
+    "text": "About Me\nData analyst based in Washington, DC. I apply a political economy and public policy lens to my work across education policy, financial services regulation, and mental health outcomes, with a focus on how policies and the institutions that design them affect people with the least power to shape them.\nAnalysis I have worked on has been picked up by the Financial Times and I have written about my work on the Inside DC Education Blog."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Rory Lawless",
+    "section": "",
+    "text": "Skip to main content"
+  },
+  {
+    "objectID": "about.html#about-me",
+    "href": "about.html#about-me",
     "title": "Rory Lawless",
     "section": "About Me",
     "text": "About Me\nData analyst based in Washington, DC. I apply a political economy and public policy lens to my work across education policy, financial services regulation, and mental health outcomes, with a focus on how policies and the institutions that design them affect people with the least power to shape them.\nAnalysis I have worked on has been picked up by the Financial Times and I have written about my work on the Inside DC Education Blog."
