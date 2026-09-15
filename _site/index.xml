@@ -16,6 +16,11 @@
   <link>https://rorylawless.com/posts/using-1password-secret-references-in-r/</link>
   <description><![CDATA[ 
 Skip to main content
+<script>
+  // Quarto places include-before-body inside main, after website navigation.
+  // Move the link before navigation so it is the first keyboard tab stop.
+  document.body.prepend(document.querySelector('.skip-to-content'));
+</script>
 
 
 
@@ -120,6 +125,11 @@ font-style: inherit;">TRUE</span></span>
   <link>https://rorylawless.com/posts/the-basics-of-duckdb-in-r/</link>
   <description><![CDATA[ 
 Skip to main content
+<script>
+  // Quarto places include-before-body inside main, after website navigation.
+  // Move the link before navigation so it is the first keyboard tab stop.
+  document.body.prepend(document.querySelector('.skip-to-content'));
+</script>
 
 
 

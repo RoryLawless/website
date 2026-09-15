@@ -32,8 +32,8 @@ assets/
   fonts/             # Self-hosted WOFF2 files (Lato 300/400/700, Playfair Display 400-900)
   template.ejs       # EJS template for the post listing on the homepage
 html/
-  a11y.html          # Runtime JS patches for Quarto template a11y bugs (main-content focus, navbar role, code-copy focus restore)
-  skip-link.html     # Skip-to-content link injected into every page
+  a11y.html          # Runtime JS patches for main-content focusability and navbar toggle role
+  skip-link.html     # Skip-to-content link, moved before navigation by its inline script
 posts/               # Blog posts, each in its own subdirectory with index.qmd
   _metadata.yml      # Shared frontmatter defaults for all posts (freeze: auto)
 404.qmd              # Custom 404 page
@@ -93,6 +93,48 @@ When changing look and feel, use `_brand.yml` for reusable theme tokens (colors,
 - `search: false` — site-wide search is disabled intentionally
 - `feed: true` (set in `index.qmd`) — an RSS feed is generated for the post listing
 - `anchor-sections: false` (set in `index.qmd`) — no anchor links on the homepage
+
+---
+
+## Accessibility compatibility (reviewed 2026-09-14)
+
+The current local Quarto version is **1.10.18**. Keep these workarounds until the
+rendered output provides their native replacements:
+
+- `html/skip-link.html` supplies the skip link and immediately moves it to the
+  start of `<body>`. Quarto places `include-before-body` inside main content,
+  after website navigation; the include alone does not make it the first tab
+  stop. This relocation requires JavaScript.
+- `html/a11y.html` adds `tabindex="-1"` to `#quarto-document-content` for reliable
+  focus transfer and removes the navbar toggle's incorrect `role="menu"`.
+- No custom code-copy focus restoration is needed for the current successful-copy
+  flow: Quarto calls `button.blur()`, but subsequently calls `e.clearSelection()`.
+  The bundled ClipboardJS 2.0.11 implementation restores focus to the trigger in
+  that method. Do not infer lost focus from `blur()` alone.
+
+**Quarto 1.11 migration:** As of this review, **1.11.4 is a prerelease** and
+1.10.18 is the latest stable release. Version 1.11.4 includes:
+
+- A native first-body-child skip link (`#quarto-skip-link`), focus-only styling,
+  and `tabindex="-1"` on its target ([PR #14685](https://github.com/quarto-dev/quarto-cli/pull/14685)).
+  Its text is customizable through `language.skip-to-content`. It applies to
+  Bootstrap HTML output; this site's `none`, `brand`, custom SCSS stack still
+  uses Bootstrap. Verify the native link appears after upgrading.
+- Correct navbar toggle semantics without `role="menu"`
+  ([PR #14805](https://github.com/quarto-dev/quarto-cli/pull/14805)).
+
+After upgrading and verifying those replacements, remove both custom HTML
+includes from `_quarto.yml` and their files. Remove `.skip-to-content` styling or
+adapt the desired appearance to `#quarto-skip-link`; retain general focus styles.
+Check [issue #14875](https://github.com/quarto-dev/quarto-cli/issues/14875), open
+at review time: 1.11.4 can rewrite the native skip link on explicit `/index.html`
+URLs into a cross-document navigation. Test both directory and `index.html` URLs.
+
+After rendering accessibility changes, check that the first Tab reveals the skip
+link, Enter transfers focus into main, and the next Tab reaches a content control.
+Also check mobile navbar keyboard operation and code copying with Enter and Space,
+including the focus indicator and subsequent Tab order. Check Safari and another
+browser. Source inspection does not replace these browser checks.
 
 ---
 

@@ -169,6 +169,11 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 <a href="#quarto-document-content" class="skip-to-content">Skip to main content</a>
+<script>
+  // Quarto places include-before-body inside main, after website navigation.
+  // Move the link before navigation so it is the first keyboard tab stop.
+  document.body.prepend(document.querySelector('.skip-to-content'));
+</script>
 
 
 
@@ -210,9 +215,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- Accessibility patches for Quarto-generated behaviour -->
 
 <!-- Fix #6: Add tabindex="-1" to the skip link target so Safari moves keyboard
-     focus there when the skip link is activated. Without this, Safari scrolls to
-     the fragment but leaves focus on the skip link itself — the next Tab press
-     returns to the first navbar item instead of the main content. tabindex="-1"
+     focus there when the skip link is activated. tabindex="-1"
      makes the element programmatically focusable without inserting it into the
      natural Tab order. Targets <main id="quarto-document-content">, which is
      present on every page type (index, about, resume, 404, posts). -->
@@ -236,10 +239,7 @@ ul.task-list li input[type="checkbox"] {
      render time; it cannot be suppressed via _quarto.yml. The button is
      semantically correct as a plain <button> with aria-expanded and
      aria-controls already present — no role is needed.
-     readyState guard: if this end-of-body script is reached after
-     DOMContentLoaded has already fired (possible on fast parses), the
-     event listener would never run — so we check first and run immediately
-     if the DOM is already ready. -->
+     The readyState guard also supports execution after DOMContentLoaded. -->
 <script>
   function removeNavToggleRole() {
     var toggler = document.querySelector('.navbar-toggler[role="menu"]');
@@ -253,27 +253,6 @@ ul.task-list li input[type="checkbox"] {
   } else {
     removeNavToggleRole();
   }
-</script>
-
-<!-- Fix #5: Restore keyboard focus after code copy button activation.
-     Quarto's onCopySuccess callback calls button.blur() immediately after a
-     successful copy. This silently drops keyboard focus. requestAnimationFrame
-     defers the re-focus until after the current synchronous call stack
-     (including blur()) has completed, so the focus ring reappears without
-     interfering with the "Copied!" visual feedback.
-     e.detail === 0 guard: the click event fires for both mouse and keyboard
-     activations. e.detail is 0 for keyboard-triggered clicks and ≥1 for
-     mouse clicks. Without this guard, the script would re-focus the button
-     after every mouse click, potentially moving focus away from wherever the
-     user clicked next. -->
-<script>
-  document.addEventListener('click', function (e) {
-    if (e.detail !== 0) { return; }
-    var btn = e.target.closest('.code-copy-button');
-    if (btn) {
-      requestAnimationFrame(function () { btn.focus(); });
-    }
-  });
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

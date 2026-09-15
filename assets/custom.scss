@@ -4,7 +4,7 @@
 /*-- scss:rules --*/
 
 // Skip-to-content link (WCAG 2.4.1)
-// First element in <body>; hidden off-screen until keyboard-focused,
+// Moved to the start of <body> by html/skip-link.html; hidden until keyboard-focused,
 // then drops into view above the fixed navbar.
 .skip-to-content {
 	background-color: $brand-teal;
