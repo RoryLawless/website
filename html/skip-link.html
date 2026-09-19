@@ -1,4 +1,8 @@
+<!-- Raw HTML includes bypass Quarto's conditional-content filter. Its llms
+     converter drops this wrapper's contents, then unwraps it in website HTML. -->
+<div class="llms-hidden-content">
 <a href="#quarto-document-content" class="skip-to-content">Skip to main content</a>
+</div>
 <script>
   // Quarto places include-before-body inside main, after website navigation.
   // Move the link before navigation so it is the first keyboard tab stop.

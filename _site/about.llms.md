@@ -1,5 +1,3 @@
-[Skip to main content](#quarto-document-content)
-
 ## About Me
 
 Data analyst based in Washington, DC. I apply a political economy and public policy lens to my work across education policy, financial services regulation, and mental health outcomes, with a focus on how policies and the institutions that design them affect people with the least power to shape them.

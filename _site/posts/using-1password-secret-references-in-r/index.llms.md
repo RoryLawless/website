@@ -1,5 +1,3 @@
-[Skip to main content](#quarto-document-content)
-
 # Using 1Password Secret References in R
 
 Published

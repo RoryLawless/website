@@ -105,6 +105,13 @@ rendered output provides their native replacements:
   start of `<body>`. Quarto places `include-before-body` inside main content,
   after website navigation; the include alone does not make it the first tab
   stop. This relocation requires JavaScript.
+  The link is wrapped in `llms-hidden-content` because `.llms.md` generation
+  reads the HTML before browser scripts run. Quarto's LLM converter drops the
+  wrapper's contents and its HTML finalizer unwraps the link for the website.
+  Use a wrapper rather than putting this class on the anchor itself: the HTML
+  cleanup removes the marked element while retaining its children. Raw HTML
+  includes bypass the Markdown conditional-content filter, so this uses its
+  generated HTML marker directly. Recheck this behaviour when upgrading Quarto.
 - `html/a11y.html` adds `tabindex="-1"` to `#quarto-document-content` for reliable
   focus transfer and removes the navbar toggle's incorrect `role="menu"`.
 - No custom code-copy focus restoration is needed for the current successful-copy

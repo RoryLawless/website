@@ -1,5 +1,3 @@
-[Skip to main content](#quarto-document-content)
-
 # Resume
 
 ## Work
