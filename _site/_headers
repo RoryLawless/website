@@ -6,6 +6,9 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), geolocation=(), microphone=()
 
+/*.llms.md
+  Content-Type: text/markdown; charset=utf-8
+
 /.well-known/openpgpkey/*
   Access-Control-Allow-Origin: *
 
