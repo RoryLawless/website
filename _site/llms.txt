@@ -8,4 +8,5 @@
 - [The basics of DuckDB in R](https://rorylawless.com/posts/the-basics-of-duckdb-in-r/index.llms.md)
 - [index](https://rorylawless.com/index.llms.md)
 - [about](https://rorylawless.com/about.llms.md)
+- [Announcing enrollcast](https://rorylawless.com/posts/announcing-enrollcast/index.llms.md)
 - [Using 1Password Secret References in R](https://rorylawless.com/posts/using-1password-secret-references-in-r/index.llms.md)

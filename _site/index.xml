@@ -10,7 +10,223 @@
 <atom:link href="https://rorylawless.com/index.xml" rel="self" type="application/rss+xml"/>
 <description>A personal website</description>
 <generator>quarto-1.10.18</generator>
-<lastBuildDate>Fri, 02 Jan 2026 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 20 Sep 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Announcing enrollcast</title>
+  <link>https://rorylawless.com/posts/announcing-enrollcast/</link>
+  <description><![CDATA[ 
+<!-- Raw HTML includes bypass Quarto's conditional-content filter. Its llms
+     converter drops this wrapper's contents, then unwraps it in website HTML. -->
+
+Skip to main content
+
+<script>
+  // Quarto places include-before-body inside main, after website navigation.
+  // Move the link before navigation so it is the first keyboard tab stop.
+  document.body.prepend(document.querySelector('.skip-to-content'));
+</script>
+
+
+
+
+<p>I am excited to announce the first CRAN release of <a href="https://CRAN.R-project.org/package=enrollcast">enrollcast</a>. This package formalizes the commonly used cohort survival (or grade progression ratio) method of school enrollment forecasting. It is implemented as a matrix projection inspired by the <a href="https://en.wikipedia.org/wiki/Leslie_matrix">Leslie matrix</a> model of population growth. The package can be used to project enrollment at any level of aggregation for arbitrary grade combinations and time spans.</p>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">install.packages</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"enrollcast"</span>)</span></code></pre></div></div>
+</div>
+</section>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<p>At its most basic, users are required to supply a data.frame of historical grade-level enrollment and future entry grade enrollment.</p>
+<p>The example below defines a data.frame containing Kindergarten to 2nd grade enrollment for the years 2021, 2022 and 2023. The historical enrollment is the input to <code>progression_ratios()</code> which calculates grade progression ratios for each grade transition. The matrix output is passed to <code>project_enrollment()</code> along with the base year of enrollment (the final year of our historical enrollment in this example), the projection horizon and estimates of entry grade enrollment.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(enrollcast)</span>
+<span id="cb2-2"></span>
+<span id="cb2-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># A data.frame of historical grade-level enrollment</span></span>
+<span id="cb2-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Observations are enrollment for a single grade in a school year</span></span>
+<span id="cb2-5">history <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.frame</span>(</span>
+<span id="cb2-6">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">year =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2021</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2023</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">each =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>),</span>
+<span id="cb2-7">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">grade =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">factor</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"K"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2"</span>), <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">levels =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"K"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2"</span>)),</span>
+<span id="cb2-8">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">enrollment =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">80</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">110</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">95</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">88</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">120</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">99</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">91</span>)</span>
+<span id="cb2-9">)</span>
+<span id="cb2-10"></span>
+<span id="cb2-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 1. Calculate progression ratios.</span></span>
+<span id="cb2-12">ratios <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">progression_ratios</span>(history, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"mean"</span>)</span>
+<span id="cb2-13">ratios</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  grade_from grade_to     ratio
+1          K        1 0.9250000
+2          1        2 0.9678363</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 2. Project forward. The entry grade (K) is supplied exogenously.</span></span>
+<span id="cb4-2">base <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> history[history<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>year <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2023</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"grade"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"enrollment"</span>)]</span>
+<span id="cb4-3">projection <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">project_enrollment</span>(</span>
+<span id="cb4-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">base =</span> base,</span>
+<span id="cb4-5">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ratios =</span> ratios,</span>
+<span id="cb4-6">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">horizon =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,</span>
+<span id="cb4-7">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">entry =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">125</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">130</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">128</span>),</span>
+<span id="cb4-8">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start_year =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2023</span></span>
+<span id="cb4-9">)</span>
+<span id="cb4-10">projection</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  year grade enrollment
+1 2024     K  125.00000
+2 2024     1  111.00000
+3 2024     2   95.81579
+4 2025     K  130.00000
+5 2025     1  115.62500
+6 2025     2  107.42982
+7 2026     K  128.00000
+8 2026     1  120.25000
+9 2026     2  111.90607</code></pre>
+</div>
+</div>
+<p><a href="https://localopen.github.io/enrollcast/">See the documentation</a> for a comprehensive overview of the package, including the <code>swing_schedule()</code> function which allows users to construct an enrollment schedule for schools that temporarily relocate (or face another kind of enrollment disruption) during the projection period.</p>
+</section>
+<section id="llm-disclosure" class="level2">
+<h2 class="anchored" data-anchor-id="llm-disclosure">LLM disclosure</h2>
+<p>While the idea was mine, I made heavy use of LLMs to write the package. As a solo package “author”, having these tools at hand was helpful to get through the early stages of development. Now that the hard part is complete, I intend to take a more active role in actually writing code, although I still intend to use LLMs to assist with this.</p>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>The <a href="https://localopen.github.io/enrollcast/logo.svg">hex logo</a> for this package was created by Adam Higerd, for which I’m endlessly grateful.</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://rorylawless.com/posts/announcing-enrollcast/</guid>
+  <pubDate>Sun, 20 Sep 2026 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Using 1Password Secret References in R</title>
   <link>https://rorylawless.com/posts/using-1password-secret-references-in-r/</link>

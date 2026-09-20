@@ -2,6 +2,7 @@
 
 | Post | Date |
 |----|----|
+| [Announcing enrollcast](posts/announcing-enrollcast/index.llms.md) | 2026-09-20 |
 | [Using 1Password Secret References in R](posts/using-1password-secret-references-in-r/index.llms.md) | 2026-01-02 |
 | [The basics of DuckDB in R](posts/the-basics-of-duckdb-in-r/index.llms.md) | 2025-03-30 |
 
