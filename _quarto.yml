@@ -8,6 +8,7 @@ project:
     - _headers
     - /assets/fonts/
 website:
+  favicon: assets/favicon-512.png
   description: "A personal website"
   site-url: https://rorylawless.com
   title: "Rory Lawless"
@@ -47,5 +48,5 @@ format:
     email-obfuscation: references
     include-before-body: html/skip-link.html
     include-after-body: html/a11y.html
-    favicon: none
+    include-in-header: html/favicon.html
     html-math-method: plain
