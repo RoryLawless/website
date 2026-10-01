@@ -102,9 +102,9 @@ The current local Quarto version is **1.10.18**. Keep these workarounds until th
 rendered output provides their native replacements:
 
 - `html/skip-link.html` supplies the skip link and immediately moves it to the
-  start of `<body>`. Quarto places `include-before-body` inside main content,
-  after website navigation; the include alone does not make it the first tab
-  stop. This relocation requires JavaScript.
+  start of `<body>`. Use `include-after-body` to keep the link and its script
+  outside main content, which Quarto uses for RSS descriptions. The relocation
+  makes the link the first tab stop and requires JavaScript.
   The link is wrapped in `llms-hidden-content` because `.llms.md` generation
   reads the HTML before browser scripts run. Quarto's LLM converter drops the
   wrapper's contents and its HTML finalizer unwraps the link for the website.

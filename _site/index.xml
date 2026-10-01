@@ -15,16 +15,6 @@
   <title>Announcing enrollcast</title>
   <link>https://rorylawless.com/posts/announcing-enrollcast/</link>
   <description><![CDATA[ 
-<!-- Raw HTML includes bypass Quarto's conditional-content filter. Its llms
-     converter drops this wrapper's contents, then unwraps it in website HTML. -->
-
-Skip to main content
-
-<script>
-  // Quarto places include-before-body inside main, after website navigation.
-  // Move the link before navigation so it is the first keyboard tab stop.
-  document.body.prepend(document.querySelector('.skip-to-content'));
-</script>
 
 
 
@@ -231,16 +221,6 @@ font-style: inherit;">2023</span></span>
   <title>Using 1Password Secret References in R</title>
   <link>https://rorylawless.com/posts/using-1password-secret-references-in-r/</link>
   <description><![CDATA[ 
-<!-- Raw HTML includes bypass Quarto's conditional-content filter. Its llms
-     converter drops this wrapper's contents, then unwraps it in website HTML. -->
-
-Skip to main content
-
-<script>
-  // Quarto places include-before-body inside main, after website navigation.
-  // Move the link before navigation so it is the first keyboard tab stop.
-  document.body.prepend(document.querySelector('.skip-to-content'));
-</script>
 
 
 
@@ -344,16 +324,6 @@ font-style: inherit;">TRUE</span></span>
   <title>The basics of DuckDB in R</title>
   <link>https://rorylawless.com/posts/the-basics-of-duckdb-in-r/</link>
   <description><![CDATA[ 
-<!-- Raw HTML includes bypass Quarto's conditional-content filter. Its llms
-     converter drops this wrapper's contents, then unwraps it in website HTML. -->
-
-Skip to main content
-
-<script>
-  // Quarto places include-before-body inside main, after website navigation.
-  // Move the link before navigation so it is the first keyboard tab stop.
-  document.body.prepend(document.querySelector('.skip-to-content'));
-</script>
 
 
 

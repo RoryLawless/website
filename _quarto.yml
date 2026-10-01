@@ -46,7 +46,8 @@ format:
     code-copy: true
     code-overflow: wrap
     email-obfuscation: references
-    include-before-body: html/skip-link.html
-    include-after-body: html/a11y.html
+    include-after-body:
+      - html/skip-link.html
+      - html/a11y.html
     include-in-header: html/favicon.html
     html-math-method: plain

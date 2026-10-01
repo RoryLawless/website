@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-3419ea62b3ca2d77d3d547f86109e84e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-802eded42fa49b60a00464564e7c4fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-6f4745b0d862c8440df0c8088be53bb4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-802eded42fa49b60a00464564e7c4fd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-8c0700e4b648ec2cca105df3521171b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-20e51b4377bdc48dac797d1b5da4fbe4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-8c0700e4b648ec2cca105df3521171b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -177,16 +177,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
 <!-- main -->
 <main class="content" id="quarto-document-content">
-<!-- Raw HTML includes bypass Quarto's conditional-content filter. Its llms
-     converter drops this wrapper's contents, then unwraps it in website HTML. -->
-
-<a href="#quarto-document-content" class="skip-to-content">Skip to main content</a>
-
-<script>
-  // Quarto places include-before-body inside main, after website navigation.
-  // Move the link before navigation so it is the first keyboard tab stop.
-  document.body.prepend(document.querySelector('.skip-to-content'));
-</script>
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -269,6 +259,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 
 </main> <!-- /main -->
+<!-- Raw HTML includes bypass Quarto's conditional-content filter. Its llms
+     converter drops this wrapper's contents, then unwraps it in website HTML. -->
+
+<a href="#quarto-document-content" class="skip-to-content">Skip to main content</a>
+
+<script>
+  // Include after the body content to keep this scaffolding out of RSS descriptions.
+  // Move the link before navigation so it is the first keyboard tab stop.
+  document.body.prepend(document.querySelector('.skip-to-content'));
+</script>
 <!-- Accessibility patches for Quarto-generated behaviour -->
 
 <!-- Fix #6: Add tabindex="-1" to the skip link target so Safari moves keyboard
