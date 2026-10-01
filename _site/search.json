@@ -4,14 +4,14 @@
     "href": "resume.html",
     "title": "Resume",
     "section": "",
-    "text": "Skip to main content"
+    "text": "Data Analyst, Office of the Deputy Mayor for Education (DME)\nWashington, DC. 2022–Present\nAssociate Data Analyst, Financial Conduct Authority (FCA)\nLondon, UK. 2020–2022\nResearch Assistant - Data, Child Outcomes Research Consortium (CORC)\nLondon, UK. 2018–2020"
   },
   {
     "objectID": "resume.html#work",
     "href": "resume.html#work",
     "title": "Resume",
-    "section": "Work",
-    "text": "Work\nData Analyst, Office of the Deputy Mayor for Education (DME)\nWashington, DC. 2022–Present\nAssociate Data Analyst, Financial Conduct Authority (FCA)\nLondon, UK. 2020–2022\nResearch Assistant - Data, Child Outcomes Research Consortium (CORC)\nLondon, UK. 2018–2020"
+    "section": "",
+    "text": "Data Analyst, Office of the Deputy Mayor for Education (DME)\nWashington, DC. 2022–Present\nAssociate Data Analyst, Financial Conduct Authority (FCA)\nLondon, UK. 2020–2022\nResearch Assistant - Data, Child Outcomes Research Consortium (CORC)\nLondon, UK. 2018–2020"
   },
   {
     "objectID": "resume.html#education",
@@ -25,7 +25,7 @@
     "href": "posts/the-basics-of-duckdb-in-r/index.html",
     "title": "The basics of DuckDB in R",
     "section": "",
-    "text": "Skip to main content\nOver the past year, DuckDB has gradually become an important part of my data science workflow - at first clumsily, then seamlessly. I don’t typically work with large datasets, however, integrating DuckDB has addressed some of my frustrations, especially when dealing with hardware limitations and moderately-sized but inefficiently stored data. With this in mind, here are two major benefits I’ve found since integrating DuckDB into my workflow."
+    "text": "Over the past year, DuckDB has gradually become an important part of my data science workflow - at first clumsily, then seamlessly. I don’t typically work with large datasets, however, integrating DuckDB has addressed some of my frustrations, especially when dealing with hardware limitations and moderately-sized but inefficiently stored data. With this in mind, here are two major benefits I’ve found since integrating DuckDB into my workflow."
   },
   {
     "objectID": "posts/the-basics-of-duckdb-in-r/index.html#handling-larger-than-memory-data",
@@ -53,14 +53,14 @@
     "href": "index.html",
     "title": "Rory Lawless",
     "section": "",
-    "text": "Skip to main content"
+    "text": "Post\nDate\n\n\n\n\nAnnouncing enrollcast\n2026-09-20\n\n\nUsing 1Password Secret References in R\n2026-01-02\n\n\nThe basics of DuckDB in R\n2025-03-30\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#posts",
     "href": "index.html#posts",
     "title": "Rory Lawless",
-    "section": "Posts",
-    "text": "Posts\n\n\n\n\nPost\nDate\n\n\n\n\nAnnouncing enrollcast\n2026-09-20\n\n\nUsing 1Password Secret References in R\n2026-01-02\n\n\nThe basics of DuckDB in R\n2025-03-30\n\n\n\nNo matching items"
+    "section": "",
+    "text": "Post\nDate\n\n\n\n\nAnnouncing enrollcast\n2026-09-20\n\n\nUsing 1Password Secret References in R\n2026-01-02\n\n\nThe basics of DuckDB in R\n2025-03-30\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#about-me",
@@ -74,21 +74,21 @@
     "href": "about.html",
     "title": "Rory Lawless",
     "section": "",
-    "text": "Skip to main content"
+    "text": "Data analyst based in Washington, DC. I apply a political economy and public policy lens to my work across education policy, financial services regulation, and mental health outcomes, with a focus on how policies and the institutions that design them affect people with the least power to shape them.\nAnalysis I have worked on has been picked up by the Financial Times and I have written about my work on the Inside DC Education Blog."
   },
   {
     "objectID": "about.html#about-me",
     "href": "about.html#about-me",
     "title": "Rory Lawless",
-    "section": "About Me",
-    "text": "About Me\nData analyst based in Washington, DC. I apply a political economy and public policy lens to my work across education policy, financial services regulation, and mental health outcomes, with a focus on how policies and the institutions that design them affect people with the least power to shape them.\nAnalysis I have worked on has been picked up by the Financial Times and I have written about my work on the Inside DC Education Blog."
+    "section": "",
+    "text": "Data analyst based in Washington, DC. I apply a political economy and public policy lens to my work across education policy, financial services regulation, and mental health outcomes, with a focus on how policies and the institutions that design them affect people with the least power to shape them.\nAnalysis I have worked on has been picked up by the Financial Times and I have written about my work on the Inside DC Education Blog."
   },
   {
     "objectID": "posts/announcing-enrollcast/index.html",
     "href": "posts/announcing-enrollcast/index.html",
     "title": "Announcing enrollcast",
     "section": "",
-    "text": "Skip to main content\nI am excited to announce the first CRAN release of enrollcast. This package formalizes the commonly used cohort survival (or grade progression ratio) method of school enrollment forecasting. It is implemented as a matrix projection inspired by the Leslie matrix model of population growth. The package can be used to project enrollment at any level of aggregation for arbitrary grade combinations and time spans."
+    "text": "I am excited to announce the first CRAN release of enrollcast. This package formalizes the commonly used cohort survival (or grade progression ratio) method of school enrollment forecasting. It is implemented as a matrix projection inspired by the Leslie matrix model of population growth. The package can be used to project enrollment at any level of aggregation for arbitrary grade combinations and time spans."
   },
   {
     "objectID": "posts/announcing-enrollcast/index.html#installation",
@@ -123,7 +123,7 @@
     "href": "posts/using-1password-secret-references-in-r/index.html",
     "title": "Using 1Password Secret References in R",
     "section": "",
-    "text": "Skip to main content\nIf you’re like me, you’ve stored your API keys in your .Renviron file and forget about them. Not only is it risky to store them in plaintext, it’s also a nightmarish way to manage and rotate out keys when needed."
+    "text": "If you’re like me, you’ve stored your API keys in your .Renviron file and forget about them. Not only is it risky to store them in plaintext, it’s also a nightmarish way to manage and rotate out keys when needed."
   },
   {
     "objectID": "posts/using-1password-secret-references-in-r/index.html#password-to-the-rescue",
