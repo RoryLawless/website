@@ -36,13 +36,10 @@ html/
   skip-link.html     # Skip-to-content link, moved before navigation by its inline script
 posts/               # Blog posts, each in its own subdirectory with index.qmd
   _metadata.yml      # Shared frontmatter defaults for all posts (freeze: auto)
-404.qmd              # Custom 404 page
 .well-known/         # PGP key (pgp-key.txt), security.txt, OpenPGP Web Key Directory files
 _redirects           # Cloudflare redirect rules
 _headers             # Cloudflare response header rules (global security headers + OpenPGP headers)
 wrangler.jsonc       # Cloudflare Workers deployment config
-package.json         # Node deps (just wrangler)
-bun.lock             # Bun lockfile
 renv.lock            # Locked R package versions
 .Rprofile            # Sources renv/activate.R (auto-snapshot + pak enabled)
 ```
@@ -90,7 +87,7 @@ When changing look and feel, use `_brand.yml` for reusable theme tokens (colors,
 - `project.resources` includes `/assets/fonts/` with a leading slash intentionally — Quarto globs are recursive by default, and the leading slash anchors the self-hosted font directory at the project root so `renv/.../assets/fonts/` is not copied into `_site/`
 - `email-obfuscation: references` — email addresses are obfuscated in rendered HTML
 - `draft-mode: gone` — posts with `draft: true` in their frontmatter are excluded from the rendered site entirely
-- `search: false` — site-wide search is disabled intentionally
+- `search` is unset, so Quarto's default site-wide search is enabled — this is intentional (distinct from the post listing, which has no search UI)
 - `feed: true` (set in `index.qmd`) — an RSS feed is generated for the post listing
 - `anchor-sections: false` (set in `index.qmd`) — no anchor links on the homepage
 
@@ -147,13 +144,13 @@ browser. Source inspection does not replace these browser checks.
 
 ## Build and deploy
 
-Quarto is **rendered locally** before committing. The CI pipeline (`.tangled/workflows/deploy.yaml`) only handles deployment — it does not build the site.
+Quarto is **rendered locally** before committing. Cloudflare's Git-connected deployment only uploads the committed `_site/` — it does not build the site.
 
 **Local workflow:**
 1. Make changes to source files
 2. Run `quarto render` → outputs to `_site/`; updates `_freeze/` for any executed R code
 3. Commit `_site/`, `_freeze/`, and any source changes together
-4. Push to `main` → Cloudflare Worker deployment triggered → uploads `_site/` to Cloudflare Workers using the lockfile-pinned Wrangler version
+4. Push to `main` → Cloudflare Worker deployment triggered → uploads `_site/` to Cloudflare Workers
 
 To preview without a full render, run `quarto preview` (requires Quarto and R
 installed locally).
@@ -167,7 +164,6 @@ Agents in this environment should not attempt to run the full build.
 
 `wrangler.jsonc` defines:
 - Static assets served from `_site/`
-- `not_found_handling: "404-page"` — unmatched routes serve the rendered `404.html`
 - `html_handling: "auto-trailing-slash"` — URL normalisation (nested under `assets`)
 - Custom domain: `rorylawless.com` only (apex). This is the single entry in `routes`.
 - No `observability` block — Cloudflare defaults apply (view logs/traces in the Cloudflare dashboard)
@@ -178,8 +174,7 @@ There is no Worker script — the deployment is static assets only. URL redirect
 
 ## Dependencies
 
-- **Node**: Only `wrangler` (devDependency). `package.json` sets `"type": "module"`. Managed with Bun (`bun.lock`).
-- **R**: Pinned in `renv.lock` (R 4.6.0, CRAN + R-Multiverse). `.Rprofile` sources `renv/activate.R` and enables `renv.config.auto.snapshot` and `renv.config.pak.enabled`.
+- **R**: Pinned in `renv.lock`, which records the R version and package sources. `.Rprofile` sources `renv/activate.R` and enables `renv.config.auto.snapshot` and `renv.config.pak.enabled`.
 
 ---
 
