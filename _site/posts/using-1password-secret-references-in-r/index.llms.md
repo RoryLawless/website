@@ -1,8 +1,8 @@
 # Using 1Password Secret References in R
 
-Published
+Published on
 
-2026-01-02
+Friday, January 2nd 2026.
 
 If you’re like me, you’ve stored your API keys in your .Renviron file and forget about them. Not only is it risky to store them in plaintext, it’s also a nightmarish way to manage and rotate out keys when needed.
 

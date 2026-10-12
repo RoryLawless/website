@@ -17,16 +17,19 @@ color:
 
 typography:
   fonts:
-    - family: Lato
-      source: system
-    - family: Playfair Display
+    - family: Newsreader
       source: system
   base:
-    family: Lato
-    size: 14pt
+    family: Newsreader
+    size: 20px
     weight: 400
+    line-height: 1.55
   headings:
-    family: Lato
+    family: Newsreader
+    weight: 500
+    line-height: 1.2
+  monospace:
+    size: 0.8em
   link:
     color: link-teal
     decoration: underline
@@ -34,7 +37,7 @@ typography:
 defaults:
   bootstrap:
     defaults:
-      navbar-bg: "#24617a"
-      navbar-fg: "#fbf5f5"
+      navbar-bg: "#fbf5f5"
+      navbar-fg: "#070a0c"
       footer-bg: "#fbf5f5"
       footer-fg: "#070a0c"

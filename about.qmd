@@ -1,5 +1,0 @@
----
-about: marquee
----
-
-{{< include _about-short.qmd >}}

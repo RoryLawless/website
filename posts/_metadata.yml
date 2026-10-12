@@ -3,4 +3,6 @@
 # freeze computational output
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
 freeze: auto
-date-format: iso
+date-format: "dddd, MMMM Do YYYY[.]"
+language:
+  title-block-published: "Published on"

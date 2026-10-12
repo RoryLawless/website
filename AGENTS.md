@@ -17,7 +17,7 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 | Site framework | Quarto |
 | Styling | `_brand.yml` theme tokens + custom SCSS (`assets/custom.scss`), no Quarto theme (`theme: none`) |
 | Hosting | Cloudflare Workers static assets (deployed via Wrangler, no Worker script) |
-| CI/CD | Repo connected to Cloudeflare Worker for automatic deployment when _site/* changes |
+| CI/CD | Repo connected to Cloudflare Worker for automatic deployment when _site/* changes; other branches get Workers Previews |
 | R environment | renv |
 
 ---
@@ -26,10 +26,10 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 
 ```
 _brand.yml           # Canonical brand tokens (colors, typography, navbar/footer defaults)
-_quarto.yml          # Master site configuration (project, navbar links, output dir, HTML options)
+_quarto.yml          # Master site configuration (project, title/search header, output dir, HTML options)
 assets/
   custom.scss        # Custom CSS behavior/layout + optimized self-hosted @font-face loading
-  fonts/             # Self-hosted WOFF2 files (Lato 300/400/700, Playfair Display 400-900)
+  fonts/            # Active self-hosted Newsreader Text WOFF2 files + OFL license
   template.ejs       # EJS template for the post listing on the homepage
 html/
   a11y.html          # Runtime JS patches for main-content focusability and navbar toggle role
@@ -51,27 +51,34 @@ renv.lock            # Locked R package versions
 ## Design system
 
 **Colors** (defined in `_brand.yml`):
-- Navbar background: `#24617a` (teal)
-- Navbar foreground / text: `#fbf5f5` (off-white)
+- Navbar background: `#fbf5f5` (off-white)
+- Navbar foreground / text: `#070a0c` (ink)
 - Page background: `#fbf5f5` (off-white)
 - Footer background: `#fbf5f5`, foreground: `#070a0c`
 - Body text: `#070a0c`
 - Links: `#183e4d`
 
 **Typography** (brand tokens defined in `_brand.yml`; fonts are self-hosted WOFF2 files in `assets/fonts/`, loaded via optimized `@font-face` rules in `assets/custom.scss`):
-- Body font: Lato, 14pt
-- Navbar title: Playfair Display (applied via `.navbar-title` in SCSS)
+- Body font: Newsreader Text, 20px, weight 400, line height 1.55
+- Headings: Newsreader Text, weight 500, line height 1.2
+- Navbar title: Newsreader Text, weight 500, fixed 24px size in SCSS
+- Real italic, bold, and bold italic faces are self-hosted; code stays monospace
 - Code highlighting: a11y style, with copy buttons enabled
 
 **Layout** (`assets/custom.scss`):
-- Max content width: `.navbar-container { width: 820px }` (viewport-capped)
-- Navbar title size: `font-size: clamp(1.25rem, 4vw, 3rem)` (viewport-relative with min/max bounds)
-- `h2` elements: no bottom border, no bottom padding, 1rem top margin
-- Listing table cells: `padding-inline: 0; padding-block: 1rem` via `.quarto-listing-table > :not(caption) > * > td`
-- Post listing: borderless table; date column is right-aligned
+- Reading column: 660px maximum, left aligned with responsive page insets
+- Navbar aligns with the reading column and shows only the site name and search; there is no hamburger menu
+- Navbar title size: `font-size: 1.5rem` (24px at the site's 16px root size, independent of viewport width)
+- Main content: no top margin, with `1rem` top padding after the navbar at all viewport widths
+- The homepage's native title is visually hidden, retaining an `h1` for heading navigation without adding visible space
+- `h2` elements: no bottom border or padding; generous section spacing
+- Post listing: a semantic list of prose sentences, with hidden list markers, underlined title links, and generous spacing
+- Prose and footer links use a brighter teal and a stronger underline on hover or keyboard focus; the brief color transition respects reduced-motion preferences
 
 **Post listing** (`assets/template.ejs`):
-- Renders title (hyperlinked) and ISO date in a two-column borderless table
+- Renders each linked title followed by "published on" and a date such as "Sunday, September 20th 2026"
+- The listing uses `date-format: "dddd, MMMM Do YYYY"`; source publication dates remain ISO 8601
+- Uses `role="list"` to preserve list semantics when CSS hides markers, and escapes titles, URLs, and dates with Quarto's `<%- value %>` syntax
 - Sorted by date descending; no categories, search, filters, or sort UI
 
 When changing look and feel, use `_brand.yml` for reusable theme tokens (colors, typography, navbar/footer defaults) and `assets/custom.scss` for CSS behavior, layout, accessibility fixes, and optimized local font loading. `_quarto.yml` should stay focused on Quarto project/site options and the HTML theme stack. Do not introduce a Quarto theme — the site intentionally uses `theme: none`.
@@ -84,7 +91,7 @@ When changing look and feel, use `_brand.yml` for reusable theme tokens (colors,
 
 - `llms-txt: true` — Quarto generates an `llms.txt` file for LLM consumption
 - `format.html.theme` is `none`, `brand`, then `assets/custom.scss` — keep `brand` between `none` and the custom SCSS so `_brand.yml` tokens are available while custom CSS keeps final precedence
-- `project.resources` includes `/assets/fonts/` with a leading slash intentionally — Quarto globs are recursive by default, and the leading slash anchors the self-hosted font directory at the project root so `renv/.../assets/fonts/` is not copied into `_site/`
+- `project.resources` includes `/assets/fonts/` with a leading slash intentionally — Quarto globs are recursive by default, and the leading slash anchors the font directory at the project root so package fonts are not copied into `_site/`
 - `email-obfuscation: references` — email addresses are obfuscated in rendered HTML
 - `draft-mode: gone` — posts with `draft: true` in their frontmatter are excluded from the rendered site entirely
 - `search` is unset, so Quarto's default site-wide search is enabled — this is intentional (distinct from the post listing, which has no search UI)
@@ -95,7 +102,7 @@ When changing look and feel, use `_brand.yml` for reusable theme tokens (colors,
 
 ## Accessibility compatibility (reviewed 2026-09-14)
 
-The current local Quarto version is **1.10.18**. Keep these workarounds until the
+The Quarto version used for this review was **1.10.18**. Keep these workarounds until the
 rendered output provides their native replacements:
 
 - `html/skip-link.html` supplies the skip link and immediately moves it to the
@@ -158,6 +165,9 @@ installed locally).
 
 Agents in this environment should not attempt to run the full build.
 
+The standalone About and Resume pages have been retired. Their URL redirects in
+`_redirects` keep old bookmarks working by sending visitors to the homepage.
+
 ---
 
 ## Cloudflare configuration
@@ -166,6 +176,9 @@ Agents in this environment should not attempt to run the full build.
 - Static assets served from `_site/`
 - `html_handling: "auto-trailing-slash"` — URL normalisation (nested under `assets`)
 - Custom domain: `rorylawless.com` only (apex). This is the single entry in `routes`.
+- `workers_dev: false` — production is not served on `workers.dev`. A dashboard toggle is overwritten by the next production `wrangler deploy` from `main`.
+- `preview_urls: true` and an empty `previews: {}` block — enables [Workers Previews](https://developers.cloudflare.com/workers/previews/) for non-production branches. Workers Builds runs `npx wrangler preview` (requires Wrangler 4.135.0 or later) and posts the Preview URL (`<branch>-website.<subdomain>.workers.dev`) on the pull request. The `previews` block is required even when empty; it takes only Preview-specific settings such as vars and bindings, never `routes` or `workers_dev`.
+- Preview URLs are public; Cloudflare adds `X-Robots-Tag: noindex` to `workers.dev` Preview URLs automatically.
 - No `observability` block — Cloudflare defaults apply (view logs/traces in the Cloudflare dashboard)
 
 There is no Worker script — the deployment is static assets only. URL redirects live in `_redirects` (Cloudflare syntax). Response headers live in `_headers` — currently used for global security headers (`Strict-Transport-Security`, `Content-Security-Policy: frame-ancestors 'none'`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy`) plus CORS and `Content-Type` headers for the OpenPGP Web Key Directory endpoint at `/.well-known/openpgpkey/`. The HSTS header intentionally omits `includeSubDomains` and `preload`. `www.rorylawless.com` is 301'd to the apex by a Cloudflare Redirect Rule configured in the dashboard (not in this repo, and not in `wrangler.jsonc`).
@@ -181,9 +194,10 @@ There is no Worker script — the deployment is static assets only. URL redirect
 ## Conventions
 
 - Post directories use kebab-case naming (e.g., `posts/the-basics-of-duckdb-in-r/`)
-- Dates throughout are ISO 8601 (`2026-05-03`)
-- Reusable content snippets use Quarto's `{{< include >}}` shortcode (e.g., `_about-short.qmd` is included in `index.qmd`)
-- All posts inherit settings from `posts/_metadata.yml` (`freeze: auto`, ISO date format)
+- Source dates are ISO 8601 (`2026-05-03`); the homepage listing displays expanded dates with weekday and ordinal day
+- Reusable content snippets use Quarto's `{{< include >}}` shortcode.
+- The homepage places About Me above Posts. The biography, email, and social links appear in prose within `index.qmd`.
+- All posts inherit settings from `posts/_metadata.yml` (`freeze: auto`, expanded publication dates with weekday and ordinal day). The native title-block publication metadata reads "Published on Sunday, September 20th 2026." on one prose line, wrapping naturally on small screens.
 - Draft visibility is controlled exclusively via the `draft: true` setting — do not edit `_quarto.yml` for this
 
 ---
@@ -209,7 +223,7 @@ The `.claude/` directory contains project-specific Claude Code configuration.
 
 - Do not introduce a Quarto theme (Bootstrap-based) — styling is intentionally from scratch
 - Do not add JavaScript frameworks or bundlers
-- Do not move the self-hosted fonts into `_brand.yml` as `source: file` unless Quarto preserves the current `@font-face` behavior; `assets/custom.scss` intentionally keeps `font-display: swap`, `unicode-range`, root-relative URLs, and Playfair Display's `400 900` variable range
+- Do not move the self-hosted fonts into `_brand.yml` as `source: file` unless Quarto preserves the current `@font-face` behavior; `assets/custom.scss` intentionally keeps `font-display: swap`, root-relative URLs, explicit static weights and italics, and the full supplied Newsreader glyph coverage
 - Do not use unanchored resource paths for root-level asset directories in `_quarto.yml` — prefer `/assets/fonts/` over `assets/fonts/` so Quarto does not recursively match package assets under `renv/`
 - Always commit `_site/` and `_freeze/` together with source changes — the CI pipeline deploys whatever `_site/` is in the repo
 - Do not edit `.qmd` content files — content is out of scope for agents
