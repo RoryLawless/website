@@ -17,7 +17,7 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 | Site framework | Quarto |
 | Styling | `_brand.yml` theme tokens + custom SCSS (`assets/custom.scss`), no Quarto theme (`theme: none`) |
 | Hosting | Cloudflare Workers static assets (deployed via Wrangler, no Worker script) |
-| CI/CD | Repo connected to Cloudeflare Worker for automatic deployment when _site/* changes |
+| CI/CD | Repo connected to Cloudflare Worker for automatic deployment when _site/* changes; other branches get Workers Previews |
 | R environment | renv |
 
 ---
@@ -176,6 +176,9 @@ The standalone About and Resume pages have been retired. Their URL redirects in
 - Static assets served from `_site/`
 - `html_handling: "auto-trailing-slash"` — URL normalisation (nested under `assets`)
 - Custom domain: `rorylawless.com` only (apex). This is the single entry in `routes`.
+- `workers_dev: false` — production is not served on `workers.dev`. A dashboard toggle is overwritten by the next production `wrangler deploy` from `main`.
+- `preview_urls: true` and an empty `previews: {}` block — enables [Workers Previews](https://developers.cloudflare.com/workers/previews/) for non-production branches. Workers Builds runs `npx wrangler preview` (requires Wrangler 4.135.0 or later) and posts the Preview URL (`<branch>-website.<subdomain>.workers.dev`) on the pull request. The `previews` block is required even when empty; it takes only Preview-specific settings such as vars and bindings, never `routes` or `workers_dev`.
+- Preview URLs are public; Cloudflare adds `X-Robots-Tag: noindex` to `workers.dev` Preview URLs automatically.
 - No `observability` block — Cloudflare defaults apply (view logs/traces in the Cloudflare dashboard)
 
 There is no Worker script — the deployment is static assets only. URL redirects live in `_redirects` (Cloudflare syntax). Response headers live in `_headers` — currently used for global security headers (`Strict-Transport-Security`, `Content-Security-Policy: frame-ancestors 'none'`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy`) plus CORS and `Content-Type` headers for the OpenPGP Web Key Directory endpoint at `/.well-known/openpgpkey/`. The HSTS header intentionally omits `includeSubDomains` and `preload`. `www.rorylawless.com` is 301'd to the apex by a Cloudflare Redirect Rule configured in the dashboard (not in this repo, and not in `wrangler.jsonc`).
