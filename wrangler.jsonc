@@ -11,12 +11,10 @@
             "custom_domain": true
         }
     ],
-    "workers_dev": false,
+    "workers_dev": true,
     "preview_urls": true,
-    "env": {
-        "preview": {
-            "routes": [],
-            "workers_dev": true
-        }
+    "previews": {
+        "routes": [],
+        "workers_dev": true
     }
 }
