@@ -11,16 +11,12 @@ project:
 website:
   favicon: assets/favicon-512.png
   open-graph:
-    image: assets/social-card.png
+    image: /assets/social-card.png
     image-alt: "Rory Lawless, rorylawless.com"
-    image-width: 1200
-    image-height: 630
   twitter-card:
     card-style: summary_large_image
-    image: assets/social-card.png
+    image: /assets/social-card.png
     image-alt: "Rory Lawless, rorylawless.com"
-    image-width: 1200
-    image-height: 630
   description: "Rory Lawless is a data analyst in Washington, DC, with a background in education policy, financial regulation, and mental health research."
   site-url: https://rorylawless.com
   title: "Rory Lawless"
