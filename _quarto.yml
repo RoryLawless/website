@@ -6,36 +6,32 @@ project:
   resources:
     - .well-known/
     - _headers
+    - _redirects
     - /assets/fonts/
 website:
   favicon: assets/favicon-512.png
-  description: "A personal website"
+  open-graph:
+    image: assets/social-card.png
+    image-alt: "Rory Lawless, rorylawless.com"
+    image-width: 1200
+    image-height: 630
+  twitter-card:
+    card-style: summary_large_image
+    image: assets/social-card.png
+    image-alt: "Rory Lawless, rorylawless.com"
+    image-width: 1200
+    image-height: 630
+  description: "Rory Lawless is a data analyst in Washington, DC, with a background in education policy, financial regulation, and mental health research."
   site-url: https://rorylawless.com
   title: "Rory Lawless"
   repo-url: https://github.com/rorylawless/website
   llms-txt: true
   page-footer:
     center: |
-      Made with [Quarto](https://quarto.org/) in DC.<br>[Website](https://rorylawless.com/) © 2026 by [Rory Lawless](/about.qmd) is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+      Made with [Quarto](https://quarto.org/) in DC.<br>[Website](https://rorylawless.com/) © 2026 by Rory Lawless is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
   draft-mode: gone
   navbar:
-    right:
-      - icon: file-earmark-person-fill
-        href: resume.qmd
-        aria-label: "Rory's Resume"
-        text: " "
-      - icon: envelope-at-fill
-        href: mailto:rory@rorylawless.com
-        aria-label: "Email Rory"
-      - icon: bluesky
-        href: https://bsky.app/profile/rorylawless.com
-        aria-label: "Rory's Bluesky"
-      - icon: linkedin
-        href: https://www.linkedin.com/in/rory-lawless/
-        aria-label: "Rory's LinkedIn"
-      - icon: github
-        href: https://github.com/rorylawless
-        aria-label: "Rory's GitHub"
+    collapse: false
 format:
   html:
     theme:
@@ -46,8 +42,8 @@ format:
     code-copy: true
     code-overflow: wrap
     email-obfuscation: references
+    include-in-header: html/favicon.html
     include-after-body:
       - html/skip-link.html
       - html/a11y.html
-    include-in-header: html/favicon.html
     html-math-method: plain

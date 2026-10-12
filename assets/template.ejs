@@ -1,30 +1,12 @@
-<% const fields=['title', 'date' ]; %>
-
-  ```{=html}
-
-  <table class="quarto-listing-table table no-borders">
-    <thead>
-      <tr>
-        <th scope="col" class="sr-only">Post</th>
-        <th scope="col" class="sr-only">Date</th>
-      </tr>
-    </thead>
-    <tbody class="list">
-      <% for (const item of items) { %>
-        <tr>
-          <% for (const field of fields) { %>
-            <td>
-              <% if (field==='title' && (item.outputHref || item.path)) { %>
-                <a href="<%= item.outputHref || item.path %>">
-                  <%= item[field] %>
-                </a>
-                <% } else { %>
-                  <%= item[field] %>
-                    <% } %>
-            </td>
-            <% } %>
-        </tr>
-        <% } %>
-    </tbody>
-  </table>
-  ```
+```{=html}
+<ul class="quarto-listing-prose list" role="list">
+  <% for (const item of items) { %>
+    <li <%= metadataAttrs(item) %>>
+      <p>
+        <% if (item.outputHref || item.path) { %>
+          <a class="listing-title" href="<%- item.outputHref || item.path %>"><%- item.title %></a><% } else { %><span class="listing-title"><%- item.title %></span><% } %><% if (item.date) { %> published on <span class="listing-date"><%- item.date %></span><% } %>.
+      </p>
+    </li>
+  <% } %>
+</ul>
+```

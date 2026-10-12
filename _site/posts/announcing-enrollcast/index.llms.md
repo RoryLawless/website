@@ -1,8 +1,8 @@
 # Announcing enrollcast
 
-Published
+Published on
 
-2026-09-20
+Sunday, September 20th 2026.
 
 I am excited to announce the first CRAN release of [enrollcast](https://CRAN.R-project.org/package=enrollcast). This package formalizes the commonly used cohort survival (or grade progression ratio) method of school enrollment forecasting. It is implemented as a matrix projection inspired by the [Leslie matrix](https://en.wikipedia.org/wiki/Leslie_matrix) model of population growth. The package can be used to project enrollment at any level of aggregation for arbitrary grade combinations and time spans.
 

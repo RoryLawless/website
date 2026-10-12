@@ -1,8 +1,8 @@
 # The basics of DuckDB in R
 
-Published
+Published on
 
-2025-03-30
+Sunday, March 30th 2025.
 
 Over the past year, [DuckDB](https://duckdb.org/docs/stable/clients/r) has gradually become an important part of my data science workflow - at first clumsily, then seamlessly. I don’t typically work with large datasets, however, integrating DuckDB has addressed some of my frustrations, especially when dealing with hardware limitations and moderately-sized but inefficiently stored data. With this in mind, here are two major benefits I’ve found since integrating DuckDB into my workflow.
 
