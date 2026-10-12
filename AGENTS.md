@@ -73,7 +73,7 @@ renv.lock            # Locked R package versions
 - The homepage's native title is visually hidden, retaining an `h1` for heading navigation without adding visible space
 - `h2` elements: no bottom border or padding; generous section spacing
 - Post listing: a semantic list of prose sentences, with hidden list markers, underlined title links, and generous spacing
-- Prose and footer links use a brighter teal and a stronger underline on hover or keyboard focus; the brief color transition respects reduced-motion preferences
+- Prose and footer links use a brighter teal and an underline at least 2px thick on hover or keyboard focus; the brief color transition respects reduced-motion preferences
 
 **Post listing** (`assets/template.ejs`):
 - Renders each linked title followed by "published on" and a date such as "Sunday, September 20th 2026"

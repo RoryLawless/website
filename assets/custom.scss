@@ -273,7 +273,8 @@ a {
 
 	&:focus-visible {
 		color: $brand-teal;
-		text-decoration-thickness: 0.08em;
+		// A two-pixel minimum keeps the stronger underline visibly distinct.
+		text-decoration-thickness: max(2px, 0.1em);
 	}
 }
 
@@ -282,7 +283,7 @@ a {
 	#quarto-document-content a[href]:not(.anchorjs-link):hover,
 	.nav-footer a[href]:hover {
 		color: $brand-teal;
-		text-decoration-thickness: 0.08em;
+		text-decoration-thickness: max(2px, 0.1em);
 	}
 }
 
