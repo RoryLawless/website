@@ -24,10 +24,10 @@ typography:
     size: 20px
     weight: 400
     line-height: 1.55
+  # Quarto otherwise gives h1 to h3 a weight of 600. Headings inherit the base
+  # family and its fallbacks.
   headings:
-    family: Newsreader
     weight: 500
-    line-height: 1.2
   monospace:
     size: 0.8em
   link:
@@ -37,7 +37,6 @@ typography:
 defaults:
   bootstrap:
     defaults:
-      navbar-bg: "#fbf5f5"
-      navbar-fg: "#070a0c"
-      footer-bg: "#fbf5f5"
-      footer-fg: "#070a0c"
+      navbar-bg: $brand-off-white
+      navbar-fg: $brand-ink
+      footer-fg: $brand-ink
