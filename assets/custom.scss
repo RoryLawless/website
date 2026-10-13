@@ -1,6 +1,5 @@
 /*-- scss:defaults --*/
 
-$grid-body-width: 660px;
 $font-size-root: 16px;
 $h1-font-size: 2.25rem;
 $h2-font-size: 1.65rem;
@@ -130,23 +129,13 @@ footer.footer .nav-footer {
 	overflow: visible;
 }
 
-.navbar .navbar-brand-container {
-	margin-inline: 0 auto !important;
-}
-
 .navbar-title {
 	font-family: 'Newsreader', Georgia, serif;
 	font-weight: 500;
 	font-size: 1.5rem;
 }
 
-#quarto-search .aa-DetachedSearchButton {
-	min-width: 44px;
-	min-height: 44px;
-}
-
 #quarto-document-content {
-	min-width: 0;
 	// Replace Quarto's default top margin with one deliberate header gap.
 	margin-top: 0;
 	padding-top: 1rem;
@@ -162,7 +151,6 @@ h2 {
 	border-bottom: 0;
 	padding-bottom: 0;
 	margin-top: 2.5rem;
-	margin-bottom: 1rem;
 }
 
 // Quarto removes the top margin from the first section's h2, assuming it opens
@@ -176,17 +164,8 @@ h3 {
 	margin-top: 2rem;
 }
 
-#quarto-document-content>#about-me>h2 {
-	margin-top: 0;
-}
-
 #title-block-header {
 	margin-bottom: 2rem;
-}
-
-// An empty homepage title block should not create an extra gap.
-#title-block-header:empty {
-	display: none;
 }
 
 // Retain the homepage's native h1 for heading navigation without adding space.
@@ -219,18 +198,10 @@ figcaption,
 		text-transform: none;
 		opacity: 1;
 	}
-
-	.date {
-		margin: 0;
-	}
 }
 
 footer.footer .nav-footer {
 	padding-block: 2rem;
-}
-
-.nav-footer-contents {
-	color: inherit;
 }
 
 .nav-footer .nav-footer-center {
@@ -260,11 +231,6 @@ footer.footer .nav-footer {
 
 #quarto-document-content .quarto-listing-prose p {
 	margin-bottom: 0;
-}
-
-.quarto-listing-prose a {
-	// Preserve the shared underline thickness instead of resetting it to auto.
-	text-decoration-line: underline;
 }
 
 a {
@@ -304,14 +270,4 @@ a {
 	#quarto-header .navbar {
 		padding-block: 1rem;
 	}
-}
-
-// Visual indicator for links that open in a new tab. Quarto adds
-// target="_blank" to external links but gives no visual or auditory warning.
-// Navbar icon links (.nav-link) are excluded — they already carry aria-labels
-// that describe their purpose and destination. (WCAG 3.2.5 / best practice)
-a[target="_blank"]:not(.nav-link):not(.navbar-brand)::after {
-	content: "\00a0↗";
-	font-size: 0.75em;
-	vertical-align: 0.15em;
 }
