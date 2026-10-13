@@ -28,6 +28,8 @@ website:
   draft-mode: gone
   navbar:
     collapse: false
+    pinned: true
+    search: false
 format:
   html:
     theme:

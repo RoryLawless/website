@@ -16,7 +16,7 @@ listing:
   feed: true
 ---
 
-I'm a data analyst at DC's Office of the Deputy Mayor for Education, where I forecast school enrollment and contributed analysis to the city's Master Facilities Plan. Before moving to Washington, DC, I worked in London on financial services regulation at the Financial Conduct Authority and on mental health outcomes research at the Child Outcomes Research Consortium.
+I'm a data analyst at DC's Office of the Deputy Mayor for Education, where I forecast school enrollment and contributed analysis to the city's [Master Facilities Plan](https://dme.dc.gov/mfp2023). Before moving to Washington, DC, I worked in London on financial services regulation at the Financial Conduct Authority and on mental health outcomes research at the Child Outcomes Research Consortium.
 
 Across these roles, I've used a political economy and public policy lens to ask how policies, and the institutions that design them, affect people with the least power to shape them. That usually means looking at where an average obscures more than it reveals.
 
