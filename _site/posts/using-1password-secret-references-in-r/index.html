@@ -76,14 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e21500bb30e7ce080c64316834ee3be8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-09606243866072c1aa00d3ff38fff5fe.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e21500bb30e7ce080c64316834ee3be8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e21500bb30e7ce080c64316834ee3be8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-dfc296a52a3eae89da58a79a82eb62d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-9a0754f11dd987a6437a8a6fa17ece3a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dfc296a52a3eae89da58a79a82eb62d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b693ace6425614855318770f02da6b20.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -100,7 +96,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="512x512" href="../../assets/favicon-512.png">
 
 
 <meta property="og:title" content="Using 1Password Secret References in R – Rory Lawless">
@@ -229,13 +224,12 @@ Figure&nbsp;1: 1Password CLI prompt for secret access
   // Move the link before navigation so it is the first keyboard tab stop.
   document.body.prepend(document.querySelector('.skip-to-content'));
 </script>
-<!-- Accessibility patches for Quarto-generated behaviour -->
+<!-- Accessibility patch for Quarto-generated behaviour -->
 
-<!-- Fix #6: Add tabindex="-1" to the skip link target so Safari moves keyboard
-     focus there when the skip link is activated. tabindex="-1"
-     makes the element programmatically focusable without inserting it into the
-     natural Tab order. Targets <main id="quarto-document-content">, which is
-     present on every page type (index, about, resume, 404, posts). -->
+<!-- Add tabindex="-1" to the skip link target so Safari moves keyboard focus
+     there when the skip link is activated. tabindex="-1" makes the element
+     programmatically focusable without inserting it into the natural Tab order.
+     Targets <main id="quarto-document-content">, which is present on every page. -->
 <script>
   function patchSkipLinkTarget() {
     var main = document.getElementById('quarto-document-content');
@@ -248,27 +242,6 @@ Figure&nbsp;1: 1Password CLI prompt for secret access
     document.addEventListener('DOMContentLoaded', patchSkipLinkTarget);
   } else {
     patchSkipLinkTarget();
-  }
-</script>
-
-<!-- Fix #4: Remove incorrect role="menu" from the navbar toggle button.
-     Quarto's internal pandoc template bakes this attribute into the HTML at
-     render time; it cannot be suppressed via _quarto.yml. The button is
-     semantically correct as a plain <button> with aria-expanded and
-     aria-controls already present — no role is needed.
-     The readyState guard also supports execution after DOMContentLoaded. -->
-<script>
-  function removeNavToggleRole() {
-    var toggler = document.querySelector('.navbar-toggler[role="menu"]');
-    if (toggler) {
-      toggler.removeAttribute('role');
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', removeNavToggleRole);
-  } else {
-    removeNavToggleRole();
   }
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
