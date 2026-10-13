@@ -13,6 +13,7 @@
 <lastBuildDate>Sun, 20 Sep 2026 04:00:00 GMT</lastBuildDate>
 <item>
   <title>Announcing enrollcast</title>
+  <dc:creator>Rory Lawless</dc:creator>
   <link>https://rorylawless.com/posts/announcing-enrollcast/</link>
   <description><![CDATA[ 
 
@@ -219,6 +220,7 @@ font-style: inherit;">2023</span></span>
 </item>
 <item>
   <title>Using 1Password Secret References in R</title>
+  <dc:creator>Rory Lawless</dc:creator>
   <link>https://rorylawless.com/posts/using-1password-secret-references-in-r/</link>
   <description><![CDATA[ 
 
@@ -322,6 +324,7 @@ font-style: inherit;">TRUE</span></span>
 </item>
 <item>
   <title>The basics of DuckDB in R</title>
+  <dc:creator>Rory Lawless</dc:creator>
   <link>https://rorylawless.com/posts/the-basics-of-duckdb-in-r/</link>
   <description><![CDATA[ 
 

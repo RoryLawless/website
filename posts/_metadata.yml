@@ -1,8 +1,16 @@
 # options specified here will apply to all posts in this folder
 
+author: "Rory Lawless"
+format:
+  html:
+    template-partials:
+      - ../html/title-metadata.html
+
 # freeze computational output
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
 freeze: auto
 date-format: "dddd, MMMM Do YYYY[.]"
+filters:
+  - ../filters/date-meta.lua
 language:
   title-block-published: "Published on"

@@ -1,0 +1,49 @@
+<!-- Based on Quarto 1.10.19's title metadata partial; omit authors and affiliations. -->
+<div class="quarto-title-meta">
+  $if(date)$
+  <div>
+    <div class="quarto-title-meta-heading">$labels.published$</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">$date$</p>
+    </div>
+  </div>
+  $endif$
+
+  $if(date-modified)$
+  <div>
+    <div class="quarto-title-meta-heading">$labels.modified$</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">$date-modified$</p>
+    </div>
+  </div>
+  $endif$
+
+  $if(doi)$
+  <div>
+    <div class="quarto-title-meta-heading">$labels.doi$</div>
+    <div class="quarto-title-meta-contents">
+      <p class="doi">
+        <a href="https://doi.org/$doi$">$doi$</a>
+      </p>
+    </div>
+  </div>
+  $endif$
+</div>
+
+$if(abstract)$
+<div>
+  <div class="abstract">
+    <div class="block-title">$labels.abstract$</div>
+    $abstract$
+  </div>
+</div>
+$endif$
+
+$if(keywords)$
+<div>
+  <div class="keywords">
+    <div class="block-title">$labels.keywords$</div>
+    <p>$for(keywords)$$it$$sep$, $endfor$</p>
+  </div>
+</div>
+$endif$
