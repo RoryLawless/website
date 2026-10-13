@@ -6,7 +6,6 @@ project:
   resources:
     - .well-known/
     - _headers
-    - _redirects
     - /assets/fonts/
 website:
   favicon: assets/favicon-512.png
@@ -26,10 +25,10 @@ website:
     center: |
       Made with [Quarto](https://quarto.org/) in DC.<br>[Website](https://rorylawless.com/) © 2026 by Rory Lawless is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
   draft-mode: gone
+  search: false
   navbar:
     collapse: false
     pinned: true
-    search: false
 format:
   html:
     theme:
@@ -39,7 +38,6 @@ format:
     highlight-style: a11y
     code-copy: true
     code-overflow: wrap
-    email-obfuscation: references
     include-in-header: html/favicon.html
     include-after-body:
       - html/skip-link.html
