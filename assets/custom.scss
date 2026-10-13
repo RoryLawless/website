@@ -183,23 +183,14 @@ figcaption,
 	font-size: 1rem;
 }
 
-// Make the native publication metadata a prose line. Scope this to the
-// date column so author, affiliation, and other metadata keep their layout.
+// Make the native publication metadata a prose line. The plain title block
+// leaves it unstyled, so only the label, date and spacing need setting here.
 #title-block-header .quarto-title-meta > div:has(.date) {
-	grid-column: 1 / -1;
 	margin-top: 1rem;
-	font-size: $font-size-base;
 
-	.quarto-title-meta-heading,
-	.quarto-title-meta-contents,
+	> *,
 	.date {
 		display: inline;
-		font-size: inherit;
-	}
-
-	.quarto-title-meta-heading {
-		text-transform: none;
-		opacity: 1;
 	}
 }
 
