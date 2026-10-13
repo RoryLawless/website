@@ -1,9 +1,15 @@
 /*-- scss:defaults --*/
 
 $font-size-root: 16px;
+// The serif fallback shows while the web fonts load or if they are blocked.
+// Headings inherit this stack.
+$font-family-base: "Newsreader", Georgia, serif;
 $h1-font-size: 2.25rem;
 $h2-font-size: 1.65rem;
 $h3-font-size: 1.35rem;
+$paragraph-margin-bottom: 1.35rem;
+$navbar-padding-y: 1.5rem;
+$footer-font-size: 1rem;
 
 
 /*-- scss:rules --*/
@@ -109,9 +115,13 @@ textarea:focus-visible {
 		[screen-start] var(--site-inset) [screen-start-inset page-start page-start-inset body-start-outset body-start body-content-start] minmax(0, var(--reading-width)) [body-content-end body-end] minmax(0, 1fr) [body-end-outset page-end-inset page-end screen-end-inset] var(--site-inset) [screen-end];
 }
 
+// Quarto pads the navbar by 1em on each side; the container below sets the inset.
 #quarto-header .navbar {
-	padding-block: 1.5rem;
 	padding-inline: 0;
+
+	@include media-breakpoint-down(sm) {
+		--bs-navbar-padding-y: 1rem;
+	}
 }
 
 // Align the navbar and footer with the reading column, keeping the same inset
@@ -130,7 +140,6 @@ footer.footer .nav-footer {
 }
 
 .navbar-title {
-	font-family: 'Newsreader', Georgia, serif;
 	font-weight: 500;
 	font-size: 1.5rem;
 }
@@ -141,10 +150,6 @@ footer.footer .nav-footer {
 	padding-top: 1rem;
 	padding-bottom: 3rem;
 	overflow-wrap: break-word;
-}
-
-#quarto-document-content p {
-	margin-bottom: 1.35rem;
 }
 
 h2 {
@@ -173,10 +178,8 @@ h3 {
 	@include visually-hidden();
 }
 
-.quarto-title-meta,
 figcaption,
-.table,
-.nav-footer {
+.table {
 	font-size: 1rem;
 }
 
@@ -206,7 +209,6 @@ footer.footer .nav-footer {
 
 .nav-footer .nav-footer-center {
 	text-align: left;
-	font-size: 1rem;
 	margin-top: 0;
 }
 
@@ -220,17 +222,11 @@ footer.footer .nav-footer {
 // Each post is a sentence, with the list semantics retained for assistive
 // technology by role="list" in the template even when markers are hidden.
 .quarto-listing-prose {
-	list-style: none;
-	padding-left: 0;
-	margin-bottom: 0;
+	@include list-unstyled();
 }
 
 .quarto-listing-prose>li {
 	margin-bottom: 1.25rem;
-}
-
-#quarto-document-content .quarto-listing-prose p {
-	margin-bottom: 0;
 }
 
 a {
@@ -239,35 +235,22 @@ a {
 }
 
 // Give prose links a little emphasis on interaction without moving the text.
+// Bootstrap's transition mixin also turns the transition off for reduced motion.
 #quarto-document-content a[href]:not(.anchorjs-link),
 .nav-footer a[href] {
-	transition: color 160ms ease;
+	@include transition(color 160ms ease);
 
 	&:focus-visible {
 		color: $brand-teal;
 		// A two-pixel minimum keeps the stronger underline visibly distinct.
 		text-decoration-thickness: max(2px, 0.1em);
 	}
-}
 
-// Keep hover feedback on devices with a pointer; touch retains the resting style.
-@media (hover: hover) {
-	#quarto-document-content a[href]:not(.anchorjs-link):hover,
-	.nav-footer a[href]:hover {
-		color: $brand-teal;
-		text-decoration-thickness: max(2px, 0.1em);
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	#quarto-document-content a[href]:not(.anchorjs-link),
-	.nav-footer a[href] {
-		transition: none;
-	}
-}
-
-@media (max-width: 575.98px) {
-	#quarto-header .navbar {
-		padding-block: 1rem;
+	// Limit the custom hover style to devices with a pointer.
+	@media (hover: hover) {
+		&:hover {
+			color: $brand-teal;
+			text-decoration-thickness: max(2px, 0.1em);
+		}
 	}
 }
