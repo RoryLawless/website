@@ -1,11 +1,9 @@
 ```{=html}
 <ul class="quarto-listing-prose list" role="list">
   <% for (const item of items) { %>
-    <li <%= metadataAttrs(item) %>>
-      <p>
-        <% if (item.outputHref || item.path) { %>
-          <a class="listing-title" href="<%- item.outputHref || item.path %>"><%- item.title %></a><% } else { %><span class="listing-title"><%- item.title %></span><% } %><% if (item.date) { %> published on <span class="listing-date"><%- item.date %></span><% } %>.
-      </p>
+    <li>
+      <% if (item.outputHref || item.path) { %>
+        <a class="listing-title" href="<%- item.outputHref || item.path %>"><%- item.title %></a><% } else { %><span class="listing-title"><%- item.title %></span><% } %><% if (item.date) { %> published on <span class="listing-date"><%- item.date %></span><% } %>.
     </li>
   <% } %>
 </ul>

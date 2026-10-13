@@ -13,7 +13,5 @@ You can [email me](mailto:rory@rorylawless.com), or find me on [Bluesky](https:/
 ## Posts
 
 - [Announcing enrollcast](posts/announcing-enrollcast/index.llms.md) published on Sunday, September 20th 2026.
-
 - [Using 1Password Secret References in R](posts/using-1password-secret-references-in-r/index.llms.md) published on Friday, January 2nd 2026.
-
 - [The basics of DuckDB in R](posts/the-basics-of-duckdb-in-r/index.llms.md) published on Sunday, March 30th 2025.

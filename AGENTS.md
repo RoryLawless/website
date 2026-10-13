@@ -26,16 +26,20 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 
 ```
 _brand.yml           # Canonical brand tokens (colors, typography, navbar/footer defaults)
-_quarto.yml          # Master site configuration (project, title/search header, output dir, HTML options)
+_quarto.yml          # Master site configuration (project, brand, site metadata, navbar, HTML options)
 assets/
   custom.scss        # Custom CSS behavior/layout + optimized self-hosted @font-face loading
   fonts/            # Active self-hosted Newsreader Text WOFF2 files + OFL license
   template.ejs       # EJS template for the post listing on the homepage
+filters/
+  date-meta.lua      # Restores the ISO source date for dcterms.date on posts
 html/
-  a11y.html          # Runtime JS patches for main-content focusability and navbar toggle role
+  a11y.html          # Runtime JS patch that makes main content focusable for the skip link
+  favicon.html       # Apple touch icon link (website.favicon supplies the standard icon)
   skip-link.html     # Skip-to-content link, moved before navigation by its inline script
+  title-metadata.html # Post title-block metadata partial, without the author byline
 posts/               # Blog posts, each in its own subdirectory with index.qmd
-  _metadata.yml      # Shared frontmatter defaults for all posts (freeze: auto)
+  _metadata.yml      # Shared post defaults (author, date format, title partial, date filter, freeze: auto)
 .well-known/         # PGP key (pgp-key.txt), security.txt, OpenPGP Web Key Directory files
 _redirects           # Cloudflare redirect rules
 _headers             # Cloudflare response header rules (global security headers + OpenPGP headers)
@@ -54,22 +58,23 @@ renv.lock            # Locked R package versions
 - Navbar background: `#fbf5f5` (off-white)
 - Navbar foreground / text: `#070a0c` (ink)
 - Page background: `#fbf5f5` (off-white)
-- Footer background: `#fbf5f5`, foreground: `#070a0c`
+- Footer background: page background (Quarto's default), foreground: `#070a0c`
 - Body text: `#070a0c`
 - Links: `#183e4d`
 
 **Typography** (brand tokens defined in `_brand.yml`; fonts are self-hosted WOFF2 files in `assets/fonts/`, loaded via optimized `@font-face` rules in `assets/custom.scss`):
-- Body font: Newsreader Text, 20px, weight 400, line height 1.55
-- Headings: Newsreader Text, weight 500, line height 1.2
-- Navbar title: Newsreader Text, weight 500, fixed 24px size in SCSS
+- Body font: Newsreader Text, 20px, weight 400, line height 1.55. `$font-family-base` in `assets/custom.scss` adds the Georgia and serif fallbacks
+- Headings: inherit the body font stack, weight 500 (the `_brand.yml` heading weight also overrides Quarto's 600 for `h1`–`h3`), Bootstrap's 1.2 line height
+- Navbar title: inherits the body font, weight 500, fixed 24px size in SCSS
 - Real italic, bold, and bold italic faces are self-hosted; code stays monospace
 - Code highlighting: a11y style, with copy buttons enabled
 
 **Layout** (`assets/custom.scss`):
 - Reading column: 660px maximum, left aligned with responsive page insets
-- Navbar aligns with the reading column and shows only the site name and search; there is no hamburger menu
+- Navbar aligns with the reading column and shows only the site name. It is pinned (`navbar.pinned: true`) and never collapses (`navbar.collapse: false`), so there is no toggle button
 - Navbar title size: `font-size: 1.5rem` (24px at the site's 16px root size, independent of viewport width)
 - Main content: no top margin, with `1rem` top padding after the navbar at all viewport widths
+- Footer: aligns with the reading column, with the same inset on both sides at every width
 - The homepage's native title is visually hidden, retaining an `h1` for heading navigation without adding visible space
 - `h2` elements: no bottom border or padding; generous section spacing
 - Post listing: a semantic list of prose sentences, with hidden list markers, underlined title links, and generous spacing
@@ -79,11 +84,12 @@ renv.lock            # Locked R package versions
 - Renders each linked title followed by "published on" and a date such as "Sunday, September 20th 2026"
 - The listing uses `date-format: "dddd, MMMM Do YYYY"`; source publication dates remain ISO 8601
 - Uses `role="list"` to preserve list semantics when CSS hides markers, and escapes titles, URLs, and dates with Quarto's `<%- value %>` syntax
+- Keep `class="list"` on the `<ul>`: Quarto's listing script looks for it and throws without it. Items need no `metadataAttrs()` data attributes because there is no sort or filter UI
 - Sorted by date descending; no categories, search, filters, or sort UI
 
 When changing look and feel, use `_brand.yml` for reusable theme tokens (colors, typography, navbar/footer defaults) and `assets/custom.scss` for CSS behavior, layout, accessibility fixes, and optimized local font loading. `_quarto.yml` should stay focused on Quarto project/site options and the HTML theme stack. Do not introduce a Quarto theme — the site intentionally uses `theme: none`.
 
-**Bootstrap caveat**: `theme: none` disables the *Quarto* theme layer, but Quarto still ships Bootstrap's CSS/JS in the rendered output. The HTML theme stack is `none`, `brand`, then `assets/custom.scss`, so `_brand.yml` establishes Bootstrap variables and `custom.scss` can reference `$brand-*` variables or override Bootstrap defaults where needed. A few `!important` layout rules are expected, not technical debt.
+**Bootstrap caveat**: `theme: none` disables the *Quarto* theme layer, but Quarto still ships Bootstrap's CSS/JS in the rendered output. The HTML theme stack is `none`, `brand`, then `assets/custom.scss`, so `_brand.yml` establishes Bootstrap variables and `custom.scss` can reference `$brand-*` variables or override Bootstrap defaults where needed. Prefer Bootstrap variables and mixins over rules that undo Bootstrap's output: the `custom.scss` defaults section sets `$paragraph-margin-bottom`, `$navbar-padding-y`, `$footer-font-size`, and `$font-family-base`, and its rules use `media-breakpoint-down`, `transition` (which also disables the transition for reduced motion), `list-unstyled`, and `visually-hidden`. Plain assignments in the `custom.scss` defaults section take precedence over `_brand.yml`, whose variables are emitted with `!default`; for the same reason, that section is compiled before the `$brand-*` variables exist, so only `custom.scss` rules can use them. Quarto also adds rules that variables don't reach, such as 1em of horizontal padding on `#quarto-header > nav` and `footer.footer .nav-footer`; `custom.scss` resets those explicitly.
 
 ---
 
@@ -91,10 +97,13 @@ When changing look and feel, use `_brand.yml` for reusable theme tokens (colors,
 
 - `llms-txt: true` — Quarto generates an `llms.txt` file for LLM consumption
 - `format.html.theme` is `none`, `brand`, then `assets/custom.scss` — keep `brand` between `none` and the custom SCSS so `_brand.yml` tokens are available while custom CSS keeps final precedence
+- `brand: light: _brand.yml` — uses the brand for light mode only. If Quarto auto-discovers `_brand.yml`, it treats it as a unified light/dark brand and builds a second, unused dark Bootstrap stylesheet that every page downloads. Add a `dark` entry only together with a deliberate dark design
+- `format.html.title-block-style: plain` — keeps Quarto's title-block markup but omits its stylesheet (metadata grid, uppercase labels, reduced font sizes), so the publication line needs only a small rule in `custom.scss`
+- `format.html.canonical-url: true` — each page declares its `site-url`-based canonical URL
+- `website.open-graph.image` and `website.twitter-card.image` use the root-relative `/assets/social-card.png`; Quarto resolves a leading `/` from the project root, so the card also works for nested posts
 - `project.resources` includes `/assets/fonts/` with a leading slash intentionally — Quarto globs are recursive by default, and the leading slash anchors the font directory at the project root so package fonts are not copied into `_site/`
-- `email-obfuscation: references` — email addresses are obfuscated in rendered HTML
 - `draft-mode: gone` — posts with `draft: true` in their frontmatter are excluded from the rendered site entirely
-- `search` is unset, so Quarto's default site-wide search is enabled — this is intentional (distinct from the post listing, which has no search UI)
+- `website.search: false` — site-wide search is off, so Quarto adds no search button or scripts (it still writes `search.json`)
 - `feed: true` (set in `index.qmd`) — an RSS feed is generated for the post listing
 - `anchor-sections: false` (set in `index.qmd`) — no anchor links on the homepage
 
@@ -117,7 +126,8 @@ rendered output provides their native replacements:
   includes bypass the Markdown conditional-content filter, so this uses its
   generated HTML marker directly. Recheck this behaviour when upgrading Quarto.
 - `html/a11y.html` adds `tabindex="-1"` to `#quarto-document-content` for reliable
-  focus transfer and removes the navbar toggle's incorrect `role="menu"`.
+  focus transfer. The navbar never collapses, so Quarto renders no toggle button
+  and its incorrect `role="menu"` does not arise.
 - No custom code-copy focus restoration is needed for the current successful-copy
   flow: Quarto calls `button.blur()`, but subsequently calls `e.clearSelection()`.
   The bundled ClipboardJS 2.0.11 implementation restores focus to the trigger in
@@ -132,7 +142,8 @@ rendered output provides their native replacements:
   Bootstrap HTML output; this site's `none`, `brand`, custom SCSS stack still
   uses Bootstrap. Verify the native link appears after upgrading.
 - Correct navbar toggle semantics without `role="menu"`
-  ([PR #14805](https://github.com/quarto-dev/quarto-cli/pull/14805)).
+  ([PR #14805](https://github.com/quarto-dev/quarto-cli/pull/14805)). This
+  matters only if the navbar is allowed to collapse again.
 
 After upgrading and verifying those replacements, remove both custom HTML
 includes from `_quarto.yml` and their files. Remove `.skip-to-content` styling or
@@ -143,7 +154,7 @@ URLs into a cross-document navigation. Test both directory and `index.html` URLs
 
 After rendering accessibility changes, check that the first Tab reveals the skip
 link, Enter transfers focus into main, and the next Tab reaches a content control.
-Also check mobile navbar keyboard operation and code copying with Enter and Space,
+Also check code copying with Enter and Space,
 including the focus indicator and subsequent Tab order. Check Safari and another
 browser. Source inspection does not replace these browser checks.
 
@@ -196,8 +207,10 @@ There is no Worker script — the deployment is static assets only. URL redirect
 - Post directories use kebab-case naming (e.g., `posts/the-basics-of-duckdb-in-r/`)
 - Source dates are ISO 8601 (`2026-05-03`); the homepage listing displays expanded dates with weekday and ordinal day
 - Reusable content snippets use Quarto's `{{< include >}}` shortcode.
-- The homepage places About Me above Posts. The biography, email, and social links appear in prose within `index.qmd`.
-- All posts inherit settings from `posts/_metadata.yml` (`freeze: auto`, expanded publication dates with weekday and ordinal day). The native title-block publication metadata reads "Published on Sunday, September 20th 2026." on one prose line, wrapping naturally on small screens.
+- The homepage opens with the biography, email, and social links in prose within `index.qmd`, followed by Posts.
+- All posts inherit settings from `posts/_metadata.yml` (`freeze: auto`, `author`, expanded publication dates with weekday and ordinal day). The native title-block publication metadata reads "Published on Sunday, September 20th 2026." on one prose line, wrapping naturally on small screens.
+- `author` feeds the `author` meta tag and the RSS feed's `dc:creator` without a visible byline: `html/title-metadata.html` is a copy of Quarto 1.10.19's title-metadata partial with authors and affiliations removed. Re-sync it with Quarto's partial when upgrading.
+- `filters/date-meta.lua` sets `date-meta`, which Pandoc writes as `dcterms.date`, from the ISO source date, because Quarto applies `date-format` before filters run. When upgrading Quarto, check whether `dcterms.date` is still correct without it.
 - Draft visibility is controlled exclusively via the `draft: true` setting — do not edit `_quarto.yml` for this
 
 ---

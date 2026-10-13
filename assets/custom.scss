@@ -1,10 +1,15 @@
 /*-- scss:defaults --*/
 
-$grid-body-width: 660px;
 $font-size-root: 16px;
+// The serif fallback shows while the web fonts load or if they are blocked.
+// Headings inherit this stack.
+$font-family-base: "Newsreader", Georgia, serif;
 $h1-font-size: 2.25rem;
 $h2-font-size: 1.65rem;
 $h3-font-size: 1.35rem;
+$paragraph-margin-bottom: 1.35rem;
+$navbar-padding-y: 1.5rem;
+$footer-font-size: 1rem;
 
 
 /*-- scss:rules --*/
@@ -110,13 +115,20 @@ textarea:focus-visible {
 		[screen-start] var(--site-inset) [screen-start-inset page-start page-start-inset body-start-outset body-start body-content-start] minmax(0, var(--reading-width)) [body-content-end body-end] minmax(0, 1fr) [body-end-outset page-end-inset page-end screen-end-inset] var(--site-inset) [screen-end];
 }
 
+// Quarto pads the navbar by 1em on each side; the container below sets the inset.
 #quarto-header .navbar {
-	padding-block: 1.5rem;
 	padding-inline: 0;
+
+	@include media-breakpoint-down(sm) {
+		--bs-navbar-padding-y: 1rem;
+	}
 }
 
-.navbar-container {
-	width: min(var(--reading-width), calc(100% - 2 * var(--site-inset))) !important;
+// Align the navbar and footer with the reading column, keeping the same inset
+// on both sides at every width.
+.navbar-container,
+footer.footer .nav-footer {
+	width: min(var(--reading-width), 100% - 2 * var(--site-inset));
 	margin-inline: var(--site-inset) auto;
 	padding-inline: 0;
 }
@@ -127,23 +139,12 @@ textarea:focus-visible {
 	overflow: visible;
 }
 
-.navbar .navbar-brand-container {
-	margin-inline: 0 auto !important;
-}
-
 .navbar-title {
-	font-family: 'Newsreader', Georgia, serif;
 	font-weight: 500;
 	font-size: 1.5rem;
 }
 
-#quarto-search .aa-DetachedSearchButton {
-	min-width: 44px;
-	min-height: 44px;
-}
-
 #quarto-document-content {
-	min-width: 0;
 	// Replace Quarto's default top margin with one deliberate header gap.
 	margin-top: 0;
 	padding-top: 1rem;
@@ -151,32 +152,25 @@ textarea:focus-visible {
 	overflow-wrap: break-word;
 }
 
-#quarto-document-content p {
-	margin-bottom: 1.35rem;
-}
-
 h2 {
 	border-bottom: 0;
 	padding-bottom: 0;
 	margin-top: 2.5rem;
-	margin-bottom: 1rem;
+}
+
+// Quarto removes the top margin from the first section's h2, assuming it opens
+// the page. Here a title block or the bio always comes first.
+main.content > section:first-of-type > h2:nth-child(1),
+#quarto-content section:first-of-type h2:first-of-type {
+	margin-top: 2.5rem;
 }
 
 h3 {
 	margin-top: 2rem;
 }
 
-#quarto-document-content>#about-me>h2 {
-	margin-top: 0;
-}
-
 #title-block-header {
 	margin-bottom: 2rem;
-}
-
-// An empty homepage title block should not create an extra gap.
-#title-block-header:empty {
-	display: none;
 }
 
 // Retain the homepage's native h1 for heading navigation without adding space.
@@ -184,53 +178,29 @@ h3 {
 	@include visually-hidden();
 }
 
-.quarto-title-meta,
 figcaption,
-.table,
-.nav-footer {
+.table {
 	font-size: 1rem;
 }
 
-// Make the native publication metadata a prose line. Scope this to the
-// date column so author, affiliation, and other metadata keep their layout.
+// Make the native publication metadata a prose line. The plain title block
+// leaves it unstyled, so only the label, date and spacing need setting here.
 #title-block-header .quarto-title-meta > div:has(.date) {
-	grid-column: 1 / -1;
 	margin-top: 1rem;
-	font-size: $font-size-base;
 
-	.quarto-title-meta-heading,
-	.quarto-title-meta-contents,
+	> *,
 	.date {
 		display: inline;
-		font-size: inherit;
-	}
-
-	.quarto-title-meta-heading {
-		text-transform: none;
-		opacity: 1;
-	}
-
-	.date {
-		margin: 0;
 	}
 }
 
 footer.footer .nav-footer {
 	padding-block: 2rem;
-	padding-inline: 0;
-}
-
-.nav-footer-contents {
-	color: inherit;
 }
 
 .nav-footer .nav-footer-center {
 	text-align: left;
-	font-size: 1rem;
 	margin-top: 0;
-	margin-inline: var(--site-inset) auto;
-	max-width: var(--reading-width);
-	flex: 0 1 var(--reading-width);
 }
 
 // Quarto fills unused footer columns with a non-breaking space. Don't let
@@ -243,22 +213,11 @@ footer.footer .nav-footer {
 // Each post is a sentence, with the list semantics retained for assistive
 // technology by role="list" in the template even when markers are hidden.
 .quarto-listing-prose {
-	list-style: none;
-	padding-left: 0;
-	margin-bottom: 0;
+	@include list-unstyled();
 }
 
 .quarto-listing-prose>li {
 	margin-bottom: 1.25rem;
-}
-
-#quarto-document-content .quarto-listing-prose p {
-	margin-bottom: 0;
-}
-
-.quarto-listing-prose a {
-	// Preserve the shared underline thickness instead of resetting it to auto.
-	text-decoration-line: underline;
 }
 
 a {
@@ -267,45 +226,22 @@ a {
 }
 
 // Give prose links a little emphasis on interaction without moving the text.
+// Bootstrap's transition mixin also turns the transition off for reduced motion.
 #quarto-document-content a[href]:not(.anchorjs-link),
 .nav-footer a[href] {
-	transition: color 160ms ease;
+	@include transition(color 160ms ease);
 
 	&:focus-visible {
 		color: $brand-teal;
 		// A two-pixel minimum keeps the stronger underline visibly distinct.
 		text-decoration-thickness: max(2px, 0.1em);
 	}
-}
 
-// Keep hover feedback on devices with a pointer; touch retains the resting style.
-@media (hover: hover) {
-	#quarto-document-content a[href]:not(.anchorjs-link):hover,
-	.nav-footer a[href]:hover {
-		color: $brand-teal;
-		text-decoration-thickness: max(2px, 0.1em);
+	// Limit the custom hover style to devices with a pointer.
+	@media (hover: hover) {
+		&:hover {
+			color: $brand-teal;
+			text-decoration-thickness: max(2px, 0.1em);
+		}
 	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	#quarto-document-content a[href]:not(.anchorjs-link),
-	.nav-footer a[href] {
-		transition: none;
-	}
-}
-
-@media (max-width: 575.98px) {
-	#quarto-header .navbar {
-		padding-block: 1rem;
-	}
-}
-
-// Visual indicator for links that open in a new tab. Quarto adds
-// target="_blank" to external links but gives no visual or auditory warning.
-// Navbar icon links (.nav-link) are excluded — they already carry aria-labels
-// that describe their purpose and destination. (WCAG 3.2.5 / best practice)
-a[target="_blank"]:not(.nav-link):not(.navbar-brand)::after {
-	content: "\00a0↗";
-	font-size: 0.75em;
-	vertical-align: 0.15em;
 }

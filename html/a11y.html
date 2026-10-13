@@ -1,10 +1,9 @@
-<!-- Accessibility patches for Quarto-generated behaviour -->
+<!-- Accessibility patch for Quarto-generated behaviour -->
 
-<!-- Fix #6: Add tabindex="-1" to the skip link target so Safari moves keyboard
-     focus there when the skip link is activated. tabindex="-1"
-     makes the element programmatically focusable without inserting it into the
-     natural Tab order. Targets <main id="quarto-document-content">, which is
-     present on every page type (index, about, resume, 404, posts). -->
+<!-- Add tabindex="-1" to the skip link target so Safari moves keyboard focus
+     there when the skip link is activated. tabindex="-1" makes the element
+     programmatically focusable without inserting it into the natural Tab order.
+     Targets <main id="quarto-document-content">, which is present on every page. -->
 <script>
   function patchSkipLinkTarget() {
     var main = document.getElementById('quarto-document-content');
@@ -17,26 +16,5 @@
     document.addEventListener('DOMContentLoaded', patchSkipLinkTarget);
   } else {
     patchSkipLinkTarget();
-  }
-</script>
-
-<!-- Fix #4: Remove incorrect role="menu" from the navbar toggle button.
-     Quarto's internal pandoc template bakes this attribute into the HTML at
-     render time; it cannot be suppressed via _quarto.yml. The button is
-     semantically correct as a plain <button> with aria-expanded and
-     aria-controls already present — no role is needed.
-     The readyState guard also supports execution after DOMContentLoaded. -->
-<script>
-  function removeNavToggleRole() {
-    var toggler = document.querySelector('.navbar-toggler[role="menu"]');
-    if (toggler) {
-      toggler.removeAttribute('role');
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', removeNavToggleRole);
-  } else {
-    removeNavToggleRole();
   }
 </script>

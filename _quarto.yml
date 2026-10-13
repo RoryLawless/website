@@ -7,6 +7,9 @@ project:
     - .well-known/
     - _headers
     - /assets/fonts/
+# Use _brand.yml for light mode only, so Quarto doesn't build a dark stylesheet.
+brand:
+  light: _brand.yml
 website:
   favicon: assets/favicon-512.png
   open-graph:
@@ -32,6 +35,7 @@ website:
 format:
   html:
     canonical-url: true
+    title-block-style: plain
     theme:
       - none
       - brand
