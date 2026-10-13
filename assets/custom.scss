@@ -115,8 +115,11 @@ textarea:focus-visible {
 	padding-inline: 0;
 }
 
-.navbar-container {
-	width: min(var(--reading-width), calc(100% - 2 * var(--site-inset))) !important;
+// Align the navbar and footer with the reading column, keeping the same inset
+// on both sides at every width.
+.navbar-container,
+footer.footer .nav-footer {
+	width: min(var(--reading-width), 100% - 2 * var(--site-inset));
 	margin-inline: var(--site-inset) auto;
 	padding-inline: 0;
 }
@@ -160,6 +163,13 @@ h2 {
 	padding-bottom: 0;
 	margin-top: 2.5rem;
 	margin-bottom: 1rem;
+}
+
+// Quarto removes the top margin from the first section's h2, assuming it opens
+// the page. Here a title block or the bio always comes first.
+main.content > section:first-of-type > h2:nth-child(1),
+#quarto-content section:first-of-type h2:first-of-type {
+	margin-top: 2.5rem;
 }
 
 h3 {
@@ -217,7 +227,6 @@ figcaption,
 
 footer.footer .nav-footer {
 	padding-block: 2rem;
-	padding-inline: 0;
 }
 
 .nav-footer-contents {
@@ -228,9 +237,6 @@ footer.footer .nav-footer {
 	text-align: left;
 	font-size: 1rem;
 	margin-top: 0;
-	margin-inline: var(--site-inset) auto;
-	max-width: var(--reading-width);
-	flex: 0 1 var(--reading-width);
 }
 
 // Quarto fills unused footer columns with a non-breaking space. Don't let
