@@ -10,57 +10,11 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 
 ---
 
-## Tech stack
-
-| Layer | Tool |
-|---|---|
-| Site framework | Quarto |
-| Styling | `_brand.yml` theme tokens + custom SCSS (`assets/custom.scss`), no Quarto theme (`theme: none`) |
-| Hosting | Cloudflare Workers static assets (deployed via Wrangler, no Worker script) |
-| CI/CD | Repo connected to Cloudflare Worker for automatic deployment when _site/* changes; other branches get Workers Previews |
-| R environment | renv |
-
----
-
-## Repository layout
-
-```
-_brand.yml           # Canonical brand tokens (colors, typography, navbar/footer defaults)
-_quarto.yml          # Master site configuration (project, brand, site metadata, navbar, HTML options)
-assets/
-  custom.scss        # Custom CSS behavior/layout + optimized self-hosted @font-face loading
-  fonts/            # Active self-hosted Newsreader Text WOFF2 files + OFL license
-  template.ejs       # EJS template for the post listing on the homepage
-filters/
-  date-meta.lua      # Restores the ISO source date for dcterms.date on posts
-html/
-  a11y.html          # Runtime JS patch that makes main content focusable for the skip link
-  favicon.html       # Apple touch icon link (website.favicon supplies the standard icon)
-  skip-link.html     # Skip-to-content link, moved before navigation by its inline script
-  title-metadata.html # Post title-block metadata partial, without the author byline
-posts/               # Blog posts, each in its own subdirectory with index.qmd
-  _metadata.yml      # Shared post defaults (author, date format, title partial, date filter, freeze: auto)
-.well-known/         # PGP key (pgp-key.txt), security.txt, OpenPGP Web Key Directory files
-_redirects           # Cloudflare redirect rules
-_headers             # Cloudflare response header rules (global security headers + OpenPGP headers)
-wrangler.jsonc       # Cloudflare Workers deployment config
-renv.lock            # Locked R package versions
-.Rprofile            # Sources renv/activate.R (auto-snapshot + pak enabled)
-```
-
 `_site/` (rendered output) and `_freeze/` (computational cache) are **committed to the repository** — they must be up to date before pushing.
 
 ---
 
 ## Design system
-
-**Colors** (defined in `_brand.yml`):
-- Navbar background: `#fbf5f5` (off-white)
-- Navbar foreground / text: `#070a0c` (ink)
-- Page background: `#fbf5f5` (off-white)
-- Footer background: page background (Quarto's default), foreground: `#070a0c`
-- Body text: `#070a0c`
-- Links: `#183e4d`
 
 **Typography** (brand tokens defined in `_brand.yml`; fonts are self-hosted WOFF2 files in `assets/fonts/`, loaded via optimized `@font-face` rules in `assets/custom.scss`):
 - Body font: Newsreader Text, 20px, weight 400, line height 1.55. `$font-family-base` in `assets/custom.scss` adds the Georgia and serif fallbacks
@@ -133,24 +87,9 @@ rendered output provides their native replacements:
   The bundled ClipboardJS 2.0.11 implementation restores focus to the trigger in
   that method. Do not infer lost focus from `blur()` alone.
 
-**Quarto 1.11 migration:** As of this review, **1.11.4 is a prerelease** and
-1.10.18 is the latest stable release. Version 1.11.4 includes:
-
-- A native first-body-child skip link (`#quarto-skip-link`), focus-only styling,
-  and `tabindex="-1"` on its target ([PR #14685](https://github.com/quarto-dev/quarto-cli/pull/14685)).
-  Its text is customizable through `language.skip-to-content`. It applies to
-  Bootstrap HTML output; this site's `none`, `brand`, custom SCSS stack still
-  uses Bootstrap. Verify the native link appears after upgrading.
-- Correct navbar toggle semantics without `role="menu"`
-  ([PR #14805](https://github.com/quarto-dev/quarto-cli/pull/14805)). This
-  matters only if the navbar is allowed to collapse again.
-
-After upgrading and verifying those replacements, remove both custom HTML
-includes from `_quarto.yml` and their files. Remove `.skip-to-content` styling or
-adapt the desired appearance to `#quarto-skip-link`; retain general focus styles.
-Check [issue #14875](https://github.com/quarto-dev/quarto-cli/issues/14875), open
-at review time: 1.11.4 can rewrite the native skip link on explicit `/index.html`
-URLs into a cross-document navigation. Test both directory and `index.html` URLs.
+When upgrading Quarto, follow the `quarto-upgrade` skill
+(`.agents/skills/quarto-upgrade/SKILL.md`), which covers replacing these
+workarounds with Quarto 1.11's native features.
 
 After rendering accessibility changes, check that the first Tab reveals the skip
 link, Enter transfers focus into main, and the next Tab reaches a content control.
@@ -192,7 +131,7 @@ The standalone About and Resume pages have been retired. Their URL redirects in
 - Preview URLs are public; Cloudflare adds `X-Robots-Tag: noindex` to `workers.dev` Preview URLs automatically.
 - No `observability` block — Cloudflare defaults apply (view logs/traces in the Cloudflare dashboard)
 
-There is no Worker script — the deployment is static assets only. URL redirects live in `_redirects` (Cloudflare syntax). Response headers live in `_headers` — currently used for global security headers (`Strict-Transport-Security`, `Content-Security-Policy: frame-ancestors 'none'`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy`) plus CORS and `Content-Type` headers for the OpenPGP Web Key Directory endpoint at `/.well-known/openpgpkey/`. The HSTS header intentionally omits `includeSubDomains` and `preload`. `www.rorylawless.com` is 301'd to the apex by a Cloudflare Redirect Rule configured in the dashboard (not in this repo, and not in `wrangler.jsonc`).
+There is no Worker script — the deployment is static assets only. URL redirects live in `_redirects` (Cloudflare syntax). Response headers live in `_headers` — currently used for global security headers (`Strict-Transport-Security`, `Content-Security-Policy: frame-ancestors 'none'`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy`) plus `Content-Type: text/markdown` for the generated `*.llms.md` files, and CORS and `Content-Type` headers for the OpenPGP Web Key Directory endpoint at `/.well-known/openpgpkey/`. The HSTS header intentionally omits `includeSubDomains` and `preload`. `www.rorylawless.com` is 301'd to the apex by a Cloudflare Redirect Rule configured in the dashboard (not in this repo, and not in `wrangler.jsonc`).
 
 ---
 
@@ -212,23 +151,7 @@ There is no Worker script — the deployment is static assets only. URL redirect
 - `author` feeds the `author` meta tag and the RSS feed's `dc:creator` without a visible byline: `html/title-metadata.html` is a copy of Quarto 1.10.19's title-metadata partial with authors and affiliations removed. Re-sync it with Quarto's partial when upgrading.
 - `filters/date-meta.lua` sets `date-meta`, which Pandoc writes as `dcterms.date`, from the ISO source date, because Quarto applies `date-format` before filters run. When upgrading Quarto, check whether `dcterms.date` is still correct without it.
 - Draft visibility is controlled exclusively via the `draft: true` setting — do not edit `_quarto.yml` for this
-
----
-
-## Claude Code automations
-
-The `.claude/` directory contains project-specific Claude Code configuration.
-
-**Hooks** (active on every session, defined in `.claude/settings.json`):
-- Edits to `_site/` are blocked — modify source files and run `quarto render` instead
-- Edits to `renv.lock` are blocked — use renv to manage R packages
-
-**Skills** (invoke with `/skill-name`):
-- `/new-post <title>` — scaffold a new post directory with kebab-case naming, minimal frontmatter, and `draft: true`
-- `/publish-post <title>` — remove `draft: true` from a post's frontmatter when ready to publish
-
-**Subagents**:
-- `security-headers-reviewer` — reviews changes to `_headers` for security regressions; invoke before committing header changes
+- Third-party agent skills live in `.agents/skills/` (symlinked from `.claude/skills/`) and are managed with `npx skills add|remove`, which keeps `skills-lock.json` in sync — don't add or delete them by hand. Repo-specific skills (`new-post`, `publish-post`, `quarto-upgrade`) are maintained directly.
 
 ---
 

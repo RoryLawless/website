@@ -4,7 +4,7 @@ project:
   render: 
     - "*.qmd"
   resources:
-    - .well-known/
+    - /.well-known/
     - _headers
     - /assets/fonts/
 # Use _brand.yml for light mode only, so Quarto doesn't build a dark stylesheet.

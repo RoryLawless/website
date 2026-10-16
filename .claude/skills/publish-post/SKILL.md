@@ -1,6 +1,6 @@
 ---
 name: publish-post
-description: Remove draft: true from a post's frontmatter to mark it ready for publication
+description: "Remove draft: true from a post's frontmatter to mark it ready for publication"
 disable-model-invocation: true
 ---
 
