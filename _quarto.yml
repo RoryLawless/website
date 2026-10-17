@@ -43,7 +43,9 @@ format:
     highlight-style: a11y
     code-copy: true
     code-overflow: wrap
-    include-in-header: html/favicon.html
+    include-in-header:
+      - html/favicon.html
+      - html/goatcounter.html
     include-after-body:
       - html/skip-link.html
       - html/a11y.html
