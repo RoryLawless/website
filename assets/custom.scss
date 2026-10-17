@@ -160,7 +160,7 @@ h2 {
 
 // Quarto removes the top margin from the first section's h2, assuming it opens
 // the page. Here a title block or the bio always comes first.
-main.content > section:first-of-type > h2:nth-child(1),
+main.content>section:first-of-type>h2:nth-child(1),
 #quarto-content section:first-of-type h2:first-of-type {
 	margin-top: 2.5rem;
 }
@@ -185,10 +185,10 @@ figcaption,
 
 // Make the native publication metadata a prose line. The plain title block
 // leaves it unstyled, so only the label, date and spacing need setting here.
-#title-block-header .quarto-title-meta > div:has(.date) {
+#title-block-header .quarto-title-meta>div:has(.date) {
 	margin-top: 1rem;
 
-	> *,
+	>*,
 	.date {
 		display: inline;
 	}
@@ -220,15 +220,41 @@ footer.footer .nav-footer {
 	margin-bottom: 1.25rem;
 }
 
+// Inline resume annotations keep the prose's typography and color. A pale teal
+// tint marks them as interactive without making them look like links.
+.resume-trigger {
+	// Newsreader's content area hugs the cap height but leaves the descender
+	// space below the baseline. The extra top padding centers the tint on the
+	// capitals and baseline; the bottom padding clears the descenders.
+	padding: 0.22em 0.1em 0.05em;
+	background-color: rgba($brand-teal, 0.18);
+	// Pad each line fragment when a name wraps.
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+	cursor: pointer;
+
+	// Forced-colors modes drop backgrounds, so fall back to an underline.
+	@media (forced-colors: active) {
+		text-decoration: underline dotted;
+	}
+}
+
+.resume-details {
+	font-size: 0.9em;
+	font-style: italic;
+}
+
 a {
 	text-underline-offset: 0.15em;
 	text-decoration-thickness: 0.04em;
 }
 
-// Give prose links a little emphasis on interaction without moving the text.
-// Bootstrap's transition mixin also turns the transition off for reduced motion.
+// Give prose links and resume triggers a little emphasis on interaction without
+// moving the text. Bootstrap's transition mixin also turns the transition off
+// for reduced motion.
 #quarto-document-content a[href]:not(.anchorjs-link),
-.nav-footer a[href] {
+.nav-footer a[href],
+.resume-trigger {
 	@include transition(color 160ms ease);
 
 	&:focus-visible {

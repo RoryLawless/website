@@ -43,7 +43,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e21500bb30e7ce080c64316834ee3be8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b693ace6425614855318770f02da6b20.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-93fa4a233cc35e333e545cfc73980e7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -151,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>I’m a data analyst at DC’s Office of the Deputy Mayor for Education, where I forecast school enrollment and contributed analysis to the city’s <a href="https://dme.dc.gov/mfp2023">Master Facilities Plan</a>. Before moving to Washington, DC, I worked in London on financial services regulation at the Financial Conduct Authority and on mental health outcomes research at the Child Outcomes Research Consortium.</p>
+<p>I’m a data analyst at DC’s <span class="resume-note" data-title="Data Analyst" data-years="2022–present">Office of the Deputy Mayor for Education</span>, where I forecast school enrollment and contributed analysis to the city’s <a href="https://dme.dc.gov/mfp2023">Master Facilities Plan</a>. Before moving to Washington, DC, I worked in London on financial services regulation at the <span class="resume-note" data-title="Associate Data Analyst" data-years="2020–2022">Financial Conduct Authority</span> and on mental health outcomes research at the <span class="resume-note" data-title="Research Assistant - Data" data-years="2018–2020">Child Outcomes Research Consortium</span>.</p>
 <p>Across these roles, I’ve used a political economy and public policy lens to ask how policies, and the institutions that design them, affect people with the least power to shape them. That usually means looking at where an average obscures more than it reveals.</p>
 <p>At the FCA, I did analysis for the <a href="https://www.gov.uk/government/publications/mortgage-prisoner-review">Mortgage Prisoners Review</a> and data engineering for the regulator’s <a href="https://www.fca.org.uk/publications/corporate-documents/evaluation-paper-23-1-evaluation-our-2019-overdrafts-intervention">evaluation of its 2019 overdrafts intervention</a>. The <a href="https://www.ft.com/content/398fe5be-cf44-459c-83d1-5105adef7337">Financial Times</a> also cited my analysis of mortgage default risk. In DC, the DC Policy Center has used my enrollment projections in work for the DC Public Charter School Board.</p>
 <p>I’m the author of <a href="https://cran.r-project.org/package=enrollcast">enrollcast</a>, an R package on CRAN for school enrollment projection. I also write about my work on the <a href="https://dme.dc.gov/page/inside-dc-education-blog#10082025-2">Inside DC Education blog</a>.</p>
@@ -214,6 +214,44 @@ ul.task-list li input[type="checkbox"] {
   } else {
     patchSkipLinkTarget();
   }
+</script>
+<script>
+(() => {
+  document.querySelectorAll('.resume-note').forEach((note, index) => {
+    // Enhance plain text only when JavaScript is available. Keeping the details
+    // in data attributes also leaves the generated prose and LLM text intact.
+    // Native buttons are atomic inline boxes. A focusable inline control lets
+    // long organization names wrap between words along with the sentence.
+    const trigger = document.createElement('span');
+    trigger.setAttribute('role', 'button');
+    trigger.tabIndex = 0;
+    trigger.className = 'resume-trigger';
+    trigger.textContent = note.textContent;
+    const details = document.createElement('span');
+    details.id = `resume-details-${index}`;
+    details.className = 'resume-details';
+    details.hidden = true;
+    details.textContent = ` (${note.dataset.title}, ${note.dataset.years})`;
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-controls', details.id);
+    note.replaceChildren(trigger, details);
+
+    const setExpanded = expanded => {
+      details.hidden = !expanded;
+      trigger.setAttribute('aria-expanded', String(expanded));
+    };
+    trigger.addEventListener('click', () => setExpanded(details.hidden));
+    trigger.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        if (!event.repeat) setExpanded(details.hidden);
+      }
+    });
+    note.addEventListener('keydown', event => {
+      if (event.key === 'Escape') setExpanded(false);
+    });
+  });
+})();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

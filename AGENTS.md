@@ -34,6 +34,11 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 - Post listing: a semantic list of prose sentences, with hidden list markers, underlined title links, and generous spacing
 - Prose and footer links use a brighter teal and an underline at least 2px thick on hover or keyboard focus; the brief color transition respects reduced-motion preferences
 
+**Resume notes** (`html/resume-notes.html`, included only by `index.qmd`):
+- Homepage spans marked `{.resume-note data-title="…" data-years="…"}` become inline disclosures that reveal "(title, years)" after the organization name. Without JavaScript they stay plain text, and the data attributes keep the details out of the prose and `.llms.md` output
+- The trigger is a `<span role="button" tabindex="0">` rather than a `<button>`, because browsers render native buttons as unbreakable inline-block boxes and long organization names must wrap with the sentence. It handles Enter, Space, and Escape itself
+- The toggle is instant, with no animation. Triggers use a pale teal background tint rather than an underline, so they don't read as links or `<abbr>` tooltips, and share the prose links' hover and focus color. Forced-colors modes drop backgrounds, so they fall back to a dotted underline there
+
 **Post listing** (`assets/template.ejs`):
 - Renders each linked title followed by "published on" and a date such as "Sunday, September 20th 2026"
 - The listing uses `date-format: "dddd, MMMM Do YYYY"`; source publication dates remain ISO 8601
