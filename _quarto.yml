@@ -7,6 +7,7 @@ project:
     - /.well-known/
     - _headers
     - /assets/fonts/
+    - /assets/resume-notes.js
 # Use _brand.yml for light mode only, so Quarto doesn't build a dark stylesheet.
 brand:
   light: _brand.yml

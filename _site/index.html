@@ -216,44 +216,7 @@ ul.task-list li input[type="checkbox"] {
     patchSkipLinkTarget();
   }
 </script>
-<script>
-(() => {
-  document.querySelectorAll('.resume-note').forEach((note, index) => {
-    // Enhance plain text only when JavaScript is available. Keeping the details
-    // in data attributes also leaves the generated prose and LLM text intact.
-    // Native buttons are atomic inline boxes. A focusable inline control lets
-    // long organization names wrap between words along with the sentence.
-    const trigger = document.createElement('span');
-    trigger.setAttribute('role', 'button');
-    trigger.tabIndex = 0;
-    trigger.className = 'resume-trigger';
-    trigger.textContent = note.textContent;
-    const details = document.createElement('span');
-    details.id = `resume-details-${index}`;
-    details.className = 'resume-details';
-    details.hidden = true;
-    details.textContent = ` (${note.dataset.title}, ${note.dataset.years})`;
-    trigger.setAttribute('aria-expanded', 'false');
-    trigger.setAttribute('aria-controls', details.id);
-    note.replaceChildren(trigger, details);
-
-    const setExpanded = expanded => {
-      details.hidden = !expanded;
-      trigger.setAttribute('aria-expanded', String(expanded));
-    };
-    trigger.addEventListener('click', () => setExpanded(details.hidden));
-    trigger.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        if (!event.repeat) setExpanded(details.hidden);
-      }
-    });
-    note.addEventListener('keydown', event => {
-      if (event.key === 'Escape') setExpanded(false);
-    });
-  });
-})();
-</script>
+<script src="./assets/resume-notes.js"></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const isCodeAnnotation = (el) => {
