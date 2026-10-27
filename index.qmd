@@ -17,13 +17,13 @@ listing:
   feed: true
 ---
 
-I'm a data analyst in Washington, DC's [Office of the Deputy Mayor for Education]{.resume-note data-title="Data Analyst" data-years="2022–present"}, where I forecast school enrollment and contributed analysis to the city's [Master Facilities Plan](https://dme.dc.gov/mfp2023). Before moving to the United States, I worked in London on financial services regulation at the [Financial Conduct Authority]{.resume-note data-title="Associate Data Analyst" data-years="2020–2022"} and on mental health outcomes research at the [Child Outcomes Research Consortium]{.resume-note data-title="Research Assistant - Data" data-years="2018–2020"}.
+I'm a data analyst in Washington, DC's [Office of the Deputy Mayor for Education]{.resume-note data-title="Data Analyst" data-years="2022–present"}, where I forecast school enrollment and contributed analysis to the city's [Master Facilities Plan](https://dme.dc.gov/mfp2023) and its [annual supplements](https://dme.dc.gov/publication/2025-master-facilities-plan-annual-supplement). Before moving to the United States, I worked in London on financial services regulation at the [Financial Conduct Authority]{.resume-note data-title="Associate Data Analyst" data-years="2020–2022"} and on mental health outcomes research at the [Child Outcomes Research Consortium]{.resume-note data-title="Research Assistant - Data" data-years="2018–2020"}.
 
 Across these roles, I've used a political economy and public policy lens to ask how policies, and the institutions that design them, affect people with the least power to shape them. That usually means looking at where an average obscures more than it reveals.
 
 At the FCA, I did analysis for the [Mortgage Prisoners Review](https://www.gov.uk/government/publications/mortgage-prisoner-review) and data engineering for the regulator's [evaluation of its 2019 overdrafts intervention](https://www.fca.org.uk/publications/corporate-documents/evaluation-paper-23-1-evaluation-our-2019-overdrafts-intervention). The [Financial Times](https://www.ft.com/content/398fe5be-cf44-459c-83d1-5105adef7337) also cited my analysis of mortgage default risk. In DC, the DC Policy Center has used my enrollment projections in work for the DC Public Charter School Board.
 
-I'm the author of [enrollcast](https://cran.r-project.org/package=enrollcast), an R package on CRAN for school enrollment projection. I also write about my work on the [Inside DC Education blog](https://dme.dc.gov/page/inside-dc-education-blog#10082025-2).
+I'm the author of [enrollcast](https://cran.r-project.org/package=enrollcast), an R package on CRAN for school enrollment projection. I also write about my work on the [Inside DC Education blog](https://dme.dc.gov/page/inside-dc-education-blog).
 
 You can [email me](mailto:rory@rorylawless.com), or find me on [Bluesky](https://bsky.app/profile/rorylawless.com), [LinkedIn](https://www.linkedin.com/in/rory-lawless/), and [GitHub](https://github.com/rorylawless).
 
