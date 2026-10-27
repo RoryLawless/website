@@ -70,7 +70,7 @@ When changing look and feel, use `_brand.yml` for reusable theme tokens (colors,
 
 ## Accessibility compatibility (reviewed 2026-09-14)
 
-The Quarto version used for this review was **1.10.18**. Keep these workarounds until the
+The Quarto version used for this review was **1.10.19**. Keep these workarounds until the
 rendered output provides their native replacements:
 
 - `html/skip-link.html` supplies the skip link and immediately moves it to the
@@ -118,7 +118,7 @@ To preview without a full render, run `quarto preview` (requires Quarto and R
 installed locally).
 
 
-Agents in this environment should not attempt to run the full build.
+**Agents must not run the full build** (`quarto render`); the human renders and commits `_site/`. `quarto preview` is fine for local checks.
 
 The standalone About and Resume pages have been retired. Their URL redirects in
 `_redirects` keep old bookmarks working by sending visitors to the homepage.
@@ -156,7 +156,7 @@ There is no Worker script — the deployment is static assets only. URL redirect
 - `author` feeds the `author` meta tag and the RSS feed's `dc:creator` without a visible byline: `html/title-metadata.html` is a copy of Quarto 1.10.19's title-metadata partial with authors and affiliations removed. Re-sync it with Quarto's partial when upgrading.
 - `filters/date-meta.lua` sets `date-meta`, which Pandoc writes as `dcterms.date`, from the ISO source date, because Quarto applies `date-format` before filters run. When upgrading Quarto, check whether `dcterms.date` is still correct without it.
 - Draft visibility is controlled exclusively via the `draft: true` setting — do not edit `_quarto.yml` for this
-- Third-party agent skills live in `.agents/skills/` (symlinked from `.claude/skills/`) and are managed with `npx skills add|remove`, which keeps `skills-lock.json` in sync — don't add or delete them by hand. Repo-specific skills (`new-post`, `publish-post`, `quarto-upgrade`) are maintained directly.
+- Third-party agent skills live in `.agents/skills/` (symlinked from `.claude/skills/`) and are managed with `npx skills add|remove`, which keeps `skills-lock.json` in sync — don't add or delete them by hand. Repo-specific skills (`new-post`, `publish-post`, `quarto-upgrade`) are maintained directly. `new-post` and `publish-post` live in `.claude/skills/` and are symlinked into `.agents/skills/` so other LLM tools can use them; `quarto-upgrade` is the reverse.
 
 ---
 
