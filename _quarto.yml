@@ -47,7 +47,4 @@ format:
     include-in-header:
       - html/favicon.html
       - html/goatcounter.html
-    include-after-body:
-      - html/skip-link.html
-      - html/a11y.html
     html-math-method: plain

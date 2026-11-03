@@ -15,25 +15,20 @@ $footer-font-size: 1rem;
 /*-- scss:rules --*/
 
 // Skip-to-content link (WCAG 2.4.1)
-// Moved to the start of <body> by html/skip-link.html; hidden until keyboard-focused,
-// then drops into view above the fixed navbar.
-.skip-to-content {
+// Quarto injects #quarto-skip-link as the first child of <body>, hidden by
+// .visually-hidden-focusable until focused. Quarto positions and z-indexes it
+// (above the fixed navbar); restyle it to drop in at the top centre in teal.
+#quarto-skip-link:focus {
+	top: 0;
+	inset-inline-start: 50%;
+	transform: translateX(-50%);
+	padding: 0.5rem 1.25rem;
 	background-color: $brand-teal;
 	color: $brand-off-white;
-	padding: 0.5rem 1.25rem;
-	text-decoration: none;
-	border-radius: 0 0 4px 4px;
-	position: fixed;
-	left: 50%;
-	transform: translateX(-50%);
-	top: -10rem;
-	z-index: 9999; // Bootstrap navbar is z-index: 1030; must exceed it
-
-	&:focus {
-		top: 0;
-		outline: none; // The styled box itself is the focus indicator; suppress the
-		// teal outline that a:focus-visible would add on a teal background.
-	}
+	border: 0;
+	border-radius: 0;
+	outline: none; // The styled box itself is the focus indicator; suppress the
+	// teal outline that a:focus-visible would add on a teal background.
 }
 
 // Visible focus indicators (WCAG 2.4.7)

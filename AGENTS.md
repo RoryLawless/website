@@ -34,7 +34,7 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 - Post listing: a semantic list of prose sentences, with hidden list markers, underlined title links, and generous spacing
 - Prose and footer links use a brighter teal and an underline at least 2px thick on hover or keyboard focus; the brief color transition respects reduced-motion preferences
 
-**Resume notes** (`assets/resume-notes.js`, loaded by `html/resume-notes.html`, which only `index.qmd` includes). The script is an external file by choice, not necessity: the Content-Security-Policy allows `'unsafe-inline'`, which Quarto's generated scripts require, but keeping our own larger script out of the HTML leaves less to change if the policy is ever tightened. It is listed in `project.resources` so Quarto copies it to `_site/assets/`. The small skip-link and a11y scripts intentionally stay inline: external copies would add requests for about 600 bytes, and the skip link must be moved to the start of `<body>` as soon as the browser reaches it:
+**Resume notes** (`assets/resume-notes.js`, loaded by `html/resume-notes.html`, which only `index.qmd` includes). The script is an external file by choice, not necessity: the Content-Security-Policy allows `'unsafe-inline'`, which Quarto's generated scripts require, but keeping our own larger script out of the HTML leaves less to change if the policy is ever tightened. It is listed in `project.resources` so Quarto copies it to `_site/assets/`.:
 - Homepage spans marked `{.resume-note data-title="…" data-years="…"}` become inline disclosures that reveal "(title, years)" after the organization name. Without JavaScript they stay plain text, and the data attributes keep the details out of the prose and `.llms.md` output
 - The trigger is a `<span role="button" tabindex="0">` rather than a `<button>`, because browsers render native buttons as unbreakable inline-block boxes and long organization names must wrap with the sentence. It handles Enter, Space, and Escape itself
 - The toggle is instant, with no animation. Triggers use a pale teal background tint rather than an underline, so they don't read as links or `<abbr>` tooltips, and share the prose links' hover and focus color. Forced-colors modes drop backgrounds, so they fall back to a dotted underline there
@@ -68,25 +68,25 @@ When changing look and feel, use `_brand.yml` for reusable theme tokens (colors,
 
 ---
 
-## Accessibility compatibility (reviewed 2026-09-14)
+## Accessibility compatibility (reviewed 2026-11-02)
 
-The Quarto version used for this review was **1.10.19**. Keep these workarounds until the
-rendered output provides their native replacements:
+The Quarto version used for this review was **1.11.9**.
 
-- `html/skip-link.html` supplies the skip link and immediately moves it to the
-  start of `<body>`. Use `include-after-body` to keep the link and its script
-  outside main content, which Quarto uses for RSS descriptions. The relocation
-  makes the link the first tab stop and requires JavaScript.
-  The link is wrapped in `llms-hidden-content` because `.llms.md` generation
-  reads the HTML before browser scripts run. Quarto's LLM converter drops the
-  wrapper's contents and its HTML finalizer unwraps the link for the website.
-  Use a wrapper rather than putting this class on the anchor itself: the HTML
-  cleanup removes the marked element while retaining its children. Raw HTML
-  includes bypass the Markdown conditional-content filter, so this uses its
-  generated HTML marker directly. Recheck this behaviour when upgrading Quarto.
-- `html/a11y.html` adds `tabindex="-1"` to `#quarto-document-content` for reliable
-  focus transfer. The navbar never collapses, so Quarto renders no toggle button
-  and its incorrect `role="menu"` does not arise.
+- Quarto injects a native skip link, `#quarto-skip-link`, as the first child of
+  `<body>` and adds `tabindex="-1"` to its target, `#quarto-document-content`.
+  It needs no JavaScript and sits outside `<main>`, so it stays out of RSS
+  descriptions and `.llms.md` output (Quarto's LLM converter reads only
+  `<main>`). `assets/custom.scss` restyles its focused state; the text comes
+  from `language.skip-to-content`. The earlier `html/skip-link.html` and
+  `html/a11y.html` workarounds have been removed.
+- [quarto-dev/quarto-cli#14875](https://github.com/quarto-dev/quarto-cli/issues/14875)
+  (open as of 1.11.9): on an explicit `/index.html` URL, `quarto-nav.js`
+  rewrites the skip link's href to `/#quarto-document-content`, so activating it
+  reloads the page instead of moving focus. Production is unaffected because
+  Cloudflare's `auto-trailing-slash` handling redirects `/index.html` URLs to
+  their directory, but it can appear in local previews.
+- The navbar never collapses, so Quarto renders no toggle button. If collapsing
+  is re-enabled, 1.11's toggle no longer uses the incorrect `role="menu"`.
 - No custom code-copy focus restoration is needed for the current successful-copy
   flow: Quarto calls `button.blur()`, but subsequently calls `e.clearSelection()`.
   The bundled ClipboardJS 2.0.11 implementation restores focus to the trigger in
@@ -153,7 +153,7 @@ There is no Worker script — the deployment is static assets only. URL redirect
 - Reusable content snippets use Quarto's `{{< include >}}` shortcode.
 - The homepage opens with the biography, email, and social links in prose within `index.qmd`, followed by Posts.
 - All posts inherit settings from `posts/_metadata.yml` (`freeze: auto`, `author`, expanded publication dates with weekday and ordinal day). The native title-block publication metadata reads "Published on Sunday, September 20th 2026." on one prose line, wrapping naturally on small screens.
-- `author` feeds the `author` meta tag and the RSS feed's `dc:creator` without a visible byline: `html/title-metadata.html` is a copy of Quarto 1.10.19's title-metadata partial with authors and affiliations removed. Re-sync it with Quarto's partial when upgrading.
+- `author` feeds the `author` meta tag and the RSS feed's `dc:creator` without a visible byline: `html/title-metadata.html` is a copy of Quarto 1.11.9's title-metadata partial with authors and affiliations removed. Re-sync it with Quarto's partial when upgrading.
 - `filters/date-meta.lua` sets `date-meta`, which Pandoc writes as `dcterms.date`, from the ISO source date, because Quarto applies `date-format` before filters run. When upgrading Quarto, check whether `dcterms.date` is still correct without it.
 - Draft visibility is controlled exclusively via the `draft: true` setting — do not edit `_quarto.yml` for this
 - Third-party agent skills live in `.agents/skills/` (symlinked from `.claude/skills/`) and are managed with `npx skills add|remove`, which keeps `skills-lock.json` in sync — don't add or delete them by hand. Repo-specific skills (`new-post`, `publish-post`, `quarto-upgrade`) are maintained directly. `new-post` and `publish-post` live in `.claude/skills/` and are symlinked into `.agents/skills/` so other LLM tools can use them; `quarto-upgrade` is the reverse.
