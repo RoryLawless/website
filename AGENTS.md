@@ -46,6 +46,15 @@ A personal website at [rorylawless.com](https://rorylawless.com). It is a static
 - Keep `class="list"` on the `<ul>`: Quarto's listing script looks for it and throws without it. Items need no `metadataAttrs()` data attributes because there is no sort or filter UI
 - Sorted by date descending; no categories, search, filters, or sort UI
 
+**Dark mode** (`assets/color-scheme.js`, loaded on every page by `html/color-scheme.html` through `include-in-header`, and listed in `project.resources`):
+- The script runs in `<head>`, before first paint, and sets `data-bs-theme="light"` or `"dark"` on `<html>` from the visitor's saved choice, or from `prefers-color-scheme` when there is none. It follows operating-system changes live and keeps other open tabs in step. Without JavaScript the site stays light and shows no control
+- After the page loads, it appends a footer line, "Read in light or dark, or match your device.", made of three native `<button>`s with `aria-pressed` inside a `role="group"`. The labels are short enough that native buttons' unbreakable boxes are fine here. Choosing "match your device" clears the saved choice (`localStorage` key `color-scheme`). The selected choice drops its underline and takes weight 500; the others share the footer links' hover and focus styles
+- This deliberately avoids Quarto's built-in dark mode, which builds a second full Bootstrap stylesheet that every page downloads and adds a navbar toggle. `brand` stays light-only
+- The dark palette is the `dark-*` entries in `_brand.yml`, wired to Bootstrap's `*-dark` variables under `defaults.bootstrap.defaults`. Those recolor everything that reads Bootstrap's CSS variables. The dark section at the end of `assets/custom.scss` covers colors Quarto compiles in as literals: navbar, footer, code blocks, syntax highlighting, code-copy icons, tooltips, captions, blockquotes, and tables. `--site-accent` holds the interaction teal (focus rings, hover, skip link, resume-note tint) for both modes
+- Dark rules are anchored to `:root[data-bs-theme="dark"]` instead of Bootstrap's `color-mode()` mixin, because Quarto hard-codes `data-bs-theme="dark"` on the navbar and the mixin's selector would match inside it in light mode
+- Dark syntax highlighting uses softer tints of the a11y style's colors with the same token mapping (`$dark-code-tokens` in `custom.scss`), not Quarto's `a11y-dark`, whose saturated gold and lime clash with the site
+- Callouts and other Bootstrap components the site doesn't use have no dark overrides. Check any new kind of element in both modes
+
 When changing look and feel, use `_brand.yml` for reusable theme tokens (colors, typography, navbar/footer defaults) and `assets/custom.scss` for CSS behavior, layout, accessibility fixes, and optimized local font loading. `_quarto.yml` should stay focused on Quarto project/site options and the HTML theme stack. Do not introduce a Quarto theme — the site intentionally uses `theme: none`.
 
 **Bootstrap caveat**: `theme: none` disables the *Quarto* theme layer, but Quarto still ships Bootstrap's CSS/JS in the rendered output. The HTML theme stack is `none`, `brand`, then `assets/custom.scss`, so `_brand.yml` establishes Bootstrap variables and `custom.scss` can reference `$brand-*` variables or override Bootstrap defaults where needed. Prefer Bootstrap variables and mixins over rules that undo Bootstrap's output: the `custom.scss` defaults section sets `$paragraph-margin-bottom`, `$navbar-padding-y`, `$footer-font-size`, and `$font-family-base`, and its rules use `media-breakpoint-down`, `transition` (which also disables the transition for reduced motion), `list-unstyled`, and `visually-hidden`. Plain assignments in the `custom.scss` defaults section take precedence over `_brand.yml`, whose variables are emitted with `!default`; for the same reason, that section is compiled before the `$brand-*` variables exist, so only `custom.scss` rules can use them. Quarto also adds rules that variables don't reach, such as 1em of horizontal padding on `#quarto-header > nav` and `footer.footer .nav-footer`; `custom.scss` resets those explicitly.
@@ -56,7 +65,7 @@ When changing look and feel, use `_brand.yml` for reusable theme tokens (colors,
 
 - `llms-txt: true` — Quarto generates an `llms.txt` file for LLM consumption
 - `format.html.theme` is `none`, `brand`, then `assets/custom.scss` — keep `brand` between `none` and the custom SCSS so `_brand.yml` tokens are available while custom CSS keeps final precedence
-- `brand: light: _brand.yml` — uses the brand for light mode only. If Quarto auto-discovers `_brand.yml`, it treats it as a unified light/dark brand and builds a second, unused dark Bootstrap stylesheet that every page downloads. Add a `dark` entry only together with a deliberate dark design
+- `brand: light: _brand.yml` — uses the brand for light mode only. If Quarto auto-discovers `_brand.yml`, it treats it as a unified light/dark brand and builds a second, unused dark Bootstrap stylesheet that every page downloads. The site's dark mode doesn't use a `dark` brand entry; see **Dark mode** under Design system
 - `format.html.title-block-style: plain` — keeps Quarto's title-block markup but omits its stylesheet (metadata grid, uppercase labels, reduced font sizes), so the publication line needs only a small rule in `custom.scss`
 - `format.html.canonical-url: true` — each page declares its `site-url`-based canonical URL
 - `website.open-graph.image` and `website.twitter-card.image` use the root-relative `/assets/social-card.png`; Quarto resolves a leading `/` from the project root, so the card also works for nested posts
@@ -99,7 +108,11 @@ and repeat the browser checks below.
 After rendering accessibility changes, check that the first Tab reveals the skip
 link, Enter transfers focus into main, and the next Tab reaches a content control.
 Also check code copying with Enter and Space,
-including the focus indicator and subsequent Tab order. Check Safari and another
+including the focus indicator and subsequent Tab order. For dark mode, check
+light, dark, and "match your device" while switching the operating system's
+appearance; that a choice survives a reload without a flash of the wrong colors;
+and that the footer buttons work with Tab, Enter, and Space and announce their
+pressed state. Check Safari and another
 browser. Source inspection does not replace these browser checks.
 
 ---

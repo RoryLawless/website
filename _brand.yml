@@ -8,6 +8,14 @@ color:
     off-white: "#fbf5f5"
     ink: "#070a0c"
     link-teal: "#183e4d"
+    # Dark mode. Bootstrap applies these through the *-dark defaults below when
+    # assets/color-scheme.js sets data-bs-theme="dark" on <html>.
+    dark-background: "#12171a"
+    dark-surface: "#191f23"
+    dark-border: "#30373b"
+    dark-text: "#eae2e3"
+    dark-link: "#a4cbdd"
+    dark-teal: "#5ca3c2"
   foreground: ink
   background: off-white
   primary: teal
@@ -40,3 +48,8 @@ defaults:
       navbar-bg: $brand-off-white
       navbar-fg: $brand-ink
       footer-fg: $brand-ink
+      body-bg-dark: $brand-dark-background
+      body-color-dark: $brand-dark-text
+      link-color-dark: $brand-dark-link
+      border-color-dark: $brand-dark-border
+      code-color-dark: $brand-dark-text
