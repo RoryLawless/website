@@ -17,14 +17,15 @@ $footer-font-size: 1rem;
 // Skip-to-content link (WCAG 2.4.1)
 // Quarto injects #quarto-skip-link as the first child of <body>, hidden by
 // .visually-hidden-focusable until focused. Quarto positions and z-indexes it
-// (above the fixed navbar); restyle it to drop in at the top centre in teal.
+// (above the fixed navbar); restyle it to drop in at the top centre in teal,
+// with page-colored text in both light and dark mode.
 #quarto-skip-link:focus {
 	top: 0;
 	inset-inline-start: 50%;
 	transform: translateX(-50%);
 	padding: 0.5rem 1.25rem;
-	background-color: $brand-teal;
-	color: $brand-off-white;
+	background-color: var(--site-accent);
+	color: var(--bs-body-bg);
 	border: 0;
 	border-radius: 0;
 	outline: none; // The styled box itself is the focus indicator; suppress the
@@ -34,14 +35,15 @@ $footer-font-size: 1rem;
 // Visible focus indicators (WCAG 2.4.7)
 // theme: none strips Bootstrap's default focus ring; re-establish an
 // explicit ring using the site's teal (#24617a), which contrasts at
-// 6.36:1 against the off-white page background (#fbf5f5).
+// 6.36:1 against the off-white page background (#fbf5f5). The dark-mode teal
+// (#5ca3c2) contrasts at 6.42:1 against the dark background (#12171a).
 a:focus-visible,
 button:focus-visible,
 [tabindex]:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-	outline: 2px solid $brand-teal;
+	outline: 2px solid var(--site-accent);
 	outline-offset: 3px;
 	border-radius: 2px;
 }
@@ -101,6 +103,9 @@ textarea:focus-visible {
 :root {
 	--reading-width: 660px;
 	--site-inset: clamp(1.25rem, 4vw, 3rem);
+	// The interaction teal: focus rings, link hover and focus, the skip link and
+	// the resume-note tint. Dark mode swaps it at the end of this file.
+	--site-accent: #{$brand-teal};
 }
 
 // Keep Quarto's named grid lines for wide figures and margin content, while
@@ -222,7 +227,7 @@ footer.footer .nav-footer {
 	// space below the baseline. The extra top padding centers the tint on the
 	// capitals and baseline; the bottom padding clears the descenders.
 	padding: 0.22em 0.1em 0.05em;
-	background-color: rgba($brand-teal, 0.18);
+	background-color: color-mix(in srgb, var(--site-accent) 18%, transparent);
 	// Pad each line fragment when a name wraps.
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
@@ -244,16 +249,38 @@ a {
 	text-decoration-thickness: 0.04em;
 }
 
-// Give prose links and resume triggers a little emphasis on interaction without
-// moving the text. Bootstrap's transition mixin also turns the transition off
-// for reduced motion.
+// Footer color-scheme control, added by assets/color-scheme.js. The choices
+// look like the footer's links; the selected one drops its underline and takes
+// the medium weight. Native buttons suit these short labels, which can move to
+// the next line whole.
+.color-scheme-choice {
+	padding: 0;
+	border: 0;
+	background: none;
+	font: inherit;
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+	text-decoration-thickness: 0.04em;
+
+	&[aria-pressed="true"] {
+		font-weight: 500;
+		text-decoration: none;
+		cursor: default;
+	}
+}
+
+// Give prose links, footer controls and resume triggers a little emphasis on
+// interaction without moving the text. Bootstrap's transition mixin also turns
+// the transition off for reduced motion.
 #quarto-document-content a[href]:not(.anchorjs-link),
 .nav-footer a[href],
+.color-scheme-choice:not([aria-pressed="true"]),
 .resume-trigger {
 	@include transition(color 160ms ease);
 
 	&:focus-visible {
-		color: $brand-teal;
+		color: var(--site-accent);
 		// A two-pixel minimum keeps the stronger underline visibly distinct.
 		text-decoration-thickness: max(2px, 0.1em);
 	}
@@ -261,8 +288,162 @@ a {
 	// Limit the custom hover style to devices with a pointer.
 	@media (hover: hover) {
 		&:hover {
-			color: $brand-teal;
+			color: var(--site-accent);
 			text-decoration-thickness: max(2px, 0.1em);
 		}
 	}
+}
+
+// Dark mode
+// assets/color-scheme.js sets data-bs-theme on <html> before the page paints.
+// Bootstrap's dark variables, set in _brand.yml, recolor everything that reads
+// its CSS variables (page background, text, links, borders, inline code text).
+// The rules below cover colors that Quarto compiles in as literals. They are
+// anchored to :root instead of using Bootstrap's color-mode() mixin because
+// Quarto hard-codes data-bs-theme="dark" on the navbar, so the mixin's
+// [data-bs-theme="dark"] selector would also match inside it in light mode.
+
+// Code highlighting: softer tints of Quarto's a11y colors, keeping its
+// token-to-color mapping. Each is at least 7.4:1 against the dark code block;
+// comments are 5.8:1.
+$dark-code-text: #c7cbce;
+$dark-code-tokens: (
+	#ea998d: cf cn kw ot, // keywords, constants, assignment
+	#e0a26f: at fl va, // attributes, floats, variables
+	#8cc287: ch ss st vs, // strings
+	#95999b: an co cv do in wa, // comments and annotations
+	#90b1f1: fu, // functions
+	#69bde5: op sc, // operators and special characters
+	#c69fe0: al bn dt dv er pp, // numbers and data types
+);
+
+// Quarto's code-copy icons are SVG backgrounds with a compiled-in fill. These
+// use the dark comment and function colors in place of its gray and navy.
+@function code-copy-icon($fill) {
+	@return url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#{$fill}" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>');
+}
+
+@function code-copied-icon($fill) {
+	@return url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#{$fill}" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>');
+}
+
+:root[data-bs-theme="dark"] {
+	--site-accent: #{$brand-dark-teal};
+	--quarto-body-bg: #{$brand-dark-background};
+	--quarto-body-color: #{$brand-dark-text};
+	--quarto-border-color: #{$brand-dark-border};
+
+	.navbar {
+		--bs-navbar-color: #{$brand-dark-text};
+		--bs-navbar-brand-color: #{$brand-dark-text};
+		--bs-navbar-brand-hover-color: #{$brand-dark-link};
+		background-color: $brand-dark-background;
+		color: $brand-dark-text;
+	}
+
+	.nav-footer {
+		background-color: $brand-dark-background;
+		color: $brand-dark-text;
+	}
+
+	// Code output blocks have no background, so their text follows the prose.
+	pre {
+		color: $brand-dark-text;
+	}
+
+	code,
+	p code:not(.sourceCode),
+	li code:not(.sourceCode),
+	td code:not(.sourceCode),
+	p code.sourceCode,
+	li code.sourceCode,
+	td code.sourceCode {
+		background-color: $brand-dark-surface;
+	}
+
+	pre code,
+	p pre code:not(.sourceCode),
+	li pre code:not(.sourceCode),
+	pre code:not(.sourceCode) {
+		background-color: transparent;
+	}
+
+	div.sourceCode {
+		background-color: $brand-dark-surface;
+		border-color: $brand-dark-surface;
+	}
+
+	// Quarto's highlighting stylesheet sets the base code color on all of these.
+	div.sourceCode,
+	div.sourceCode pre.sourceCode,
+	code.sourceCode>span,
+	pre>code.sourceCode>span,
+	code span {
+		color: $dark-code-text;
+	}
+
+	@each $color, $tokens in $dark-code-tokens {
+		@each $token in $tokens {
+			code span.#{$token} {
+				color: $color;
+			}
+		}
+	}
+
+	.code-copy-button>.bi::before {
+		background-image: code-copy-icon("rgb(149, 153, 155)");
+	}
+
+	.code-copy-button-checked>.bi::before {
+		background-image: code-copied-icon("rgb(149, 153, 155)");
+	}
+
+	.code-copy-button:hover>.bi::before {
+		background-image: code-copy-icon("rgb(144, 177, 241)");
+	}
+
+	.code-copy-button-checked:hover>.bi::before {
+		background-image: code-copied-icon("rgb(144, 177, 241)");
+	}
+
+	// Popups such as the "Copied!" tooltip.
+	.tippy-box[data-theme~="quarto"] {
+		background-color: $brand-dark-background;
+		border-color: $brand-dark-border;
+		color: $brand-dark-text;
+
+		>.tippy-backdrop {
+			background-color: $brand-dark-background;
+		}
+
+		@each $side in top, bottom, left, right {
+			&[data-placement^="#{$side}"]>.tippy-arrow::before {
+				border-#{$side}-color: $brand-dark-background;
+			}
+		}
+	}
+
+	// Not used in posts yet, but these would otherwise keep light-mode colors.
+	figcaption,
+	caption,
+	.figure-caption,
+	.blockquote {
+		color: var(--bs-secondary-color);
+	}
+
+	blockquote {
+		border-left-color: $brand-dark-border;
+	}
+
+	.table {
+		--bs-table-color: #{$brand-dark-text};
+		--bs-table-bg: #{$brand-dark-background};
+		--bs-table-border-color: #{$brand-dark-border};
+	}
+}
+
+// Footer links share the footer's text color. :where() keeps this rule at the
+// specificity of Quarto's own, so the hover and focus colors above still win.
+:where(:root[data-bs-theme="dark"]) .nav-footer a {
+	color: $brand-dark-text;
 }

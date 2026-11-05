@@ -8,7 +8,9 @@ project:
     - _headers
     - /assets/fonts/
     - /assets/resume-notes.js
+    - /assets/color-scheme.js
 # Use _brand.yml for light mode only, so Quarto doesn't build a dark stylesheet.
+# Dark mode comes from Bootstrap's data-bs-theme; see assets/color-scheme.js.
 brand:
   light: _brand.yml
 website:
@@ -46,5 +48,6 @@ format:
     code-overflow: wrap
     include-in-header:
       - html/favicon.html
+      - html/color-scheme.html
       - html/goatcounter.html
     html-math-method: plain
