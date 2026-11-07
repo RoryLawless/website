@@ -11,9 +11,6 @@ listing:
   template: assets/template.ejs
   date-format: "dddd, MMMM Do YYYY"
   sort: "date desc"
-  categories: false
-  sort-ui: false
-  filter-ui: false
   feed: true
 ---
 

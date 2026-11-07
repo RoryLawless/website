@@ -17,7 +17,7 @@ draft: true
 ---
 ```
 
-Do not add categories, tags, description, or any other frontmatter — the post inherits defaults from posts/_metadata.yml (freeze: auto, date-format: iso).
+Do not add categories, tags, description, or any other frontmatter — the post inherits defaults from posts/_metadata.yml (freeze: auto, date-format: dddd, MMMM Do YYYY[.]).
 
 Do not create any other files in the directory.
 
