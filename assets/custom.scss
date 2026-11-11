@@ -148,8 +148,15 @@ footer.footer .nav-footer {
 	// Replace Quarto's default top margin with one deliberate header gap.
 	margin-top: 0;
 	padding-top: 1rem;
-	padding-bottom: 3rem;
+	// Likewise one deliberate gap before the footer, which adds its own padding.
+	margin-bottom: 0;
+	padding-bottom: 1.5rem;
 	overflow-wrap: break-word;
+}
+
+// Quarto pads the listing's wrapper; the gap above already covers it.
+.quarto-listing {
+	padding-bottom: 0;
 }
 
 h2 {
